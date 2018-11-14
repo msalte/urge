@@ -8,6 +8,8 @@ namespace urge.web.Controllers
 {
     public class SpaController : Controller
     {
+        [HttpGet("/")]
+        [HttpGet("/{*anything}")]
         public IActionResult Index()
         {
             return View();

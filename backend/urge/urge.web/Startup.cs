@@ -28,15 +28,13 @@ namespace urge.web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc(routes => {
-                routes.MapRoute("Spa", "{controller=Spa}/{action=Index}");
-            });
-
+            // important to serve static files middleware before mvc for react route purposes
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(@"C:\source\urge\frontend\", "dist")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "../../../", "frontend/dist")),
                 RequestPath = "/static"
             });
+            app.UseMvc();
         }
     }
 }
