@@ -17,7 +17,18 @@ module.exports = {
         options: {
           presets: ["@babel/preset-react"]
         }
-      }
+      },
+      {
+        test: /\.js?/,
+        include: SOURCE_DIR,
+        loader: "eslint-loader",
+        options: {
+          esversion: 6,
+          curly: true,
+          freeze: true,
+          configFile: __dirname + "/.eslintrc",
+        }
+      },
     ]
   }
 };

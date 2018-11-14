@@ -1,0 +1,48 @@
+{
+    "parser": "babel-eslint",
+    "plugins": [
+        "react"
+    ],
+    "globals": {
+        "window": true,
+        "document": true,
+        "require": true,
+        "module": true,
+        "React": true,
+        "Promise": true,
+        "process": true,
+        "yam": true,
+        "releaseInfo": true,
+        "Microsoft": true,
+        "onmessage": true,
+        "__dirname": true
+    },
+    "env": {
+        "browser": true
+    },
+    "rules": {
+        "react/jsx-sort-prop-types": 0,
+        "react/display-name": 0,
+        "react/jsx-uses-vars": [
+            2
+        ],
+        "no-unused-vars": [
+            "error",
+            {
+                "varsIgnorePattern": "React"
+            }
+        ],
+        "no-use-before-define": 2,
+        "no-undef": 2,
+        "eqeqeq": [
+            "error",
+            "smart"
+        ]
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true
+        }
+    }
+}
