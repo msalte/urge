@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 
-namespace urge.web
+namespace Urge.SPA
 {
     public class Startup
     {
@@ -28,12 +28,12 @@ namespace urge.web
                 app.UseDeveloperExceptionPage();
             }
 
-            // important to serve static files middleware before mvc for react route purposes
-            app.UseStaticFiles(new StaticFileOptions()
+            app.UseSpaStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "../../../", "frontend/dist")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "../../frontend/dist")),
                 RequestPath = "/static"
             });
+
             app.UseMvc();
         }
     }
