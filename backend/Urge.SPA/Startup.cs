@@ -28,11 +28,11 @@ namespace Urge.SPA
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSpaStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "../../frontend/dist")),
-                RequestPath = "/static"
-            });
+            //app.UseSpaStaticFiles(new StaticFileOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "../../frontend/dist")),
+            //    RequestPath = "/static"
+            //});
 
             app.UseMvc();
         }
