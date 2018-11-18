@@ -1,0 +1,10 @@
+@import "./variables.scss";
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.container {
+  margin: $grid-unit*3;
+}

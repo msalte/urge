@@ -12,19 +12,13 @@ class NavbarItem extends Component {
         });
 
         return (
-            <div>
-
-                <div className={className}>{this.props.name}</div>
-            </div>
+            <div className={className}>{this.props.name}</div>
         )
     }
 }
 
-
 class Navbar extends Component {
-
     static Item = NavbarItem;
-
     render() {
         return (
             <div className={styles.navbar}>
