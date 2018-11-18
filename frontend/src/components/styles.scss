@@ -1,0 +1,49 @@
+@import "../global/scss/variables.scss";
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #f3f3f3;
+  height: 50px;
+  border-bottom: 1px solid #ccc;
+  padding: 0 $grid-unit * 2;
+  position: relative;
+
+  .item {
+    display: flex;
+    align-items: center;
+    padding: 0 $grid-unit * 2;
+    height: 100%;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 1px;
+      background: rgba(34, 36, 38, 0.1);
+    }
+
+    &.active {
+      background: #999;
+
+      &::after {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border: 1px solid red;
+        left: 50%;
+        top: 100%;
+        transform: rotate(45deg) translateX(-50%) translateY(-50%);
+      }
+    }
+
+    &:hover {
+      background: rgb(233, 232, 232);
+      cursor: pointer;
+    }
+  }
+}

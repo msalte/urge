@@ -15,8 +15,11 @@ module.exports = {
         include: SOURCE_DIR,
         loader: "babel-loader",
         options: {
-          presets: ["@babel/preset-react"]
-        }
+          presets: ["@babel/preset-react"],
+          plugins: [
+            require("@babel/plugin-proposal-class-properties").default,
+          ]
+        },
       },
       {
         test: /\.js?/,
