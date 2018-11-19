@@ -8,13 +8,13 @@
   height: 50px;
   border-bottom: 1px solid #ccc;
   padding: 0 $grid-unit * 2;
-  position: relative;
 
   .item {
     display: flex;
     align-items: center;
     padding: 0 $grid-unit * 2;
     height: 100%;
+    position: relative;
 
     &::before {
       content: "";
@@ -27,15 +27,19 @@
     }
 
     &.active {
-      background: #999;
+      background: rgb(233, 232, 232);
 
       &::after {
         content: "";
         position: absolute;
+        margin-top: 3px;
         width: 10px;
         height: 10px;
-        border: 1px solid red;
+        background: rgb(233, 232, 232);
         left: 50%;
+        border: none;
+        border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+        border-right: 1px solid rgba(34, 36, 38, 0.1);
         top: 100%;
         transform: rotate(45deg) translateX(-50%) translateY(-50%);
       }
