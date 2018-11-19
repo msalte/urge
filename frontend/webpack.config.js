@@ -1,12 +1,13 @@
 const path = require("path");
 
 const SOURCE_DIR = path.resolve(__dirname, "src");
-
+const DEST_DIR = path.resolve(__dirname, "../backend/Urge.SPA/wwwroot");
 module.exports = {
   mode: "development",
   entry: SOURCE_DIR + "/app.js",
   output: {
-    filename: "urge.js"
+    filename: "urge.js",
+    path: DEST_DIR,
   },
   module: {
     rules: [
