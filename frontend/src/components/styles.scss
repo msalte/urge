@@ -1,53 +1,34 @@
 @import "../global/scss/variables.scss";
 
+:root {
+  --background-color: #f3f3f3;
+  --background-color-active: rgb(233, 232, 232);
+  --bottom-border: #ccc;
+  --text-color: #000;
+}
+
 .navbar {
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: #f3f3f3;
+  background: var(--background-color);
   height: 50px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--bottom-border);
   padding: 0 $grid-unit * 2;
 
   .item {
+    text-decoration: none;
+    color: var(--text-color);
     display: flex;
     align-items: center;
     padding: 0 $grid-unit * 2;
     height: 100%;
     position: relative;
 
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 100%;
-      width: 1px;
-      background: rgba(34, 36, 38, 0.1);
-    }
-
-    &.active {
-      background: rgb(233, 232, 232);
-
-      &::after {
-        content: "";
-        position: absolute;
-        margin-top: 3px;
-        width: 10px;
-        height: 10px;
-        background: rgb(233, 232, 232);
-        left: 50%;
-        border: none;
-        border-bottom: 1px solid rgba(34, 36, 38, 0.1);
-        border-right: 1px solid rgba(34, 36, 38, 0.1);
-        top: 100%;
-        transform: rotate(45deg) translateX(-50%) translateY(-50%);
-      }
-    }
-
+    &.active,
     &:hover {
-      background: rgb(233, 232, 232);
       cursor: pointer;
+      background: var(--background-color-active);
     }
   }
 }

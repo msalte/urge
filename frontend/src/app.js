@@ -4,13 +4,17 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Home from "./components/pages/home";
 import Profile from "./components/pages/profile";
-import Navbar from "./components/Navbar";
+import Navbar, { navbarItems } from "./components/Navbar";
 import styles from "./global/scss/app.scss";
-
 
 class App extends Component {
   state = {
-    activeItem: "Home",
+    activeItem: navbarItems[0].name,
+  }
+
+  onClickItem(activeItem) {
+    console.log(activeItem);
+    this.setState({ activeItem });
   }
 
   render() {
@@ -19,8 +23,9 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navbar>
-          <Navbar.Item name={"Home"} isActive={activeItem === "Home"} />
-          <Navbar.Item name={"Profile"} isActive={activeItem === "Profile"} />
+          {navbarItems.map((item, key) => (
+            <Navbar.Item key={key} item={item} isActive={activeItem === item.name} onClick={(name) => this.onClickItem(name)} />
+          ))}
         </Navbar>
         <div className={styles.container}>
           <Switch>
