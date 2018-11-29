@@ -14,7 +14,27 @@ namespace Urge.SPA
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args)
+                .ConfigureAppConfiguration(ConfigureConfiguration)
+                .Build()
+                .Run();
+        }
+
+        private static void ConfigureConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
+        {
+            builder.AddJsonFile("azurekeyvault.json");
+
+            var configuration = builder.Build();
+
+            builder.AddAzureKeyVault(
+                configuration["azureKeyVault:vault"],
+                configuration["azureKeyVault:clientId"],
+                configuration["azureKeyVault:clientSecret"]);
+
+            configuration = builder.Build();
+
+            var facebookAppId = configuration["facebook-appid"];
+            var facebookAppSecret = configuration["facebook-appsecret"];
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

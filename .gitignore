@@ -5,3 +5,5 @@ dist
 bin
 obj
 wwwroot
+
+azurekeyvault.json

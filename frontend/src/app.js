@@ -13,7 +13,6 @@ class App extends Component {
   }
 
   onClickItem(activeItem) {
-    console.log(activeItem);
     this.setState({ activeItem });
   }
 

@@ -18,6 +18,12 @@ namespace Urge.SPA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddAuthentication().AddFacebook(fbOpts =>
+            {
+                fbOpts.AppId = "";
+                fbOpts.AppSecret = "";
+                // TODO get from key vault
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
