@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -37,8 +38,9 @@ namespace Urge.SPA
                 configuration["azureKeyVault:clientSecret"]);
 
             configuration = builder.Build();
-
+      
             services.AddMvc();
+            services.AddDefaultIdentity<ApplicationUser>();
             services.AddAuthentication().AddFacebook(options =>
             {
                 options.AppId = configuration["facebook-appid"];
@@ -54,8 +56,14 @@ namespace Urge.SPA
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
+
             app.UseStaticFiles();
             app.UseMvc();
         }
+    }
+
+    internal class ApplicationUser
+    {
     }
 }

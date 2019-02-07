@@ -27,7 +27,7 @@ class NavbarItem extends Component {
             <Link to={item.link} className={className} onClick={() => this.props.onClick(item.name)}>
                 {item.name}
             </Link>
-        )
+        );
     }
 }
 
