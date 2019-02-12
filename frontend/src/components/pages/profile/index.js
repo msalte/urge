@@ -1,9 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 
-class ProfilePage extends Component {
-  render() {
+export default () => {
     return <div>Profile</div>;
-  }
-}
-
-export default ProfilePage;
+};

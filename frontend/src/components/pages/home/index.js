@@ -1,23 +1,21 @@
-import React, { Component } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./styles.scss";
 import SearchBar from "../../SearchBar";
+import ThemeContext from "../../../ThemeContext";
 
-class HomePage extends Component {
-  state = {
-    query: ""
-  };
-
-  render() {
-    const { query } = this.state;
+export default () => {
+    const [query, setQuery] = useState("");
+    const context = useContext(ThemeContext);
 
     return (
-      <div className={styles.container}>
-        Home page
-        <SearchBar onQueryChanged={query => this.setState({ query })} />
-        {query}
-      </div>
+        <div className={styles.container}>
+            <button onClick={() => context.updateTheme("dark")}>
+                Set theme dark
+            </button>
+            Home page
+            <SearchBar onQueryChanged={query => setQuery(query)} />
+            {query}
+            {context.theme}
+        </div>
     );
-  }
-}
-
-export default HomePage;
+};

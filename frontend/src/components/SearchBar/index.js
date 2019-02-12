@@ -1,38 +1,32 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-class SearchBar extends Component {
-  state = {
-    query: "",
-    isSpinning: false
-  };
+export default props => {
+    const { onQueryChanged } = props;
+    const [isSpinning, setSpinning] = useState(false);
+    const [query, setQuery] = useState("");
+    const [delay, setDelay] = useState(null);
 
-  timeout = null;
-
-  onChange(query) {
-    this.setState({ query, isSpinning: true });
-    const { onQueryChanged } = this.props;
-
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      onQueryChanged(query);
-      this.setState({ isSpinning: false });
-    }, 300);
-  }
-
-  render() {
-    const { isSpinning } = this.state;
+    const handleOnChange = query => {
+        setSpinning(true);
+        setQuery(query);
+        clearTimeout(delay);
+        setDelay(
+            setTimeout(() => {
+                onQueryChanged(query);
+                setSpinning(false);
+            }, 300)
+        );
+    };
 
     return (
-      <div>
-        <input
-          type="search"
-          placeholder="Type here to search..."
-          onChange={e => this.onChange(e.target.value)}
-        />
-        {isSpinning && "Searching..."}
-      </div>
+        <div>
+            <input
+                type="search"
+                value={query}
+                placeholder="Type here to search..."
+                onChange={e => handleOnChange(e.target.value)}
+            />
+            {isSpinning && "Searching..."}
+        </div>
     );
-  }
-}
-
-export default SearchBar;
+};
