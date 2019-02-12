@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./styles.scss";
 import classNames from "classnames";
 import Spinner from "../Spinner";
@@ -9,6 +9,8 @@ export default props => {
     const [isSpinning, setSpinning] = useState(false);
     const [query, setQuery] = useState("");
     const [delay, setDelay] = useState(null);
+
+    const inputRef = useRef(null);
 
     const handleOnChange = query => {
         setSpinning(true);
@@ -22,6 +24,11 @@ export default props => {
         );
     };
 
+    const handleClear = () => {
+        setQuery("");
+        inputRef.current.focus();
+    };
+
     const className = classNames(styles.searchBar, {
         [styles.dark]: false,
     });
@@ -29,6 +36,7 @@ export default props => {
     return (
         <div className={className}>
             <input
+                ref={inputRef}
                 type="text"
                 value={query}
                 placeholder="Type here to search..."
@@ -39,7 +47,7 @@ export default props => {
                 <FontAwesome
                     name="times"
                     className={styles.clear}
-                    onClick={() => setQuery("")}
+                    onClick={() => handleClear()}
                 />
             )}
         </div>
