@@ -1,0 +1,28 @@
+.searchBar {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background: #fff;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: space-between;
+  width: 250px;
+
+  .clear {
+    cursor: pointer;
+    color: #555;
+  }
+
+  &.dark {
+    background: #555;
+    color: ccc;
+  }
+
+  > input {
+    border: 0;
+    outline: none;
+    width: 90%;
+  }
+}

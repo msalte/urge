@@ -1,0 +1,16 @@
+.button {
+  background: #ccc;
+  color: #000;
+  border-radius: 5px;
+  border: 1px solid #999;
+  padding: 10px;
+  height: 35px;
+  box-sizing: border-box;
+  outline: none;
+  cursor: pointer;
+
+  &.dark {
+    background: #333;
+    color: #ccc;
+  }
+}

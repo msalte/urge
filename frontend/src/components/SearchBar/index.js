@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import styles from "./styles.scss";
+import classNames from "classnames";
+import Spinner from "../Spinner";
+import FontAwesome from "react-fontawesome";
 
 export default props => {
     const { onQueryChanged } = props;
@@ -18,15 +22,26 @@ export default props => {
         );
     };
 
+    const className = classNames(styles.searchBar, {
+        [styles.dark]: false,
+    });
+
     return (
-        <div>
+        <div className={className}>
             <input
-                type="search"
+                type="text"
                 value={query}
                 placeholder="Type here to search..."
                 onChange={e => handleOnChange(e.target.value)}
             />
-            {isSpinning && "Searching..."}
+            {isSpinning && <Spinner />}
+            {!isSpinning && query && (
+                <FontAwesome
+                    name="times"
+                    className={styles.clear}
+                    onClick={() => setQuery("")}
+                />
+            )}
         </div>
     );
 };

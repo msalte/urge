@@ -6,6 +6,8 @@ import Profile from "./components/pages/profile";
 import { Navbar, NavbarItem } from "./components/Navbar";
 import styles from "./global/scss/app.scss";
 import ThemeContext from "./ThemeContext";
+import classNames from "classnames";
+import "font-awesome/css/font-awesome.min.css";
 
 const navbarItems = [
     {
@@ -19,22 +21,26 @@ const navbarItems = [
 ];
 
 const App = () => {
-    const [theme, setTheme] = useState("light");
+    const [activeTheme, setActiveTheme] = useState("light");
+    const [otherTheme, setOtherTheme] = useState("dark");
+
     const [activeItem, setActiveItem] = useState(navbarItems[0].name);
 
-    const handleThemeChanged = theme => {
-        navbarItems.forEach(item => {
-            item.link = `/${theme}${item.link}`;
-        });
-
-        setTheme(theme);
+    const toggleTheme = () => {
+        setActiveTheme(otherTheme);
+        setOtherTheme(activeTheme);
     };
+
+    const className = classNames(styles.container, {
+        [styles.dark]: activeTheme === "dark",
+    });
 
     return (
         <ThemeContext.Provider
             value={{
-                theme,
-                updateTheme: t => handleThemeChanged(t),
+                theme: activeTheme,
+                other: otherTheme,
+                toggle: () => toggleTheme(),
             }}
         >
             <Navbar>
@@ -47,7 +53,7 @@ const App = () => {
                     />
                 ))}
             </Navbar>
-            <div className={styles.container}>
+            <div className={className}>
                 <Switch>
                     <Route path="/" exact component={Home} />
                     <Route
