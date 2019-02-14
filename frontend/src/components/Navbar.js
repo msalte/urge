@@ -9,8 +9,7 @@ import Button from "../components/Button";
 export const NavbarItem = props => {
     const { isActive, item, onClick } = props;
 
-    const className = classNames({
-        [styles.item]: true,
+    const className = classNames(styles.item, {
         [styles.active]: isActive,
     });
 
@@ -28,18 +27,21 @@ export const NavbarItem = props => {
 export const Navbar = props => {
     const themeContext = useContext(ThemeContext);
 
+    const className = classNames(styles.navBar, {
+        [styles.dark]: themeContext.theme === "dark",
+    });
+
     return (
-        <div className={styles.navbar}>
+        <div className={className}>
             {props.children}
             <SearchBar
                 onQueryChanged={q => {
                     console.log(q);
                 }}
             />
-            <Button
-                text={`Set ${themeContext.other} theme`}
-                onClick={() => themeContext.toggle()}
-            />
+            <Button onClick={() => themeContext.toggle()}>
+                Set {themeContext.other} theme
+            </Button>
         </div>
     );
 };

@@ -8,6 +8,7 @@ import styles from "./global/scss/app.scss";
 import ThemeContext from "./ThemeContext";
 import classNames from "classnames";
 import "font-awesome/css/font-awesome.min.css";
+import SideBar from "./components/SideBar";
 
 const navbarItems = [
     {
@@ -54,6 +55,7 @@ const App = () => {
                 ))}
             </Navbar>
             <div className={className}>
+                <SideBar />
                 <Switch>
                     <Route path="/" exact component={Home} />
                     <Route
