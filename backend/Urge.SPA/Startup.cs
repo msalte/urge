@@ -26,26 +26,25 @@ namespace Urge.SPA
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(_environment.ContentRootPath)
-                .AddJsonFile("azurekeyvault.json");
+            //var builder = new ConfigurationBuilder()
+            //    .SetBasePath(_environment.ContentRootPath)
+            //    .AddJsonFile("azurekeyvault.json");
 
-            var configuration = builder.Build();
+            //var configuration = builder.Build();
 
-            builder.AddAzureKeyVault(
-                configuration["azureKeyVault:vault"],
-                configuration["azureKeyVault:clientId"],
-                configuration["azureKeyVault:clientSecret"]);
+            //builder.AddAzureKeyVault(
+            //    configuration["azureKeyVault:vault"],
+            //    configuration["azureKeyVault:clientId"],
+            //    configuration["azureKeyVault:clientSecret"]);
 
-            configuration = builder.Build();
-      
+            //configuration = builder.Build();
+
             services.AddMvc();
-            services.AddDefaultIdentity<ApplicationUser>();
-            services.AddAuthentication().AddFacebook(options =>
-            {
-                options.AppId = configuration["facebook-appid"];
-                options.AppSecret = configuration["facebook-appsecret"];
-            });
+            //services.AddAuthentication().AddFacebook(options =>
+            //{
+            //    options.AppId = configuration["facebook-appid"];
+            //    options.AppSecret = configuration["facebook-appsecret"];
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,14 +55,10 @@ namespace Urge.SPA
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             app.UseStaticFiles();
             app.UseMvc();
         }
-    }
-
-    internal class ApplicationUser
-    {
     }
 }
