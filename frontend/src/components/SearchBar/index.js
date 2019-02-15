@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import styles from "./styles.scss";
 import classNames from "classnames";
 import Spinner from "../Spinner";
-import FontAwesome from "react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default props => {
     const { onQueryChanged } = props;
@@ -29,27 +29,29 @@ export default props => {
         inputRef.current.focus();
     };
 
-    const className = classNames(styles.searchBar, {
-        [styles.dark]: false,
-    });
-
     return (
-        <div className={className}>
+        <div
+            className={classNames(styles.searchBar, {
+                [styles.dark]: false,
+            })}
+        >
+            <FontAwesomeIcon icon="search" className={styles.icon} />
             <input
                 ref={inputRef}
                 type="text"
                 value={query}
-                placeholder="Type here to search..."
+                placeholder="Search..."
                 onChange={e => handleOnChange(e.target.value)}
             />
-            {isSpinning && <Spinner />}
-            {!isSpinning && query && (
-                <FontAwesome
-                    name="times"
-                    className={styles.clear}
-                    onClick={() => handleClear()}
-                />
-            )}
+            <div className={styles.clear}>
+                {isSpinning && <Spinner />}
+                {!isSpinning && query && (
+                    <FontAwesomeIcon
+                        icon="times"
+                        onClick={() => handleClear()}
+                    />
+                )}
+            </div>
         </div>
     );
 };

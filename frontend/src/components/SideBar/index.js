@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./styles.scss";
 import classNames from "classnames";
 import Button from "../Button";
-import FontAwesome from "react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MenuItem from "./MenuItem";
 import ThemeContext from "../../ThemeContext";
 
@@ -33,8 +33,8 @@ export default () => {
                         setCollapsed(!isCollapsed);
                     }}
                 >
-                    <FontAwesome
-                        name={isCollapsed ? "angle-right" : "angle-left"}
+                    <FontAwesomeIcon
+                        icon={isCollapsed ? "angle-right" : "angle-left"}
                     />
                 </Button>
             </div>

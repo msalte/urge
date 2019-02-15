@@ -3,7 +3,7 @@
 .navBar {
     --background-color: #f3f3f3;
     --background-color-active: rgb(233, 232, 232);
-    --bottom-border: #ccc;
+    --border-color: #ccc;
     --text-color: #000;
 
     &.dark {
@@ -20,20 +20,54 @@
     height: 50px;
     border-bottom: 1px solid var(--border-color);
     padding: 0 $grid-unit * 2;
+    justify-content: space-between;
 
-    .item {
-        text-decoration: none;
-        color: var(--text-color);
+    .items {
         display: flex;
-        align-items: center;
-        padding: 0 $grid-unit * 2;
+        flex-direction: row;
         height: 100%;
-        position: relative;
 
-        &.active,
-        &:hover {
+        .brand {
+            height: 100%;
+            align-self: center;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 0 $grid-unit * 4;
             cursor: pointer;
-            background: var(--background-color-active);
+            text-decoration: none;
+            transition-property: transform;
+            transition-duration: 0.5s;
+
+            &:hover {
+                transform: rotate(360deg);
+            }
         }
+
+        .item {
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            padding: 0 $grid-unit * 2;
+            height: 100%;
+            position: relative;
+            transition-property: background;
+            transition-duration: 0.15s;
+
+            &.active {
+                background: var(--background-color-active);
+            }
+
+            &:hover {
+                cursor: pointer;
+                background: var(--background-color-active);
+            }
+        }
+    }
+
+    .tools {
+        display: flex;
+        flex-direction: row;
     }
 }

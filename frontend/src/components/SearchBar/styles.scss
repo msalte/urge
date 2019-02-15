@@ -8,9 +8,17 @@
     align-items: center;
     box-sizing: border-box;
     justify-content: space-between;
-    width: 250px;
+    width: 350px;
+
+    .icon {
+        width: 25px;
+    }
 
     .clear {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 25px;
         cursor: pointer;
         color: #555;
     }
@@ -21,8 +29,8 @@
     }
 
     > input {
+        width: 300px;
         border: 0;
         outline: none;
-        width: 90%;
     }
 }

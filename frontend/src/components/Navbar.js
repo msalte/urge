@@ -6,6 +6,8 @@ import SearchBar from "./SearchBar";
 import ThemeContext from "../ThemeContext";
 import Button from "../components/Button";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 export const NavbarItem = props => {
     const { isActive, item, onClick } = props;
 
@@ -33,15 +35,28 @@ export const Navbar = props => {
 
     return (
         <div className={className}>
-            {props.children}
-            <SearchBar
-                onQueryChanged={q => {
-                    console.log(q);
-                }}
-            />
-            <Button onClick={() => themeContext.toggle()}>
-                Set {themeContext.other} theme
-            </Button>
+            <div className={styles.items}>
+                <a onClick={() => {}} className={styles.brand}>
+                    Urge
+                </a>
+                {props.children}
+            </div>
+            <div className={styles.tools}>
+                <SearchBar
+                    onQueryChanged={q => {
+                        console.log(q);
+                    }}
+                />
+                <div style={{ marginLeft: 10, width: 40 }}>
+                    <Button onClick={() => themeContext.toggle()}>
+                        <FontAwesomeIcon
+                            icon={
+                                themeContext.theme === "dark" ? "sun" : "moon"
+                            }
+                        />
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 };

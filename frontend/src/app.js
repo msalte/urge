@@ -7,8 +7,29 @@ import { Navbar, NavbarItem } from "./components/Navbar";
 import styles from "./global/scss/app.scss";
 import ThemeContext from "./ThemeContext";
 import classNames from "classnames";
-import "font-awesome/css/font-awesome.min.css";
 import SideBar from "./components/SideBar";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+    faHome,
+    faUser,
+    faSun,
+    faMoon,
+    faSearch,
+    faTimes,
+    faAngleRight,
+    faAngleLeft,
+} from "@fortawesome/free-solid-svg-icons";
+
+library.add(
+    faHome,
+    faUser,
+    faSun,
+    faMoon,
+    faSearch,
+    faTimes,
+    faAngleRight,
+    faAngleLeft
+);
 
 const navbarItems = [
     {
@@ -45,14 +66,14 @@ const App = () => {
             }}
         >
             <Navbar>
-                {navbarItems.map((item, key) => (
+                {/* {navbarItems.map((item, key) => (
                     <NavbarItem
                         key={key}
                         item={item}
                         isActive={activeItem === item.name}
                         onClick={name => setActiveItem(name)}
                     />
-                ))}
+                ))} */}
             </Navbar>
             <div className={className}>
                 <SideBar />

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./styles.scss";
-import FontAwesome from "react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import ThemeContext from "../../ThemeContext";
 
@@ -17,7 +17,7 @@ export default props => {
     return (
         <div className={styles.menuItem}>
             <div className={iconClassName}>
-                <FontAwesome name={icon} />
+                <FontAwesomeIcon icon={icon} />
             </div>
             {props.children}
         </div>
