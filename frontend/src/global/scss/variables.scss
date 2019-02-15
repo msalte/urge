@@ -1,1 +1,9 @@
-$grid-unit: 8px;
+:root {
+    --grid-unit: 8;
+
+    --background-color: #f3f3f3;
+    --border-color: #ccc;
+    --text-color: #000;
+    --icon-color: #555;
+    --icon-width: calc(var(--grid-unit) * 4px);
+}

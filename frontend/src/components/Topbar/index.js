@@ -2,16 +2,15 @@ import React, { useContext } from "react";
 import styles from "./styles.scss";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
-import SearchBar from "./SearchBar";
-import ThemeContext from "../ThemeContext";
-import Button from "../components/Button";
-
+import SearchBar from "../SearchBar";
+import ThemeContext from "../../ThemeContext";
+import Button from "../Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const NavbarItem = props => {
+export const TopbarLink = props => {
     const { isActive, item, onClick } = props;
 
-    const className = classNames(styles.item, {
+    const className = classNames(styles.link, {
         [styles.active]: isActive,
     });
 
@@ -26,10 +25,10 @@ export const NavbarItem = props => {
     );
 };
 
-export const Navbar = props => {
+export default props => {
     const themeContext = useContext(ThemeContext);
 
-    const className = classNames(styles.navBar, {
+    const className = classNames(styles.topbar, {
         [styles.dark]: themeContext.theme === "dark",
     });
 

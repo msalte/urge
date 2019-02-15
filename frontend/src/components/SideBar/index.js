@@ -6,28 +6,43 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MenuItem from "./MenuItem";
 import ThemeContext from "../../ThemeContext";
 
-export default () => {
+export default props => {
     const [isCollapsed, setCollapsed] = React.useState(false);
+    const [activeItem, setActiveItem] = React.useState("home");
     const themeContext = React.useContext(ThemeContext);
 
-    const sideBar = classNames(styles.sideBar, {
-        [styles.collapsed]: isCollapsed === true,
-        [styles.dark]: themeContext.theme === "dark",
-    });
-
-    const collapseButton = classNames(styles.collapseButton, {
-        [styles.collapsed]: isCollapsed === true,
-    });
-
+  
+    console.log(props);
     return (
-        <div className={sideBar}>
-            <MenuItem isCollapsed={isCollapsed} icon="home">
+        <div
+            className={classNames(styles.sideBar, {
+                [styles.collapsed]: isCollapsed === true,
+                [styles.dark]: themeContext.theme === "dark",
+            })}
+        >
+            <MenuItem
+                link="/"
+                isCollapsed={isCollapsed}
+                isActive={activeItem === "home"}
+                icon="home"
+                onClick={() => setActiveItem("home")}
+            >
                 {!isCollapsed && "Home"}
             </MenuItem>
-            <MenuItem isCollapsed={isCollapsed} icon="user">
+            <MenuItem
+                link="/profile"
+                isCollapsed={isCollapsed}
+                isActive={activeItem === "profile"}
+                icon="user"
+                onClick={() => setActiveItem("profile")}
+            >
                 {!isCollapsed && "Profile"}
             </MenuItem>
-            <div className={collapseButton}>
+            <div
+                className={classNames(styles.collapseButton, {
+                    [styles.collapsed]: isCollapsed === true,
+                })}
+            >
                 <Button
                     onClick={() => {
                         setCollapsed(!isCollapsed);

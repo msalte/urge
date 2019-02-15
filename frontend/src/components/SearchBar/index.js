@@ -1,14 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import styles from "./styles.scss";
 import classNames from "classnames";
 import Spinner from "../Spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ThemeContext from "../../ThemeContext";
 
 export default props => {
     const { onQueryChanged } = props;
     const [isSpinning, setSpinning] = useState(false);
     const [query, setQuery] = useState("");
     const [delay, setDelay] = useState(null);
+
+    const themeContext = useContext(ThemeContext);
 
     const inputRef = useRef(null);
 
@@ -32,7 +35,7 @@ export default props => {
     return (
         <div
             className={classNames(styles.searchBar, {
-                [styles.dark]: false,
+                [styles.dark]: themeContext.theme === "dark",
             })}
         >
             <FontAwesomeIcon icon="search" className={styles.icon} />

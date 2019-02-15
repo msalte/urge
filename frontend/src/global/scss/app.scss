@@ -13,8 +13,15 @@ body {
     display: flex;
     box-sizing: border-box;
 
+    background: var(--background-color);
+    color: var(--text-color);
+
     &.dark {
-        background: #111;
-        color: #ccc;
+        --background-color: #222;
+        --text-color: #c2c2c2;
+    }
+
+    .content {
+        padding: calc(var(--grid-unit) * 4px);
     }
 }

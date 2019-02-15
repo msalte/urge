@@ -1,36 +1,43 @@
 .searchBar {
+    --background-color: #fff;
+    --text-color: #555;
+
     border-radius: 5px;
     border: 1px solid #ccc;
     padding: 10px;
     background: #fff;
     height: 35px;
     display: flex;
+    background: var(--background-color);
     align-items: center;
     box-sizing: border-box;
     justify-content: space-between;
     width: 350px;
+    color: var(--text-color);
+
+    &.dark {
+        --background-color: #ccc;
+        --text-color: #000;
+    }
 
     .icon {
-        width: 25px;
+        width: var(--icon-width);
     }
 
     .clear {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 25px;
+        width: var(--icon-width);
         cursor: pointer;
-        color: #555;
-    }
-
-    &.dark {
-        background: #555;
-        color: ccc;
+        color: var(--text-color);
     }
 
     > input {
+        background: var(--background-color);
         width: 300px;
         border: 0;
+        color: var(--text-color);
         outline: none;
     }
 }

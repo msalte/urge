@@ -1,25 +1,29 @@
 import React from "react";
 import styles from "./styles.scss";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
-import ThemeContext from "../../ThemeContext";
 
 export default props => {
-    const { icon, isCollapsed } = props;
-
-    const themeContext = React.useContext(ThemeContext);
-
-    const iconClassName = classNames(styles.icon, {
-        [styles.dark]: themeContext.theme === "dark",
-        [styles.collapsed]: isCollapsed,
-    });
+    const { icon, onClick, isCollapsed, isActive, link } = props;
 
     return (
-        <div className={styles.menuItem}>
-            <div className={iconClassName}>
+        <Link
+            onClick={() => onClick()}
+            to={link}
+            className={classNames(styles.menuItem, {
+                [styles.active]: isActive,
+            })}
+        >
+            <div
+                className={classNames(styles.icon, {
+                    [styles.collapsed]: isCollapsed,
+                    [styles.active]: isActive,
+                })}
+            >
                 <FontAwesomeIcon icon={icon} />
             </div>
             {props.children}
-        </div>
+        </Link>
     );
 };

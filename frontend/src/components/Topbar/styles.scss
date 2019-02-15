@@ -1,26 +1,21 @@
-@import "../global/scss/variables.scss";
-
-.navBar {
-    --background-color: #f3f3f3;
-    --background-color-active: rgb(233, 232, 232);
-    --border-color: #ccc;
-    --text-color: #000;
-
-    &.dark {
-        --background-color: #333;
-        --background-color-active: #555;
-        --border-color: #444;
-        --text-color: #c2c2c2;
-    }
-
+.topbar {
     display: flex;
     flex-direction: row;
     align-items: center;
     background: var(--background-color);
     height: 50px;
     border-bottom: 1px solid var(--border-color);
-    padding: 0 $grid-unit * 2;
+    padding: 0 calc(var(--grid-unit) * 2px);
     justify-content: space-between;
+
+    &.dark {
+        --background-color: #333;
+        --border-color: #444;
+        --text-color: #c2c2c2;
+
+        // menus
+        --menu-item-color-active: #555;
+    }
 
     .items {
         display: flex;
@@ -29,11 +24,12 @@
 
         .brand {
             height: 100%;
+            color: var(--text-color);
             align-self: center;
             display: flex;
             flex-direction: row;
             align-items: center;
-            padding: 0 $grid-unit * 4;
+            padding: 0 calc(var(--grid-unit) * 4px);
             cursor: pointer;
             text-decoration: none;
             transition-property: transform;
@@ -44,12 +40,12 @@
             }
         }
 
-        .item {
+        .link {
             text-decoration: none;
             color: var(--text-color);
             display: flex;
             align-items: center;
-            padding: 0 $grid-unit * 2;
+            padding: 0 calc(var(--grid-unit) * 2px);
             height: 100%;
             position: relative;
             transition-property: background;

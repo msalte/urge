@@ -1,25 +1,23 @@
 .sideBar {
-    --background-color: #f3f3f3;
-    --background-color-active: rgb(233, 232, 232);
-    --border-color: #ccc;
-    --text-color: #000;
-
-    &.dark {
-        --background-color: #333;
-        --background-color-active: #555;
-        --border-color: #444;
-        --text-color: #c2c2c2;
-    }
-
     display: flex;
     background: var(--background-color);
     flex-direction: column;
     height: 100%;
-    padding-top: 20px;
+    padding-top: calc(var(--grid-unit) * 2px);
     width: 260px;
     transition-property: width;
     transition-duration: 0.2s;
     border-right: 1px solid var(--border-color);
+
+    --menu-item-color-active: #e8e8e6;
+
+    &.dark {
+        --background-color: #333;
+        --border-color: #444;
+        --text-color: #c2c2c2;
+        --menu-item-color-active: #555;
+        --icon-color: #c2c2c2;
+    }
 
     &.collapsed {
         width: 60px;
@@ -29,35 +27,36 @@
         display: flex;
         align-items: center;
         box-sizing: border-box;
-        height: 50px;
+        height: calc(var(--grid-unit) * 6px);
         width: 100%;
-        padding: 0 16px;
+        padding: 0 calc(var(--grid-unit) * 2px);
         cursor: pointer;
+        text-decoration: none;
         transition-property: background;
         transition-duration: 0.1s;
+        color: var(--text-color);
 
         .icon {
             display: flex;
-            width: 25px;
-            color: #555;
-
-            &.dark {
-                color: #c2c2c2;
-            }
+            width: var(--icon-width);
+            color: var(--icon-color);
 
             &.collapsed {
                 justify-content: center;
             }
         }
 
+        &.active {
+            background: var(--menu-item-color-active);
+        }
+
         &:hover {
-            background: var(--background-color-active);
-            font-weight: 500;
+            background: var(--menu-item-color-active);
         }
     }
 
     .collapseButton {
-        width: 40px;
+        width: calc(var(--grid-unit) * 5px);
         position: absolute;
         bottom: 10px;
         left: 210px;
