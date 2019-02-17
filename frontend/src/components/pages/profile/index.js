@@ -1,5 +1,6 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext } from "react";
 import Button from "../../Button";
+import NavigationContext, { SideBarItems } from "../../../NavigationContext";
 
 const reducer = (profile, action) => {
     switch (action.type) {
@@ -14,7 +15,17 @@ const initialState = {
     address: "Kvellurveien 36",
 };
 
+const ensureSideBarItemActive = () => {
+    const navigationContext = useContext(NavigationContext);
+
+    if (navigationContext.activeSideBarKey !== SideBarItems.profile.key) {
+        navigationContext.setActiveSideBarKey(SideBarItems.profile.key);
+    }
+};
+
 export default () => {
+    ensureSideBarItemActive();
+
     const [profile, dispatch] = useReducer(reducer, initialState);
 
     return (

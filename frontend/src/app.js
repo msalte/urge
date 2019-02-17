@@ -5,7 +5,9 @@ import Home from "./components/pages/home";
 import Profile from "./components/pages/profile";
 import Topbar from "./components/Topbar";
 import styles from "./global/scss/app.scss";
-import ThemeContext from "./ThemeContext";
+import ThemeContext, { themes } from "./ThemeContext";
+import NavigationContext, { SideBarItems } from "./NavigationContext";
+
 import classNames from "classnames";
 import SideBar from "./components/SideBar";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -32,43 +34,48 @@ library.add(
 );
 
 const App = () => {
-    const [activeTheme, setActiveTheme] = useState("light");
-    const [otherTheme, setOtherTheme] = useState("dark");
-
+    const [activeTheme, setActiveTheme] = useState(themes.light);
     const toggleTheme = () => {
-        setActiveTheme(otherTheme);
-        setOtherTheme(activeTheme);
+        setActiveTheme(
+            activeTheme === themes.light ? themes.dark : themes.light
+        );
     };
+
+    const [activeSideBarKey, setActiveSideBarKey] = useState(
+        SideBarItems.home.key
+    );
 
     return (
         <ThemeContext.Provider
             value={{
                 theme: activeTheme,
-                other: otherTheme,
                 toggle: () => toggleTheme(),
             }}
         >
-            <Topbar />
-            <div
-                className={classNames(styles.container, {
-                    [styles.dark]: activeTheme === "dark",
-                })}
+            <NavigationContext.Provider
+                value={{
+                    activeSideBarKey: activeSideBarKey,
+                    setActiveSideBarKey: key => setActiveSideBarKey(key),
+                }}
             >
-                <SideBar />
-                <div className={styles.content}>
-                    <Switch>
-                        <Route
-                            path="/"
-                            exact
-                            render={props => <Home {...props} />}
-                        />
-                        <Route
-                            path="/profile"
-                            render={props => <Profile {...props} />}
-                        />
-                    </Switch>
+                <Topbar />
+                <div
+                    className={classNames(styles.container, {
+                        [styles.dark]: activeTheme === themes.dark,
+                    })}
+                >
+                    <SideBar activeKey={activeSideBarKey} />
+                    <div className={styles.content}>
+                        <Switch>
+                            <Route path="/" exact render={Home} />
+                            <Route
+                                path="/profile"
+                                render={props => <Profile {...props} />}
+                            />
+                        </Switch>
+                    </div>
                 </div>
-            </div>
+            </NavigationContext.Provider>
         </ThemeContext.Provider>
     );
 };
