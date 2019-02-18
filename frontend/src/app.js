@@ -7,9 +7,10 @@ import Topbar from "./components/Topbar";
 import styles from "./global/scss/app.scss";
 import ThemeContext, { themes } from "./ThemeContext";
 import NavigationContext, { SideBarItems } from "./NavigationContext";
-
 import classNames from "classnames";
 import SideBar from "./components/SideBar";
+
+import "typeface-josefin-sans";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
     faHome,
