@@ -1,4 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+
+const NavigationContext = React.createContext({
+    activeSideBarItem: {},
+    setActiveSideBarItem: () => {},
+});
 
 export const SideBarItems = {
     home: {
@@ -15,7 +20,12 @@ export const SideBarItems = {
     },
 };
 
-export default React.createContext({
-    activeSideBarKey: "",
-    setActiveSideBarKey: () => {},
-});
+export const ensureSideBarItemActive = item => {
+    const ctx = useContext(NavigationContext);
+
+    if (ctx.activeSideBarItem !== item) {
+        ctx.setActiveSideBarItem(item);
+    }
+};
+
+export default NavigationContext;

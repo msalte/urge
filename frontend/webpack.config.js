@@ -61,6 +61,10 @@ module.exports = {
                     "css-loader", // translates CSS into CommonJS
                 ],
             },
+            {
+                test: /\.(woff2?|ttf|svg|eot)(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "file-loader",
+            },
         ],
     },
 };

@@ -12,7 +12,7 @@
     align-items: center;
     box-sizing: border-box;
     justify-content: space-between;
-    width: 350px;
+    width: 100%;
     color: var(--text-color);
 
     &.dark {
@@ -29,13 +29,15 @@
         align-items: center;
         justify-content: center;
         width: var(--icon-width);
-        cursor: pointer;
         color: var(--text-color);
+        cursor: pointer;
     }
 
     > input {
+        font-size: 14px;
+        font-family: "jaldi";
         background: var(--background-color);
-        width: 300px;
+        width: 100%;
         border: 0;
         color: var(--text-color);
         outline: none;

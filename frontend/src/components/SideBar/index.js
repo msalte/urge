@@ -6,12 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MenuItem from "./MenuItem";
 import ThemeContext, { themes } from "../../ThemeContext";
 import NavigationContext, { SideBarItems } from "../../NavigationContext";
+import "typeface-jaldi";
 
 export default () => {
     const [isCollapsed, setCollapsed] = React.useState(false);
 
     const themeContext = React.useContext(ThemeContext);
-    const navigationContext = React.useContext(NavigationContext);
+    const navContext = React.useContext(NavigationContext);
 
     return (
         <div
@@ -28,11 +29,9 @@ export default () => {
                         key={key}
                         link={item.link}
                         isCollapsed={isCollapsed}
-                        isActive={navigationContext.activeSideBarKey === key}
+                        isActive={navContext.activeSideBarItem === item}
                         icon={item.icon}
-                        onClick={() =>
-                            navigationContext.setActiveSideBarKey(key)
-                        }
+                        onClick={() => navContext.setActiveSideBarItem(item)}
                     >
                         {!isCollapsed && `${item.displayName}`}
                     </MenuItem>

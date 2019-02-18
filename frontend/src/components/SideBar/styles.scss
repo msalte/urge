@@ -1,15 +1,21 @@
 .sideBar {
+    --sidebar-width: 250px;
+
     display: flex;
     background: var(--background-color);
     flex-direction: column;
     height: 100%;
     padding-top: calc(var(--grid-unit) * 2px);
-    width: 260px;
+    width: var(--sidebar-width);
     transition-property: width;
     transition-duration: 0.2s;
     border-right: 1px solid var(--border-color);
 
     --menu-item-color-active: #e8e8e6;
+
+    @media only screen and (max-width: 768px) {
+        --sidebar-width: 150px;
+    }
 
     &.dark {
         --background-color: #333;
@@ -59,7 +65,7 @@
         width: calc(var(--grid-unit) * 5px);
         position: absolute;
         bottom: 10px;
-        left: 210px;
+        left: calc(var(--sidebar-width) - 50px);
         transition-property: left;
         transition-duration: 0.2s;
 

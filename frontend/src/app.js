@@ -41,8 +41,8 @@ const App = () => {
         );
     };
 
-    const [activeSideBarKey, setActiveSideBarKey] = useState(
-        SideBarItems.home.key
+    const [activeSideBarItem, setActiveSideBarItem] = useState(
+        SideBarItems.home
     );
 
     return (
@@ -54,8 +54,8 @@ const App = () => {
         >
             <NavigationContext.Provider
                 value={{
-                    activeSideBarKey: activeSideBarKey,
-                    setActiveSideBarKey: key => setActiveSideBarKey(key),
+                    activeSideBarItem: activeSideBarItem,
+                    setActiveSideBarItem: item => setActiveSideBarItem(item),
                 }}
             >
                 <Topbar />
@@ -64,7 +64,7 @@ const App = () => {
                         [styles.dark]: activeTheme === themes.dark,
                     })}
                 >
-                    <SideBar activeKey={activeSideBarKey} />
+                    <SideBar activeKey={activeSideBarItem} />
                     <div className={styles.content}>
                         <Switch>
                             <Route path="/" exact render={Home} />
