@@ -3,14 +3,14 @@ import { render } from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./components/pages/home";
 import Profile from "./components/pages/profile";
-import Topbar from "./components/Topbar";
+import TopBar from "./components/Topbar";
 import styles from "./global/scss/app.scss";
 import ThemeContext, { themes } from "./ThemeContext";
 import NavigationContext, { SideBarItems } from "./NavigationContext";
 import classNames from "classnames";
 import SideBar from "./components/SideBar";
 
-import "typeface-josefin-sans";
+import "typeface-nunito";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
     faHome,
@@ -59,7 +59,7 @@ const App = () => {
                     setActiveSideBarItem: item => setActiveSideBarItem(item),
                 }}
             >
-                <Topbar />
+                <TopBar />
                 <div
                     className={classNames(styles.container, {
                         [styles.dark]: activeTheme === themes.dark,

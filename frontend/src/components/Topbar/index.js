@@ -3,21 +3,20 @@ import styles from "./styles.scss";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import SearchBar from "../SearchBar";
-import ThemeContext from "../../ThemeContext";
+import ThemeContext, { themes } from "../../ThemeContext";
+import NavigationContext, { SideBarItems } from "../../NavigationContext";
 import Button from "../Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const TopbarLink = props => {
+export const TopBarLink = props => {
     const { isActive, item, onClick } = props;
-
-    const className = classNames(styles.link, {
-        [styles.active]: isActive,
-    });
 
     return (
         <Link
             to={item.link}
-            className={className}
+            className={classNames(styles.link, {
+                [styles.active]: isActive,
+            })}
             onClick={() => onClick(item.name)}
         >
             {item.name}
@@ -27,17 +26,24 @@ export const TopbarLink = props => {
 
 export default props => {
     const themeContext = useContext(ThemeContext);
-
-    const className = classNames(styles.topbar, {
-        [styles.dark]: themeContext.theme === "dark",
-    });
+    const navContext = useContext(NavigationContext);
 
     return (
-        <div className={className}>
+        <div
+            className={classNames(styles.topbar, {
+                [styles.dark]: themeContext.theme === "dark",
+            })}
+        >
             <div className={styles.items}>
-                <a onClick={() => {}} className={styles.brand}>
+                <Link
+                    to={"/"}
+                    className={styles.brand}
+                    onClick={() =>
+                        navContext.setActiveSideBarItem(SideBarItems.home)
+                    }
+                >
                     Urge
-                </a>
+                </Link>
                 {props.children}
             </div>
             <div className={styles.tools}>
@@ -50,7 +56,9 @@ export default props => {
                     <Button onClick={() => themeContext.toggle()}>
                         <FontAwesomeIcon
                             icon={
-                                themeContext.theme === "dark" ? "sun" : "moon"
+                                themeContext.theme === themes.dark
+                                    ? "sun"
+                                    : "moon"
                             }
                         />
                     </Button>
