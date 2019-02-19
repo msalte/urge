@@ -6,12 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MenuItem from "./MenuItem";
 import ThemeContext, { themes } from "../../ThemeContext";
 import NavigationContext, { SideBarItems } from "../../NavigationContext";
-import { LargerThanPhone, isPhone } from "../Responsive";
+import { LargerThanPhone } from "../Responsive";
+import { useCollapseToggler } from "./hooks";
 
 export default () => {
-    const [isCollapsed, setCollapsed] = React.useState(
-        isPhone() ? true : false
-    );
+    const [isCollapsed, toggleCollapsed] = useCollapseToggler();
 
     const themeContext = React.useContext(ThemeContext);
     const navContext = React.useContext(NavigationContext);
@@ -45,12 +44,7 @@ export default () => {
                         [styles.collapsed]: isCollapsed === true,
                     })}
                 >
-                    <Button
-                        stretch
-                        onClick={() => {
-                            setCollapsed(!isCollapsed);
-                        }}
-                    >
+                    <Button stretch onClick={() => toggleCollapsed()}>
                         <FontAwesomeIcon
                             icon={isCollapsed ? "angle-right" : "angle-left"}
                         />

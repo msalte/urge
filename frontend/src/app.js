@@ -34,13 +34,22 @@ library.add(
     faAngleLeft
 );
 
-const App = () => {
-    const [activeTheme, setActiveTheme] = useState(themes.light);
+const useThemeToggler = () => {
+    const defaultState = localStorage.getItem("theme") || themes.light;
+    const [activeTheme, setActiveTheme] = useState(defaultState);
     const toggleTheme = () => {
-        setActiveTheme(
-            activeTheme === themes.light ? themes.dark : themes.light
-        );
+        const newTheme =
+            activeTheme === themes.light ? themes.dark : themes.light;
+
+        setActiveTheme(newTheme);
+        localStorage.setItem("theme", newTheme);
     };
+
+    return [activeTheme, toggleTheme];
+};
+
+const App = () => {
+    const [activeTheme, toggleTheme] = useThemeToggler();
 
     const [activeSideBarItem, setActiveSideBarItem] = useState(
         SideBarItems.home
