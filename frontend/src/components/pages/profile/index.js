@@ -1,5 +1,6 @@
 import React, { useReducer } from "react";
 import Button from "../../Button";
+import styles from "../styles.scss";
 import {
     SideBarItems,
     ensureSideBarItemActive,
@@ -24,7 +25,7 @@ export default () => {
     const [profile, dispatch] = useReducer(reducer, initialState);
 
     return (
-        <div>
+        <div className={styles.container}>
             <div>{profile.name}</div>
             <div>{profile.age}</div>
             <Button onClick={() => dispatch({ type: "increase-age" })}>

@@ -6,9 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MenuItem from "./MenuItem";
 import ThemeContext, { themes } from "../../ThemeContext";
 import NavigationContext, { SideBarItems } from "../../NavigationContext";
+import { LargerThanPhone, isPhone } from "../Responsive";
 
 export default () => {
-    const [isCollapsed, setCollapsed] = React.useState(false);
+    const [isCollapsed, setCollapsed] = React.useState(
+        isPhone() ? true : false
+    );
 
     const themeContext = React.useContext(ThemeContext);
     const navContext = React.useContext(NavigationContext);
@@ -36,21 +39,24 @@ export default () => {
                     </MenuItem>
                 );
             })}
-            <div
-                className={classNames(styles.collapseButton, {
-                    [styles.collapsed]: isCollapsed === true,
-                })}
-            >
-                <Button
-                    onClick={() => {
-                        setCollapsed(!isCollapsed);
-                    }}
+            <LargerThanPhone>
+                <div
+                    className={classNames(styles.collapseButton, {
+                        [styles.collapsed]: isCollapsed === true,
+                    })}
                 >
-                    <FontAwesomeIcon
-                        icon={isCollapsed ? "angle-right" : "angle-left"}
-                    />
-                </Button>
-            </div>
+                    <Button
+                        stretch
+                        onClick={() => {
+                            setCollapsed(!isCollapsed);
+                        }}
+                    >
+                        <FontAwesomeIcon
+                            icon={isCollapsed ? "angle-right" : "angle-left"}
+                        />
+                    </Button>
+                </div>
+            </LargerThanPhone>
         </div>
     );
 };

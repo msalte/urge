@@ -52,8 +52,8 @@ export default props => {
                         console.log(q);
                     }}
                 />
-                <div style={{ marginLeft: 10, width: 40 }}>
-                    <Button onClick={() => themeContext.toggle()}>
+                <div className={styles.themeButton}>
+                    <Button stretch onClick={() => themeContext.toggle()}>
                         <FontAwesomeIcon
                             icon={
                                 themeContext.theme === themes.dark

@@ -31,6 +31,7 @@
         "eslint-loader": "^2.1.1",
         "eslint-plugin-react": "^7.11.1",
         "file-loader": "^3.0.1",
+        "match-media": "^0.2.0",
         "node-sass": "^4.10.0",
         "react-responsive": "^6.1.1",
         "sass-loader": "^7.1.0",

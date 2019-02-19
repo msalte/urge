@@ -4,6 +4,7 @@
     display: flex;
     background: var(--background-color);
     flex-direction: column;
+    flex-shrink: 0;
     height: 100%;
     padding-top: calc(var(--grid-unit) * 2px);
     width: var(--sidebar-width);
@@ -12,10 +13,6 @@
     border-right: 1px solid var(--border-color);
 
     --menu-item-color-active: #e8e8e6;
-
-    @media only screen and (max-width: 768px) {
-        --sidebar-width: 150px;
-    }
 
     &.dark {
         --background-color: #333;
