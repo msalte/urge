@@ -32,6 +32,7 @@
         "eslint-plugin-react": "^7.11.1",
         "file-loader": "^3.0.1",
         "node-sass": "^4.10.0",
+        "react-responsive": "^6.1.1",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.1",
         "typeface-nunito": "0.0.54",
