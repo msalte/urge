@@ -77,7 +77,11 @@ const App = () => {
                     <SideBar activeKey={activeSideBarItem} />
                     <div className={styles.content}>
                         <Switch>
-                            <Route path="/" exact render={Home} />
+                            <Route
+                                path="/"
+                                exact
+                                render={props => <Home {...props} />}
+                            />
                             <Route
                                 path="/profile"
                                 render={props => <Profile {...props} />}
