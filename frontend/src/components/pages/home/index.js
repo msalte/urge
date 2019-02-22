@@ -1,33 +1,27 @@
 import React, { useState } from "react";
 import styles from "../styles.scss";
-import { Phone, LargerThanPhone } from "../../Responsive";
 import Modal from "../../Modal";
 import Button from "../../Button";
+import { Phone, LargerThanPhone } from "../../Responsive";
 
-export default props => {
+export default () => {
     const [isModalOpen, setModalOpen] = useState(false);
 
     return (
         <div className={styles.container}>
-            <Phone>YOu are viewing page on mobile.</Phone>
-            <LargerThanPhone>
-                You are viewing page on a PC or tablet.
-            </LargerThanPhone>
+            <div>
+                <LargerThanPhone>
+                    You are viewing this on a desktop or tablet.
+                </LargerThanPhone>
+                <Phone>You are viewing this on a mobile phone.</Phone>
+            </div>
 
             <Button onClick={() => setModalOpen(true)}>
                 Click to open modal
             </Button>
-
-            {isModalOpen && (
-                <Modal {...props}>
-                    <div>
-                        Bla bla ukeblad
-                        <Button onClick={() => setModalOpen(false)}>
-                            Close
-                        </Button>
-                    </div>
-                </Modal>
-            )}
+            <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+                Dette er en tekst.
+            </Modal>
         </div>
     );
 };

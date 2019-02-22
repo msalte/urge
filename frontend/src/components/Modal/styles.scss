@@ -1,0 +1,22 @@
+.modal {
+    position: fixed;
+    width: 500px;
+    height: 400px;
+    top: -450px;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--background-color);
+    padding: calc(var(--grid-unit) * 1px);
+    border: 1px solid #999;
+    border-radius: 5px;
+    transition-property: top, visibility;
+    transition-duration: 0.3s;
+    left: calc(50% - 250px);
+
+    &.open {
+        visibility: visible;
+        top: 25px;
+    }
+}
