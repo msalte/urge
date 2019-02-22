@@ -1,22 +1,50 @@
 .modal {
+    --modal-width: 50;
+    --modal-height: 60;
+
+    box-sizing: border-box;
     position: fixed;
-    width: 500px;
-    height: 400px;
-    top: -450px;
+    width: calc(1vw * var(--modal-width));
+    height: calc(1vh * var(--modal-height));
+    top: calc(-1vh * var(--modal-height));
     visibility: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     background: var(--background-color);
     padding: calc(var(--grid-unit) * 1px);
     border: 1px solid #999;
     border-radius: 5px;
     transition-property: top, visibility;
     transition-duration: 0.3s;
-    left: calc(50% - 250px);
+    left: calc(50% - (var(--modal-width) * 1vw / 2));
 
     &.open {
         visibility: visible;
-        top: 25px;
+        top: 5vh;
+    }
+
+    @media only screen and (max-width: 767px) {
+        --modal-width: 90;
+        --modal-height: 90;
+    }
+
+    .body {
+        text-align: justify;
+        overflow-y: auto;
+        margin-top: calc(var(--grid-unit) * 2px);
+    }
+
+    .headerRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+        flex-shrink: 0;
+
+        .button {
+            width: 40px;
+            flex-shrink: 0;
+        }
     }
 }
