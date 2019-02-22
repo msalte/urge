@@ -9,7 +9,6 @@ import ThemeContext, { themes } from "./ThemeContext";
 import NavigationContext, { SideBarItems } from "./NavigationContext";
 import classNames from "classnames";
 import SideBar from "./components/SideBar";
-import Div100vh from "react-div-100vh";
 
 import "typeface-nunito";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -69,29 +68,27 @@ const App = () => {
                     setActiveSideBarItem: item => setActiveSideBarItem(item),
                 }}
             >
-                <Div100vh>
-                    <TopBar />
-                    <div
-                        className={classNames(styles.container, {
-                            [styles.dark]: activeTheme === themes.dark,
-                        })}
-                    >
-                        <SideBar activeKey={activeSideBarItem} />
-                        <div className={styles.content}>
-                            <Switch>
-                                <Route
-                                    path="/"
-                                    exact
-                                    render={props => <Home {...props} />}
-                                />
-                                <Route
-                                    path="/profile"
-                                    render={props => <Profile {...props} />}
-                                />
-                            </Switch>
-                        </div>
+                <TopBar />
+                <div
+                    className={classNames(styles.container, {
+                        [styles.dark]: activeTheme === themes.dark,
+                    })}
+                >
+                    <SideBar activeKey={activeSideBarItem} />
+                    <div className={styles.content}>
+                        <Switch>
+                            <Route
+                                path="/"
+                                exact
+                                render={props => <Home {...props} />}
+                            />
+                            <Route
+                                path="/profile"
+                                render={props => <Profile {...props} />}
+                            />
+                        </Switch>
                     </div>
-                </Div100vh>
+                </div>
             </NavigationContext.Provider>
         </ThemeContext.Provider>
     );
