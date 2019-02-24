@@ -1,13 +1,15 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { createPortal } from "react-dom";
 import Button from "../Button";
 import classNames from "classnames";
 import styles from "./styles.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ThemeContext, { themes } from "../../ThemeContext";
 
 const container = document.getElementById("overlays");
 
 export default ({ title, isOpen, onClose, children }) => {
+    const themeContext = useContext(ThemeContext);
     const ref = useRef(null);
 
     if (isOpen) {
@@ -27,13 +29,16 @@ export default ({ title, isOpen, onClose, children }) => {
 
     return createPortal(
         <div
-            className={classNames(styles.modal, { [styles.open]: isOpen })}
+            className={classNames(styles.modal, {
+                [styles.open]: isOpen,
+            })}
             onMouseDown={e => handleClickOutside(ref, e)}
         >
             <div
                 ref={ref}
                 className={classNames(styles.content, {
                     [styles.open]: isOpen,
+                    [styles.dark]: themeContext.theme === themes.dark,
                 })}
             >
                 <div className={styles.headerRow}>
@@ -44,7 +49,13 @@ export default ({ title, isOpen, onClose, children }) => {
                         </Button>
                     </div>
                 </div>
-                <div className={styles.body}>{children}</div>
+                <div
+                    className={classNames(styles.body, {
+                        [styles.dark]: themeContext.theme === themes.dark,
+                    })}
+                >
+                    {children}
+                </div>
             </div>
         </div>,
         container

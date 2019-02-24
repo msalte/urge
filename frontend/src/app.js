@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./components/pages/home";
@@ -56,6 +56,19 @@ const App = () => {
     const [activeSideBarItem, setActiveSideBarItem] = useState(
         SideBarItems.home
     );
+
+    useEffect(() => {
+        const root = document.documentElement;
+
+        switch (activeTheme) {
+            case themes.light:
+                root.style.setProperty("background", "#fff");
+                break;
+            case themes.dark:
+                root.style.setProperty("background", "#666");
+                break;
+        }
+    }, [activeTheme]);
 
     return (
         <ThemeContext.Provider
