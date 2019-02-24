@@ -1,12 +1,14 @@
 .sideBar {
     --sidebar-width: 250px;
 
+    position: fixed;
     display: flex;
     background: var(--background-color);
     flex-direction: column;
     flex-shrink: 0;
     height: 100%;
     padding-top: calc(var(--grid-unit) * 2px);
+    box-sizing: border-box;
     width: var(--sidebar-width);
     transition-property: width;
     transition-duration: 0.2s;
