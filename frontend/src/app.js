@@ -9,6 +9,7 @@ import ThemeContext, { themes } from "./ThemeContext";
 import NavigationContext, { SideBarItems } from "./NavigationContext";
 import classNames from "classnames";
 import SideBar from "./components/SideBar";
+import { useCollapseToggler } from "./components/SideBar/hooks";
 
 import "typeface-nunito";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -50,6 +51,7 @@ const useThemeToggler = () => {
 
 const App = () => {
     const [activeTheme, toggleTheme] = useThemeToggler();
+    const [isCollapsed, toggleCollapsed] = useCollapseToggler();
 
     const [activeSideBarItem, setActiveSideBarItem] = useState(
         SideBarItems.home
@@ -74,8 +76,15 @@ const App = () => {
                         [styles.dark]: activeTheme === themes.dark,
                     })}
                 >
-                    <SideBar activeKey={activeSideBarItem} />
-                    <div className={styles.content}>
+                    <SideBar
+                        isCollapsed={isCollapsed}
+                        toggleCollapsed={toggleCollapsed}
+                    />
+                    <div
+                        className={classNames(styles.content, {
+                            [styles.collapsed]: isCollapsed,
+                        })}
+                    >
                         <Switch>
                             <Route
                                 path="/"

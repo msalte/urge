@@ -26,7 +26,6 @@
         display: flex;
         flex-direction: column;
         background: var(--background-color);
-        padding: calc(var(--grid-unit) * 1px);
         border: 1px solid #999;
         border-radius: 5px;
         visibility: hidden;
@@ -45,20 +44,22 @@
         }
 
         .body {
+            padding: calc(var(--grid-unit) * 1px);
             text-align: justify;
             height: 100%;
             -webkit-overflow-scrolling: touch;
             overflow-y: auto;
-            margin-top: calc(var(--grid-unit) * 2px);
         }
 
         .headerRow {
+            padding: calc(var(--grid-unit) * 1px);
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
             font-weight: 700;
             flex-shrink: 0;
+            border-bottom: 1px solid #ccc;
 
             .button {
                 width: 40px;

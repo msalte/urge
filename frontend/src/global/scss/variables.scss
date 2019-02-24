@@ -7,4 +7,8 @@
     --text-color: #000;
     --icon-color: #555;
     --icon-width: calc(var(--grid-unit) * 4px);
+
+    // TODO place colors for dark mode as own variables
+
+    background: var(--background-color-content);
 }

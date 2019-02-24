@@ -63,7 +63,7 @@
     .collapseButton {
         width: calc(var(--grid-unit) * 5px);
         position: absolute;
-        bottom: 10px;
+        bottom: 60px;
         left: calc(var(--sidebar-width) - 50px);
         transition-property: left;
         transition-duration: 0.2s;

@@ -7,11 +7,8 @@ import MenuItem from "./MenuItem";
 import ThemeContext, { themes } from "../../ThemeContext";
 import NavigationContext, { SideBarItems } from "../../NavigationContext";
 import { LargerThanPhone } from "../Responsive";
-import { useCollapseToggler } from "./hooks";
 
-export default () => {
-    const [isCollapsed, toggleCollapsed] = useCollapseToggler();
-
+export default ({ isCollapsed, toggleCollapsed }) => {
     const themeContext = React.useContext(ThemeContext);
     const navContext = React.useContext(NavigationContext);
 
