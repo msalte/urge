@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Urge.SPA.Storage.Documents;
 
 namespace Urge.SPA
 {
@@ -26,25 +27,23 @@ namespace Urge.SPA
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //var builder = new ConfigurationBuilder()
-            //    .SetBasePath(_environment.ContentRootPath)
-            //    .AddJsonFile("azurekeyvault.json");
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(_environment.ContentRootPath)
+                .AddJsonFile("azurekeyvault.json");
 
-            //var configuration = builder.Build();
+            var configuration = builder.Build();
 
-            //builder.AddAzureKeyVault(
-            //    configuration["azureKeyVault:vault"],
-            //    configuration["azureKeyVault:clientId"],
-            //    configuration["azureKeyVault:clientSecret"]);
+            builder.AddAzureKeyVault(
+                configuration["azureKeyVault:vault"],
+                configuration["azureKeyVault:clientId"],
+                configuration["azureKeyVault:clientSecret"]);
 
-            //configuration = builder.Build();
+            configuration = builder.Build();
 
             services.AddMvc();
-            //services.AddAuthentication().AddFacebook(options =>
-            //{
-            //    options.AppId = configuration["facebook-appid"];
-            //    options.AppSecret = configuration["facebook-appsecret"];
-            //});
+            services.AddSingleton<ICosmosDb, CosmosDb>();
+
+            services.AddSingleton<IConfiguration>(configuration); // needed to access key vault through DI of IConfiguration
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
