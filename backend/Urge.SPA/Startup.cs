@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Urge.SPA.Storage.Documents;
@@ -27,22 +30,16 @@ namespace Urge.SPA
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var serviceTokenProvider = new AzureServiceTokenProvider();
+            var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(serviceTokenProvider.KeyVaultTokenCallback));
+
             var builder = new ConfigurationBuilder()
-                .SetBasePath(_environment.ContentRootPath)
-                .AddJsonFile("azurekeyvault.json");
+                .AddAzureKeyVault("https://urge-keyvault.vault.azure.net", keyVaultClient, new DefaultKeyVaultSecretManager());
 
             var configuration = builder.Build();
 
-            builder.AddAzureKeyVault(
-                configuration["azureKeyVault:vault"],
-                configuration["azureKeyVault:clientId"],
-                configuration["azureKeyVault:clientSecret"]);
-
-            configuration = builder.Build();
-
             services.AddMvc();
             services.AddSingleton<ICosmosDb, CosmosDb>();
-
             services.AddSingleton<IConfiguration>(configuration); // needed to access key vault through DI of IConfiguration
         }
 
