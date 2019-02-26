@@ -1,13 +1,13 @@
-﻿using Microsoft.Azure.Documents;
+﻿
+using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Urge.SPA.Storage.Documents
+namespace Urge.Blog.Storage
 {
     public interface ICosmosDb
     {

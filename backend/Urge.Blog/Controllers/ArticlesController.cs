@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Urge.SPA.Storage.Documents;
+using Urge.Blog.Storage;
 
-namespace Urge.SPA.Controllers
+namespace Urge.Blog.Controllers
 {
     public class ArticlesController : Controller
     {
         private readonly ICosmosDb _cosmosDb;
-        private const string DATABASE_NAME = "myDatabase";
-        private const string COLLECTION_NAME = "myCollection";
+        private const string DATABASE_NAME = "blog";
+        private const string COLLECTION_NAME = "articles";
 
         public ArticlesController(ICosmosDb cosmosDb)
         {
