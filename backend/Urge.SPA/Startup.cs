@@ -32,6 +32,7 @@ namespace Urge.SPA
         {
             var serviceTokenProvider = new AzureServiceTokenProvider();
             var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(serviceTokenProvider.KeyVaultTokenCallback));
+            //var keyVaultClient = new KeyVaultClient((authority, resource, scope) => serviceTokenProvider.KeyVaultTokenCallback(authority, resource, scope));
 
             var builder = new ConfigurationBuilder()
                 .AddAzureKeyVault("https://urge-keyvault.vault.azure.net", keyVaultClient, new DefaultKeyVaultSecretManager());
