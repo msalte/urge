@@ -23,9 +23,7 @@ namespace Urge.Blog
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            // trigger blog microservice build pipeline 
-
+            
             app.UseMvc();
         }
     }
