@@ -28,6 +28,8 @@ namespace Urge.SPA
                 app.UseDeveloperExceptionPage();
             }
 
+            // trigger spa build pipeline
+
             //app.UseAuthentication();
 
             app.UseStaticFiles();
