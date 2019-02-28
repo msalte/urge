@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,16 +12,22 @@ namespace Urge.Common.Configuration
     {
         public static IServiceCollection AddUrgeAuthentication(this IServiceCollection services)
         {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    var clientId = "38a586c6-6141-46b2-be9e-75844c089c12"; // "Application ID of Azure AD app"
-                    var tenantId = "c317fa72-b393-44ea-a87c-ea272e8d963d"; // Azure Tenant ID
+            var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
+            var key = Encoding.UTF8.GetBytes(configuration["jwt-symmetric-private-key"]);
 
-                    options.Authority = $"https://login.microsoftonline.com/{tenantId}";
-                    options.Audience = clientId;
-                    options.SaveToken = true;
-                });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                };
+            });
 
             return services;
         }
