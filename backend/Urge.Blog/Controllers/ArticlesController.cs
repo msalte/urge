@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Urge.Blog.Models;
@@ -15,6 +16,7 @@ namespace Urge.Blog.Controllers
             _articlesService = articlesService;
         }
 
+        [Authorize]
         [HttpPost("articles")]
         public async Task<IActionResult> CreateDocument([FromBody] Article article)
         {

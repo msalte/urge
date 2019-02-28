@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Urge.Common.Configuration
 {
-    public static class ConfigurationExtensions
+    public static class ConfigurationBuilderExtensions
     {
         private const string KEY_VAULT_NAME = "https://urge-keyvault.vault.azure.net";
 
