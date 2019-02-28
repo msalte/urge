@@ -1,7 +1,6 @@
 ﻿
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,54 +10,37 @@ namespace Urge.Blog.Storage
 {
     public interface ICosmosDb
     {
-        Task<string> CreateDocumentAsync<T>(string database, string collection, T @object);
-        Task<IEnumerable<T>> GetDocuments<T>(string database, string collection);
+        Task<T> CreateDocumentAsync<T>(string database, string collection, T @object);
+        Task<IEnumerable<T>> GetAllDocuments<T>(string database, string collection);
     }
 
     public class CosmosDb : ICosmosDb
     {
-        private const string ENDPOINT = "https://urge-cosmos.documents.azure.com:443/";
-        private readonly IConfiguration _configuration;
         private DocumentClient _client;
 
-        public CosmosDb(IConfiguration configuration)
+        public CosmosDb(DocumentClient client)
         {
-            _configuration = configuration;
+            _client = client;
         }
 
-        public async Task<string> CreateDocumentAsync<T>(string database, string collection, T @object)
+        public async Task<T> CreateDocumentAsync<T>(string database, string collection, T @object)
         {
-            var client = await GetClientAsync(database, collection);
+            var response = await _client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(database, collection), @object);
 
-            var response = await client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(database, collection), @object);
-
-            return response.Resource.Id;
+            return CastTo<T>(response.Resource);
         }
 
-        public async Task<IEnumerable<T>> GetDocuments<T>(string database, string collection)
+        public async Task<IEnumerable<T>> GetAllDocuments<T>(string database, string collection)
         {
-            var client = await GetClientAsync(database, collection);
-
-            var response = client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(database, collection), "select * from c").ToList();
+            // Task.Run() is a code smell?
+            var response = await Task.Run(() => _client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(database, collection), "select * from c").ToList());
 
             return response;
         }
 
-
-        private async Task<DocumentClient> GetClientAsync(string database, string collection)
+        private static T CastTo<T>(Resource o)
         {
-            if (_client == null)
-            {
-                _client = new DocumentClient(new Uri(ENDPOINT), GetPrimaryKey());
-                await _client.CreateDatabaseIfNotExistsAsync(new Database { Id = database });
-                await _client.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(database), new DocumentCollection { Id = collection });
-            }
-
-            return _client;
-        }
-        private string GetPrimaryKey()
-        {
-            return _configuration["cosmosdb-primarykey"];
+            return (T)(dynamic)o;
         }
     }
 }

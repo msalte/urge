@@ -1,40 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Urge.Blog.Storage;
+using Urge.Blog.Models;
+using Urge.Blog.Services;
 
 namespace Urge.Blog.Controllers
 {
-    public class ArticlesController : Controller
+    public partial class ArticlesController : Controller
     {
-        private readonly ICosmosDb _cosmosDb;
-        private const string DATABASE_NAME = "blog";
-        private const string COLLECTION_NAME = "articles";
+        private readonly IArticlesService _articlesService;
 
-        public ArticlesController(ICosmosDb cosmosDb)
+        public ArticlesController(IArticlesService articlesService)
         {
-            _cosmosDb = cosmosDb;
+            _articlesService = articlesService;
         }
 
         [HttpPost("articles")]
         public async Task<IActionResult> CreateDocument([FromBody] Article article)
         {
-            var id = await _cosmosDb.CreateDocumentAsync(DATABASE_NAME, COLLECTION_NAME, article);
+            var created = await _articlesService.CreateArticleAsync(article);
 
-            return Ok(id);
+            return Created("articles", created);
         }
 
         [HttpGet("articles")]
         public async Task<IEnumerable<Article>> GetArticles()
         {
-            return await _cosmosDb.GetDocuments<Article>(DATABASE_NAME, COLLECTION_NAME);
-        }
-
-        public class Article
-        {
-            public string Id { get; set; }
-            public string Title { get; set; }
-            public string Content { get; set; }
+            return await _articlesService.GetAllArticles();
         }
     }
 }
