@@ -7,6 +7,7 @@ using Urge.Blog.Services;
 
 namespace Urge.Blog.Controllers
 {
+    [Authorize]
     public partial class ArticlesController : Controller
     {
         private readonly IArticlesService _articlesService;
@@ -16,7 +17,6 @@ namespace Urge.Blog.Controllers
             _articlesService = articlesService;
         }
 
-        [Authorize]
         [HttpPost("articles")]
         public async Task<IActionResult> CreateDocument([FromBody] Article article)
         {
@@ -25,6 +25,7 @@ namespace Urge.Blog.Controllers
             return Created("articles", created);
         }
 
+        [AllowAnonymous]
         [HttpGet("articles")]
         public async Task<IEnumerable<Article>> GetArticles()
         {

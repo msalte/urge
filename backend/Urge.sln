@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urge.Common", "Urge.Common\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urge.Blog", "Urge.Blog\Urge.Blog.csproj", "{FE9719D6-8B08-427B-A22C-330A398CE7BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urge.Users", "Urge.People\Urge.Users.csproj", "{7BD47D82-8E76-4FB0-A3D3-DDE95EB6F257}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urge.Users", "Urge.Users\Urge.Users.csproj", "{7BD47D82-8E76-4FB0-A3D3-DDE95EB6F257}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Development", "Development", "{E04E66B2-7C33-43BE-8E3E-DDD6A6ECEDD6}"
+	ProjectSection(SolutionItems) = preProject
+		Development\appsettings.MORTEN-PC.json = Development\appsettings.MORTEN-PC.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

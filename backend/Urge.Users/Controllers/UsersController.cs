@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using Urge.Users.ViewModels;
 
 namespace Urge.Users.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly UsersContext usersContext;
@@ -20,6 +22,7 @@ namespace Urge.Users.Controllers
             this.usersContext = usersContext;
         }
 
+        [AllowAnonymous]
         [HttpPost("users")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {

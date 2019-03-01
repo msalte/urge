@@ -21,6 +21,9 @@
             overflow-y: hidden;
         }
     </style>
+    <script>
+        var serviceEndpoints = @Html.Raw(ViewData["config"])
+    </script>
 </head>
 <body>
     <div id="app"></div>

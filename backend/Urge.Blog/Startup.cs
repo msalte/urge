@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +32,7 @@ namespace Urge.Blog
 
             services.AddSingleton(p =>
             {
-                var client = new DocumentClient(new Uri("https://urge-cosmos.documents.azure.com:443/"), Configuration["cosmosdb-primarykey"]);
+                var client = new DocumentClient(new Uri(Configuration[ConfigKey.CosmosDB.Endpoint.Path]), Configuration[ConfigKey.CosmosDB.PrimaryKey.Path]);
 
                 // TODO: ensure database and collection created if not existing
 
@@ -43,7 +42,8 @@ namespace Urge.Blog
                 return client;
             });
 
-            services.AddUrgeAuthentication();
+            services.AddCommonMicroserviceAuthentication();
+            services.AddMicroserviceDiscovery();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

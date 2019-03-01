@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Urge.Common.Configuration;
 
 namespace Urge.SPA
 {
@@ -18,6 +19,7 @@ namespace Urge.SPA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddMicroserviceDiscovery();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,23 +6,34 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Urge.Common.Configuration;
 using Urge.Users.Database;
 
 namespace Urge.Users
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddDbContext<UsersContext>(options =>
             {
-                options.UseSqlServer("Server=localhost;Database=Urge.Users;Trusted_Connection=True;");
+                options.UseSqlServer(Configuration[ConfigKey.ConnectionStrings.UsersContext.Path]);
             });
 
-            services.AddMvc();
+            services.AddCommonMicroserviceAuthentication();
+            services.AddMicroserviceDiscovery();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +51,7 @@ namespace Urge.Users
                 context.Database.EnsureCreated();
             }
 
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
