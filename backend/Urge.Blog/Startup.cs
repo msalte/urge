@@ -34,7 +34,7 @@ namespace Urge.Blog
             {
                 var client = new DocumentClient(new Uri(Configuration[ConfigKey.CosmosDB.Endpoint.Path]), Configuration[ConfigKey.CosmosDB.PrimaryKey.Path]);
 
-                // TODO: ensure database and collection created if not existing
+                client.EnsureCosmosDbExistsAsync().GetAwaiter().GetResult();
 
                 // Open the connection to validate that the client initialization 
                 // is successful in the Azure Cosmos DB service.
@@ -42,8 +42,7 @@ namespace Urge.Blog
                 return client;
             });
 
-            services.AddCommonMicroserviceAuthentication();
-            services.AddMicroserviceDiscovery();
+            services.AddCommonMicroserviceConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +53,7 @@ namespace Urge.Blog
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(CorsPolicy.ALLOW_ALL);
             app.UseAuthentication();
             app.UseMvc();
         }

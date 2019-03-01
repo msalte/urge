@@ -15,9 +15,6 @@ namespace Urge.Blog.Repository
 
     public class ArticlesRepository : IArticlesRepository
     {
-        private const string DATABASE_NAME = "blog";
-        private const string COLLECTION_NAME = "articles";
-
         private readonly ICosmosDb _cosmosDb;
 
         public ArticlesRepository(ICosmosDb cosmosDb)
@@ -27,12 +24,12 @@ namespace Urge.Blog.Repository
 
         public async Task<Article> CreateArticleAsync(Article article)
         {
-            return await _cosmosDb.CreateDocumentAsync(DATABASE_NAME, COLLECTION_NAME, article);
+            return await _cosmosDb.CreateDocumentAsync(DatabaseNames.Blog.Db, DatabaseNames.Blog.Articles, article);
         }
 
         public async Task<IEnumerable<Article>> GetAllArticles()
         {
-            return await _cosmosDb.GetAllDocuments<Article>(DATABASE_NAME, COLLECTION_NAME);
+            return await _cosmosDb.GetAllDocuments<Article>(DatabaseNames.Blog.Db, DatabaseNames.Blog.Articles);
         }
     }
 }

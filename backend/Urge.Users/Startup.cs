@@ -27,13 +27,14 @@ namespace Urge.Users
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddCors();
+
             services.AddDbContext<UsersContext>(options =>
             {
                 options.UseSqlServer(Configuration[ConfigKey.ConnectionStrings.UsersContext.Path]);
             });
 
-            services.AddCommonMicroserviceAuthentication();
-            services.AddMicroserviceDiscovery();
+            services.AddCommonMicroserviceConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +52,7 @@ namespace Urge.Users
                 context.Database.EnsureCreated();
             }
 
+            app.UseCors(CorsPolicy.ALLOW_ALL);
             app.UseAuthentication();
             app.UseMvc();
         }

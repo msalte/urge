@@ -12,7 +12,26 @@ namespace Urge.Common.Configuration
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCommonMicroserviceAuthentication(this IServiceCollection services)
+        public static IServiceCollection AddCommonMicroserviceConfiguration(this IServiceCollection services)
+        {
+            services.AddCommonMicroserviceAuthentication();
+            services.AddMicroserviceDiscovery();
+            services.AddCommonCorsPolicy();
+
+            return services;
+        }
+
+        private static IServiceCollection AddCommonCorsPolicy(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CorsPolicy.ALLOW_ALL, policy => { policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
+            });
+
+            return services;
+        }
+
+        private static IServiceCollection AddCommonMicroserviceAuthentication(this IServiceCollection services)
         {
             var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
             var key = Encoding.UTF8.GetBytes(configuration[ConfigKey.Authentication.JWTSymmetricKey.Path]);
