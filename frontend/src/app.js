@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Home from "./components/pages/home";
-import Profile from "./components/pages/profile";
+import BlogPage from "./components/pages/blog";
+import UserPage from "./components/pages/user";
 import TopBar from "./components/Topbar";
 import styles from "./global/scss/app.scss";
 import ThemeContext, { themes } from "./ThemeContext";
@@ -54,7 +54,7 @@ const App = () => {
     const [isCollapsed, toggleCollapsed] = useCollapseToggler();
 
     const [activeSideBarItem, setActiveSideBarItem] = useState(
-        SideBarItems.home
+        SideBarItems.blog
     );
 
     useEffect(() => {
@@ -102,11 +102,11 @@ const App = () => {
                             <Route
                                 path="/"
                                 exact
-                                render={props => <Home {...props} />}
+                                render={props => <BlogPage {...props} />}
                             />
                             <Route
-                                path="/profile"
-                                render={props => <Profile {...props} />}
+                                path="/user"
+                                render={props => <UserPage {...props} />}
                             />
                         </Switch>
                     </div>

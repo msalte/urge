@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Urge.Blog.Models;
@@ -20,9 +21,14 @@ namespace Urge.Blog.Controllers
         [HttpPost("articles")]
         public async Task<IActionResult> CreateDocument([FromBody] Article article)
         {
-            var created = await _articlesService.CreateArticleAsync(article);
+            if (ModelState.IsValid)
+            {
+                var created = await _articlesService.CreateArticleAsync(article);
 
-            return Created("articles", created);
+                return Created("articles", created);
+            }
+
+            throw new ArgumentException("Could not create article. Input model state was invalid.");
         }
 
         [AllowAnonymous]

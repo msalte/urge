@@ -39,7 +39,7 @@ export default props => {
                     to={"/"}
                     className={styles.brand}
                     onClick={() =>
-                        navContext.setActiveSideBarItem(SideBarItems.home)
+                        navContext.setActiveSideBarItem(SideBarItems.blog)
                     }
                 >
                     Urge

@@ -6,17 +6,17 @@ const NavigationContext = React.createContext({
 });
 
 export const SideBarItems = {
-    home: {
-        key: "home",
-        displayName: "Home",
+    blog: {
+        key: "blog",
+        displayName: "Blog",
         icon: "home",
         link: "/",
     },
-    profile: {
-        key: "profile",
-        displayName: "Profile",
+    user: {
+        key: "user",
+        displayName: "User",
         icon: "user",
-        link: "/profile",
+        link: "/user",
     },
 };
 
