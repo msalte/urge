@@ -9,6 +9,8 @@ namespace Urge.Common.Configuration
     {
         private readonly bool _isDevelopmentEnvironment;
 
+        private const string AZURE_PREFIX = "Azure--";
+
         public PrefixKeyVaultSecretManager(IHostingEnvironment env)
         {
             _isDevelopmentEnvironment = env.IsDevelopment();
@@ -16,7 +18,14 @@ namespace Urge.Common.Configuration
 
         public string GetKey(SecretBundle secret)
         {
-            return secret.SecretIdentifier.Name.Replace("--", ConfigurationPath.KeyDelimiter);
+            var value = secret.SecretIdentifier.Name;
+
+            if (value.StartsWith(AZURE_PREFIX))
+            {
+                value = value.Substring(AZURE_PREFIX.Length);
+            }
+
+            return value.Replace("--", ConfigurationPath.KeyDelimiter);
 
         }
 
@@ -25,7 +34,7 @@ namespace Urge.Common.Configuration
             if (_isDevelopmentEnvironment)
             {
                 // In dev env, only load secrets that doesn't start with "Azure".
-                return !secret.Identifier.Name.StartsWith("Azure");
+                return !secret.Identifier.Name.StartsWith(AZURE_PREFIX);
             }
 
             return true;
