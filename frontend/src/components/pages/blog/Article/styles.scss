@@ -1,0 +1,41 @@
+.container {
+    --title-bg-color: #ccc;
+    --content-bg-color: #f2f2f2;
+
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - (var(--grid-unit) * 2px));
+    margin: calc((var(--grid-unit) * 1px));
+    box-sizing: border-box;
+    color: #000;
+    cursor: pointer;
+
+    @media only screen and (max-width: 767px) {
+        width: calc(100% - (var(--grid-unit) * 2px));
+        margin: calc((var(--grid-unit) * 1px));
+    }
+
+    &:hover {
+        --title-bg-color: #888;
+        --content-bg-color: #888;
+    }
+
+    > div {
+        padding: calc((var(--grid-unit) * 1px));
+        transition-property: background;
+        transition-duration: 0.5s;
+    }
+
+    .title {
+        border-radius: calc((var(--grid-unit) * 1px)) calc((var(--grid-unit) * 1px)) 0 0;
+        background: var(--title-bg-color);
+        font-weight: 700;
+    }
+
+    .content {
+        border-radius: 0 0 calc((var(--grid-unit) * 1px)) calc((var(--grid-unit) * 1px));
+        background: var(--content-bg-color);
+        border-bottom: 5px solid var(--background-color);
+        height: 100%;
+    }
+}

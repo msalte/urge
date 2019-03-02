@@ -8,7 +8,7 @@
     font-size: 14px;
     background: var(--background-color);
     color: var(--text-color);
-    border-radius: 5px;
+    border-radius: calc((var(--grid-unit) * 1px));
     border: 1px solid var(--border-color);
     height: 35px;
     box-sizing: border-box;

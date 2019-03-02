@@ -2,7 +2,7 @@
     --background-color: #fff;
     --text-color: #555;
 
-    border-radius: 5px;
+    border-radius: calc((var(--grid-unit) * 1px));
     border: 1px solid #ccc;
     padding: 10px;
     background: #fff;
