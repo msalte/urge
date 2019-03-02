@@ -58,6 +58,12 @@
         &:hover {
             background: var(--menu-item-color-active);
         }
+
+        .externalIcon {
+            margin-left: calc(var(--grid-unit) * 1px);
+            font-size: 10px;
+            color: #999;
+        }
     }
 
     .collapseButton {

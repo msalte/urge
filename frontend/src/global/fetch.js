@@ -23,7 +23,13 @@ export const fetch = (url, params = null, options = {}) => {
         url,
         Object.assign(addBearerToken(defaultOptions), options)
     ).then(response => {
-        return response.json();
+        if (response.ok) {
+            return response.json();
+        } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+        }
     });
 };
 

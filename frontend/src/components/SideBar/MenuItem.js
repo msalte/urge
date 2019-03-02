@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 
-export default props => {
-    const { icon, onClick, isCollapsed, isActive, link } = props;
-
+export default ({ icon, onClick, isCollapsed, isActive, link, children }) => {
     return (
         <Link
             onClick={() => onClick()}
@@ -23,7 +21,28 @@ export default props => {
             >
                 <FontAwesomeIcon icon={icon} />
             </div>
-            {props.children}
+            {children}
         </Link>
+    );
+};
+
+export const ExternalMenuItem = ({ icon, link, isCollapsed, children }) => {
+    return (
+        <a href={link} target="_blank" className={styles.menuItem}>
+            <div
+                className={classNames(styles.icon, {
+                    [styles.collapsed]: isCollapsed,
+                })}
+            >
+                <FontAwesomeIcon icon={icon} />
+            </div>
+            {children}
+            {!isCollapsed && (
+                <FontAwesomeIcon
+                    icon="external-link-alt"
+                    className={styles.externalIcon}
+                />
+            )}
+        </a>
     );
 };

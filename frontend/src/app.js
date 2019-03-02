@@ -13,6 +13,7 @@ import { useCollapseToggler } from "./components/SideBar/hooks";
 
 import "typeface-nunito";
 import { library } from "@fortawesome/fontawesome-svg-core";
+
 import {
     faHome,
     faUser,
@@ -22,6 +23,9 @@ import {
     faTimes,
     faAngleRight,
     faAngleLeft,
+    faCodeBranch,
+    faExternalLinkAlt,
+    faBook,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -32,7 +36,10 @@ library.add(
     faSearch,
     faTimes,
     faAngleRight,
-    faAngleLeft
+    faAngleLeft,
+    faCodeBranch,
+    faExternalLinkAlt,
+    faBook
 );
 
 const useThemeToggler = () => {

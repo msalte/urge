@@ -3,7 +3,7 @@ import styles from "./styles.scss";
 import classNames from "classnames";
 import Button from "../Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import MenuItem from "./MenuItem";
+import MenuItem, { ExternalMenuItem } from "./MenuItem";
 import ThemeContext, { themes } from "../../ThemeContext";
 import NavigationContext, { SideBarItems } from "../../NavigationContext";
 import { LargerThanPhone } from "../Responsive";
@@ -21,6 +21,19 @@ export default ({ isCollapsed, toggleCollapsed }) => {
         >
             {Object.keys(SideBarItems).map(key => {
                 const item = SideBarItems[key];
+
+                if (item.isExternal) {
+                    return (
+                        <ExternalMenuItem
+                            key={key}
+                            link={item.link}
+                            isCollapsed={isCollapsed}
+                            icon={item.icon}
+                        >
+                            {!isCollapsed && `${item.displayName}`}
+                        </ExternalMenuItem>
+                    );
+                }
 
                 return (
                     <MenuItem

@@ -9,7 +9,7 @@ export const SideBarItems = {
     blog: {
         key: "blog",
         displayName: "Blog",
-        icon: "home",
+        icon: "book",
         link: "/",
     },
     user: {
@@ -17,6 +17,13 @@ export const SideBarItems = {
         displayName: "User",
         icon: "user",
         link: "/user",
+    },
+    github: {
+        key: "github",
+        displayName: "GitHub",
+        icon: "code-branch",
+        isExternal: true,
+        link: "https://github.com/msalte/urge",
     },
 };
 
