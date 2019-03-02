@@ -1,6 +1,7 @@
 .container {
     --title-bg-color: #ccc;
     --content-bg-color: #f2f2f2;
+    --shadow-bg-color: #c2c2c2;
 
     display: flex;
     flex-direction: column;
@@ -15,15 +16,19 @@
         margin: calc((var(--grid-unit) * 1px));
     }
 
+    &.dark {
+        --shadow-bg-color: #555;
+    }
+
     &:hover {
-        --title-bg-color: #888;
-        --content-bg-color: #888;
+        --title-bg-color: #b3b3b3;
+        --content-bg-color: #d9d9d9;
     }
 
     > div {
         padding: calc((var(--grid-unit) * 1px));
         transition-property: background;
-        transition-duration: 0.5s;
+        transition-duration: 0.1s;
     }
 
     .title {
@@ -35,7 +40,7 @@
     .content {
         border-radius: 0 0 calc((var(--grid-unit) * 1px)) calc((var(--grid-unit) * 1px));
         background: var(--content-bg-color);
-        border-bottom: 5px solid var(--background-color);
+        border-bottom: calc((var(--grid-unit) * 0.5px)) solid var(--shadow-bg-color);
         height: 100%;
     }
 }
