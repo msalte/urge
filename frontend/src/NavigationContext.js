@@ -12,11 +12,11 @@ export const SideBarItems = {
         icon: "book",
         link: "/",
     },
-    user: {
-        key: "user",
-        displayName: "User",
-        icon: "user",
-        link: "/user",
+    arduino: {
+        key: "arduino",
+        displayName: "Arduino",
+        icon: "chart-bar",
+        link: "/arduino",
     },
     github: {
         key: "github",

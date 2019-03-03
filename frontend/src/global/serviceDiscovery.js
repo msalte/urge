@@ -5,4 +5,7 @@ export default {
     getBlogApi: () => {
         return window.serviceEndpoints["blog"];
     },
+    getSpaApi: () => {
+        return window.serviceEndpoints["spa"];
+    },
 };

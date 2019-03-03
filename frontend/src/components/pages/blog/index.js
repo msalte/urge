@@ -26,7 +26,7 @@ export default () => {
     return (
         <div className={styles.container}>
             {isFetching && <Spinner text="Loading articles..." />}
-            {!isFetching && error && error}
+            {!isFetching && error && error.toString()}
             {articles.map(article => {
                 return <Article key={article.id} article={article} />;
             })}

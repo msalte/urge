@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import BlogPage from "./components/pages/blog";
-import UserPage from "./components/pages/user";
+import ArduinoPage from "./components/pages/arduino";
 import TopBar from "./components/Topbar";
 import styles from "./global/scss/app.scss";
 import ThemeContext, { themes } from "./ThemeContext";
@@ -26,6 +26,7 @@ import {
     faCodeBranch,
     faExternalLinkAlt,
     faBook,
+    faChartBar,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -39,7 +40,8 @@ library.add(
     faAngleLeft,
     faCodeBranch,
     faExternalLinkAlt,
-    faBook
+    faBook,
+    faChartBar
 );
 
 const useThemeToggler = () => {
@@ -66,6 +68,7 @@ const App = () => {
 
     useEffect(() => {
         const root = document.documentElement;
+        root.style.setProperty("height", "100%");
 
         switch (activeTheme) {
             case themes.light:
@@ -112,8 +115,8 @@ const App = () => {
                                 render={props => <BlogPage {...props} />}
                             />
                             <Route
-                                path="/user"
-                                render={props => <UserPage {...props} />}
+                                path="/arduino"
+                                render={props => <ArduinoPage {...props} />}
                             />
                         </Switch>
                     </div>
