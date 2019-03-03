@@ -6,7 +6,7 @@ import ArduinoPage from "./components/pages/arduino";
 import TopBar from "./components/Topbar";
 import styles from "./global/scss/app.scss";
 import ThemeContext, { themes } from "./ThemeContext";
-import NavigationContext, { SideBarItems } from "./NavigationContext";
+import NavigationContext from "./NavigationContext";
 import classNames from "classnames";
 import SideBar from "./components/SideBar";
 import { useCollapseToggler } from "./components/SideBar/hooks";
@@ -61,10 +61,7 @@ const useThemeToggler = () => {
 const App = () => {
     const [activeTheme, toggleTheme] = useThemeToggler();
     const [isCollapsed, toggleCollapsed] = useCollapseToggler();
-
-    const [activeSideBarItem, setActiveSideBarItem] = useState(
-        SideBarItems.blog
-    );
+    const [activeSideBarItem, setActiveSideBarItem] = useState(null);
 
     useEffect(() => {
         const root = document.documentElement;

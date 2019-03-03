@@ -4,11 +4,18 @@ import { fetch } from "../../../global/fetch";
 import serviceDiscovery from "../../../global/serviceDiscovery";
 import Spinner from "../../Spinner";
 import Article from "./Article";
+import NavigationContext, { SideBarItems } from "../../../NavigationContext";
 
 export default () => {
+    const navContext = React.useContext(NavigationContext);
+
     const [articles, setArticles] = useState([]);
     const [isFetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        navContext.setActiveSideBarItem(SideBarItems.blog);
+    }, []);
 
     useEffect(() => {
         setFetching(true);

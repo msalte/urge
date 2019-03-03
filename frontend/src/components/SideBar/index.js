@@ -42,7 +42,9 @@ export default ({ isCollapsed, toggleCollapsed }) => {
                         isCollapsed={isCollapsed}
                         isActive={navContext.activeSideBarItem === item}
                         icon={item.icon}
-                        onClick={() => navContext.setActiveSideBarItem(item)}
+                        onClick={() => {
+                            /* ignore, required to avoid page re-load  */
+                        }}
                     >
                         {!isCollapsed && `${item.displayName}`}
                     </MenuItem>

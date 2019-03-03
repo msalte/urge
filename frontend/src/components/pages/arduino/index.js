@@ -5,6 +5,7 @@ import styles from "./styles.scss";
 import highcharts from "highcharts/highstock";
 import HighchartsRect from "highcharts-react-official";
 import Spinner from "../../Spinner";
+import NavigationContext, { SideBarItems } from "../../../NavigationContext";
 
 const renderChart = data => {
     const categories = data.map(d => d.timestamp);
@@ -73,9 +74,15 @@ const renderChart = data => {
 };
 
 export default () => {
+    const navContext = React.useContext(NavigationContext);
+
     const [data, setData] = useState(null);
     const [isFetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        navContext.setActiveSideBarItem(SideBarItems.arduino);
+    }, []);
 
     useEffect(() => {
         setFetching(true);

@@ -4,7 +4,6 @@ import classNames from "classnames";
 import { Link } from "react-router-dom";
 import SearchBar from "../SearchBar";
 import ThemeContext, { themes } from "../../ThemeContext";
-import NavigationContext, { SideBarItems } from "../../NavigationContext";
 import Button from "../Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -26,7 +25,6 @@ export const TopBarLink = props => {
 
 export default props => {
     const themeContext = useContext(ThemeContext);
-    const navContext = useContext(NavigationContext);
 
     return (
         <div
@@ -38,9 +36,6 @@ export default props => {
                 <Link
                     to={"/"}
                     className={styles.brand}
-                    onClick={() =>
-                        navContext.setActiveSideBarItem(SideBarItems.blog)
-                    }
                 >
                     Urge
                 </Link>
