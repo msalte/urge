@@ -37,7 +37,7 @@ namespace Urge.SPA.Controllers
 
             return new ArduinoData
             {
-                Timestamp = DateTime.Parse(parts[0]).ToString("T"),
+                Timestamp = DateTime.Parse(parts[0]).ToString("HH:mm:ss", CultureInfo.InvariantCulture),
                 Sensor1 = double.Parse(parts[1], CultureInfo.InvariantCulture),
                 Sensor2 = double.Parse(parts[2], CultureInfo.InvariantCulture),
                 Sensor3 = double.Parse(parts[3], CultureInfo.InvariantCulture),

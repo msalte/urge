@@ -13,7 +13,7 @@ const renderChart = data => {
     const sensor2Data = data.map(d => d.sensor2);
     const sensor3Data = data.map(d => d.sensor3);
     const sensor4Data = data.map(d => d.sensor4);
-    const sensor5Data = data.map(d => d.sensor4);
+    const sensor5Data = data.map(d => d.sensor5);
     const sensor6Data = data.map(d => d.sensor6);
 
     const options = {
