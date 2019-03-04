@@ -31,7 +31,7 @@ export default () => {
     }, []);
 
     return (
-        <div className={styles.container}>
+        <div className={styles.blogContainer}>
             {isFetching && <Spinner text="Loading articles..." />}
             {!isFetching && error && error.toString()}
             {articles.map(article => {

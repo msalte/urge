@@ -125,7 +125,7 @@ export default () => {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={styles.arduinoContainer}>
             {isFetching && <Spinner text="Loading Arduino data..." />}
             {!isFetching &&
                 data &&
