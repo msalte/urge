@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { fetch } from "../../../global/fetch";
 import serviceDiscovery from "../../../global/serviceDiscovery";
 import styles from "./styles.scss";
@@ -6,8 +6,9 @@ import highcharts from "highcharts/highstock";
 import HighchartsRect from "highcharts-react-official";
 import Spinner from "../../Spinner";
 import NavigationContext, { SideBarItems } from "../../../NavigationContext";
+import ThemeContext, { themes } from "../../../ThemeContext";
 
-const renderChart = data => {
+const renderChart = (data, isDark) => {
     const categories = data.map(d => d.timestamp);
     const sensor1Data = data.map(d => d.sensor1);
     const sensor2Data = data.map(d => d.sensor2);
@@ -21,6 +22,7 @@ const renderChart = data => {
         chart: {
             type: "spline",
             zoomType: "xy",
+            backgroundColor: isDark ? "#666" : "#fff",
         },
         xAxis: {
             title: { text: "" },
@@ -31,9 +33,29 @@ const renderChart = data => {
                 enabled: true,
             },
             tickLength: 0,
+            labels: {
+                style: {
+                    color: isDark ? "#ccc" : "#000",
+                },
+            },
+        },
+        legend: {
+            itemHiddenStyle: { color: isDark ? "#999" : "#ccc" },
+            itemHoverStyle: { color: isDark ? "#ccc" : "#000" },
+            itemStyle: {
+                color: isDark ? "#ccc" : "#000",
+            },
         },
         yAxis: {
-            title: { text: "Termperature" },
+            title: {
+                text: "Temperature",
+                style: { color: isDark ? "#ccc" : "#000" },
+            },
+            labels: {
+                style: {
+                    color: isDark ? "#ccc" : "#000",
+                },
+            },
         },
         tooltip: { shared: true },
         series: [
@@ -74,7 +96,8 @@ const renderChart = data => {
 };
 
 export default () => {
-    const navContext = React.useContext(NavigationContext);
+    const navContext = useContext(NavigationContext);
+    const themeContext = useContext(ThemeContext);
 
     const [data, setData] = useState(null);
     const [isFetching, setFetching] = useState(false);
@@ -104,7 +127,9 @@ export default () => {
     return (
         <div className={styles.container}>
             {isFetching && <Spinner text="Loading Arduino data..." />}
-            {!isFetching && data && renderChart(data)}
+            {!isFetching &&
+                data &&
+                renderChart(data, themeContext.theme === themes.dark)}
         </div>
     );
 };
