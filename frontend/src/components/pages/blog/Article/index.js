@@ -1,19 +1,24 @@
-import React, { useContext } from "react";
+import React from "react";
 import styles from "./styles.scss";
-import ThemeContext, { themes } from "../../../../ThemeContext";
-import classNames from "classnames";
+import Card from "../../../Card";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default ({ article }) => {
-    const themeContext = useContext(ThemeContext);
+    const footer = (
+        <div className={styles.articleFooter}>
+            <FontAwesomeIcon icon="long-arrow-alt-right" />
+        </div>
+    );
 
     return (
-        <div
-            className={classNames(styles.container, {
-                [styles.dark]: themeContext.theme === themes.dark,
-            })}
-        >
-            <div className={styles.title}>{article.title}</div>
-            <div className={styles.content}>{article.content}</div>
+        <div className={styles.articleContainer}>
+            <Card
+                title={article.title}
+                body={article.content}
+                footer={footer}
+                enableHover
+            />
         </div>
     );
 };

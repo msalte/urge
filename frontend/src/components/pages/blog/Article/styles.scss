@@ -1,46 +1,19 @@
-.container {
-    --title-bg-color: #ccc;
-    --content-bg-color: #f2f2f2;
-    --shadow-bg-color: #c2c2c2;
-
+.articleContainer {
     display: flex;
     flex-direction: column;
-    width: calc(50% - (var(--grid-unit) * 2px));
-    margin: calc((var(--grid-unit) * 1px));
+    width: 50%;
     box-sizing: border-box;
     color: #000;
     cursor: pointer;
 
     @media only screen and (max-width: 767px) {
-        width: calc(100% - (var(--grid-unit) * 2px));
-        margin: calc((var(--grid-unit) * 1px));
+        width: 100%;
     }
+}
 
-    &.dark {
-        --shadow-bg-color: #555;
-    }
-
-    &:hover {
-        --title-bg-color: #b3b3b3;
-        --content-bg-color: #d9d9d9;
-    }
-
-    > div {
-        padding: calc((var(--grid-unit) * 1px));
-        transition-property: background;
-        transition-duration: 0.1s;
-    }
-
-    .title {
-        border-radius: calc((var(--grid-unit) * 1px)) calc((var(--grid-unit) * 1px)) 0 0;
-        background: var(--title-bg-color);
-        font-weight: 700;
-    }
-
-    .content {
-        border-radius: 0 0 calc((var(--grid-unit) * 1px)) calc((var(--grid-unit) * 1px));
-        background: var(--content-bg-color);
-        border-bottom: calc((var(--grid-unit) * 0.5px)) solid var(--shadow-bg-color);
-        height: 100%;
-    }
+.articleFooter {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    color: #c2c2c2;
 }

@@ -32,35 +32,12 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            padding: 0 calc(var(--grid-unit) * 5px);
+            text-decoration: none;
             cursor: pointer;
-            text-decoration: none;
-            transition-property: transform;
-            transition-duration: 0.5s;
 
-            &:hover {
-                transform: rotate(360deg);
-            }
-        }
-
-        .link {
-            text-decoration: none;
-            color: var(--text-color);
-            display: flex;
-            align-items: center;
-            padding: 0 calc(var(--grid-unit) * 2px);
-            height: 100%;
-            position: relative;
-            transition-property: background;
-            transition-duration: 0.15s;
-
-            &.active {
-                background: var(--background-color-active);
-            }
-
-            &:hover {
-                cursor: pointer;
-                background: var(--background-color-active);
+            @media only screen and (max-width: 767px) {
+                padding: 0 calc(var(--grid-unit) * 2px);
+                margin-right: calc(var(--grid-unit) * 2px);
             }
         }
     }

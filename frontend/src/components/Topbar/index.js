@@ -33,10 +33,7 @@ export default props => {
             })}
         >
             <div className={styles.items}>
-                <Link
-                    to={"/"}
-                    className={styles.brand}
-                >
+                <Link to={"/"} className={styles.brand}>
                     Urge
                 </Link>
                 {props.children}

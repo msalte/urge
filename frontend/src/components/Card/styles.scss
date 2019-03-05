@@ -5,7 +5,6 @@
     background-color: #fff;
     transition-property: background-color;
     transition-duration: 0.2s;
-    width: 300px;
     margin: calc(var(--grid-unit) * 1px);
     box-sizing: border-box;
 
@@ -17,7 +16,8 @@
     }
 
     &.darkTheme {
-        background-color: #333;
+        background-color: #555;
+        color: #ccc;
 
         &.enableHover {
             &:hover {
@@ -28,10 +28,11 @@
     }
 
     .banner {
-        padding: calc(var(--grid-unit) * 1px);
     }
 
     .title {
+        padding: calc(var(--grid-unit) * 1px);
+        font-weight: 700;
     }
 
     .body {

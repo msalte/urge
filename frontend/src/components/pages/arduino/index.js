@@ -27,6 +27,7 @@ const renderChart = (data, isDark) => {
         xAxis: {
             title: { text: "" },
             categories: categories,
+            lineColor: isDark ? "#777" : "#e6e6e6",
             min: 0,
             max: 10,
             scrollbar: {
@@ -56,6 +57,7 @@ const renderChart = (data, isDark) => {
                     color: isDark ? "#ccc" : "#000",
                 },
             },
+            gridLineColor: isDark ? "#777" : "#e6e6e6",
         },
         tooltip: { shared: true },
         series: [

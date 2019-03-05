@@ -27,6 +27,7 @@ import {
     faExternalLinkAlt,
     faBook,
     faChartBar,
+    faLongArrowAltRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -41,7 +42,8 @@ library.add(
     faCodeBranch,
     faExternalLinkAlt,
     faBook,
-    faChartBar
+    faChartBar,
+    faLongArrowAltRight
 );
 
 const useThemeToggler = () => {
