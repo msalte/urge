@@ -32,7 +32,7 @@ export default () => {
 
     return (
         <div className={styles.blogContainer}>
-            {isFetching && <Spinner text="Loading articles..." />}
+            {isFetching && <Spinner floating text="Loading articles..." />}
             {!isFetching && error && error.toString()}
             {articles.map(article => {
                 return <Article key={article.id} article={article} />;

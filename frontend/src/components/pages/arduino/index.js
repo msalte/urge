@@ -94,7 +94,11 @@ const renderChart = (data, isDark) => {
         ],
     };
 
-    return <HighchartsRect options={options} highcharts={highcharts} />;
+    return (
+        <div className={styles.chart}>
+            <HighchartsRect options={options} highcharts={highcharts} />
+        </div>
+    );
 };
 
 export default () => {
@@ -128,7 +132,7 @@ export default () => {
 
     return (
         <div className={styles.arduinoContainer}>
-            {isFetching && <Spinner text="Loading Arduino data..." />}
+            {isFetching && <Spinner floating text="Loading Arduino data..." />}
             {!isFetching &&
                 data &&
                 renderChart(data, themeContext.theme === themes.dark)}

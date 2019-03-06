@@ -1,9 +1,15 @@
 .arduinoContainer {
+    display: flex;
     width: 100%;
     height: 100%;
 
-    > div {
+    .chart {
         width: 100%;
         height: 100%;
+        
+        > div {
+            width: 100%;
+            height: 100%;
+        }
     }
 }
