@@ -3,22 +3,13 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background: var(--background-color);
-    height: 50px;
+    background: var(--bg-sidebar);
+    height: var(--height-topbar);
     box-sizing: border-box;
     width: 100%;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color-sidebar);
     padding: 0 calc(var(--grid-unit) * 2px);
     justify-content: space-between;
-
-    &.dark {
-        --background-color: #333;
-        --border-color: #444;
-        --text-color: #c2c2c2;
-
-        // menus
-        --menu-item-color-active: #555;
-    }
 
     .items {
         display: flex;
@@ -27,7 +18,7 @@
 
         .brand {
             height: 100%;
-            color: var(--text-color);
+            color: var(--text-color-sidebar);
             align-self: center;
             display: flex;
             flex-direction: row;

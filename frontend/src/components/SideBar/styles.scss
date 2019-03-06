@@ -1,31 +1,19 @@
 .sideBar {
-    --sidebar-width: 250px;
-
     position: fixed;
     display: flex;
-    background: var(--background-color);
+    background: var(--bg-sidebar);
     flex-direction: column;
     flex-shrink: 0;
     height: 100%;
+    width: var(--width-sidebar);
     padding-top: calc(var(--grid-unit) * 2px);
     box-sizing: border-box;
-    width: var(--sidebar-width);
     transition-property: width;
     transition-duration: 0.2s;
-    border-right: 1px solid var(--border-color);
-
-    --menu-item-color-active: #e8e8e6;
-
-    &.dark {
-        --background-color: #333;
-        --border-color: #444;
-        --text-color: #c2c2c2;
-        --menu-item-color-active: #555;
-        --icon-color: #c2c2c2;
-    }
+    border-right: 1px solid var(--border-color-sidebar);
 
     &.collapsed {
-        width: 60px;
+        --width-sidebar: var(--width-sidebar-collapsed);
     }
 
     .menuItem {
@@ -35,16 +23,16 @@
         height: calc(var(--grid-unit) * 6px);
         width: 100%;
         padding: 0 calc(var(--grid-unit) * 2px);
-        cursor: pointer;
         text-decoration: none;
         transition-property: background;
         transition-duration: 0.1s;
-        color: var(--text-color);
+        color: var(--text-color-sidebar);
+        cursor: pointer;
 
         .icon {
             display: flex;
-            width: var(--icon-width);
-            color: var(--icon-color);
+            width: var(--width-icon);
+            color: var(--icon-color-sidebar);
 
             &.collapsed {
                 justify-content: center;
@@ -52,17 +40,17 @@
         }
 
         &.active {
-            background: var(--menu-item-color-active);
+            background: var(--bg-menuitem-active);
         }
 
         &:hover {
-            background: var(--menu-item-color-active);
+            background: var(--bg-menuitem-active);
         }
 
         .externalIcon {
             margin-left: calc(var(--grid-unit) * 1px);
             font-size: 10px;
-            color: #999;
+            color: var(--icon-color-external-link);
         }
     }
 
@@ -70,7 +58,7 @@
         width: calc(var(--grid-unit) * 5px);
         position: absolute;
         bottom: 60px;
-        left: calc(var(--sidebar-width) - 50px);
+        left: calc(var(--width-sidebar) - 50px);
         transition-property: left;
         transition-duration: 0.2s;
 

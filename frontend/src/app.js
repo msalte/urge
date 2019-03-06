@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import BlogPage from "./components/pages/blog";
 import ArduinoPage from "./components/pages/arduino";
 import TopBar from "./components/Topbar";
 import styles from "./global/scss/app.scss";
-import ThemeContext, { themes } from "./ThemeContext";
 import NavigationContext from "./NavigationContext";
 import classNames from "classnames";
 import SideBar from "./components/SideBar";
 import { useCollapseToggler } from "./components/SideBar/hooks";
+import ThemeContext, { themes } from "./ThemeContext";
 
 import "typeface-nunito";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -65,20 +65,6 @@ const App = () => {
     const [isCollapsed, toggleCollapsed] = useCollapseToggler();
     const [activeSideBarItem, setActiveSideBarItem] = useState(null);
 
-    useEffect(() => {
-        const root = document.documentElement;
-        root.style.setProperty("height", "100%");
-
-        switch (activeTheme) {
-            case themes.light:
-                root.style.setProperty("background", "#fff");
-                break;
-            case themes.dark:
-                root.style.setProperty("background", "#666");
-                break;
-        }
-    }, [activeTheme]);
-
     return (
         <ThemeContext.Provider
             value={{
@@ -92,7 +78,9 @@ const App = () => {
                     setActiveSideBarItem: item => setActiveSideBarItem(item),
                 }}
             >
-                <TopBar />
+                <TopBar
+                    className={activeTheme === themes.dark ? styles.dark : null}
+                />
                 <div
                     className={classNames(styles.container, {
                         [styles.dark]: activeTheme === themes.dark,

@@ -1,10 +1,61 @@
 :root {
+    // sizes
     --grid-unit: 8;
+    --width-icon: calc(var(--grid-unit) * 4px);
+    --width-sidebar: 250px;
+    --width-sidebar-collapsed: 60px;
+    --height-topbar: 50px;
 
-    --background-color: #f3f3f3;
-    --background-color-content: #fff;
-    --border-color: #ccc;
-    --text-color: #000;
-    --icon-color: #555;
-    --icon-width: calc(var(--grid-unit) * 4px);
+    // colors
+    --border-color-sidebar: #ccc;
+    --border-color-button: #ccc;
+    --border-color-input: #ccc;
+
+    --icon-color-sidebar: #555;
+    --icon-color-button: #555;
+    --icon-color-external-link: #999;
+
+    --text-color-content: #000;
+    --text-color-sidebar: #000;
+    --text-color-input: #000;
+    --text-color-link: #c2c2c2;
+
+    --bg: #fff;
+    --bg-sidebar: #f3f3f3;
+    --bg-button: #e2e2e2;
+    --bg-button-active: #099;
+    --bg-card: var(--bg);
+    --bg-card-hover: var(--bg-button);
+    --bg-spinner: #ccc;
+    --bg-spinner-spin: #099;
+    --bg-input: #fff;
+    --bg-menuitem: var(--bg-sidebar);
+    --bg-menuitem-active: #e8e8e6;
+
+    .dark {
+        --border-color-sidebar: #444;
+        --border-color-button: #ccc;
+        --border-color-input: #ccc;
+
+        --icon-color-sidebar: #c2c2c2;
+        --icon-color-button: #fff;
+        --icon-color-external-link: #999;
+
+        --text-color-content: #c2c2c2;
+        --text-color-sidebar: #c2c2c2;
+        --text-color-input: #000;
+        --text-color-link: #c2c2c2;
+
+        --bg: #666;
+        --bg-sidebar: #333;
+        --bg-button: #666;
+        --bg-button-active: #099;
+        --bg-card: var(--bg);
+        --bg-card-hover: var(--bg-button);
+        --bg-spinner: #ccc;
+        --bg-spinner-spin: #099;
+        --bg-input: #fff;
+        --bg-menuitem: var(--bg-sidebar);
+        --bg-menuitem-active: #555;
+    }
 }

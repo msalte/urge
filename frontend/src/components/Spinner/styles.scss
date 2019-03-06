@@ -20,9 +20,6 @@
     .spinner {
         width: 16px;
         height: 16px;
-
-        --spinner-background-color: #ccc;
-        --spinner-progress-color: #099;
     }
 
     .spinner:after {
@@ -32,8 +29,8 @@
         width: 16px;
         height: 16px;
         border-radius: 50%;
-        border: 1px solid var(--spinner-background-color);
-        border-top-color: var(--spinner-progress-color);
+        border: 1px solid var(--bg-spinner);
+        border-top-color: var(--bg-spinner-spin);
         animation: spinner 1.2s infinite linear;
     }
 

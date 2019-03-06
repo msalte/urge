@@ -1,28 +1,17 @@
 .button {
-    --background-color: #ccc;
-    --background-color-active: #c2c2c2;
-    --text-color: #000;
-    --border-color: #999;
-
     font-family: "Nunito";
     font-size: 14px;
-    background: var(--background-color);
-    color: var(--text-color);
+    background: var(--bg-button);
+    color: var(--icon-color-button);
     border-radius: calc((var(--grid-unit) * 1px));
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color-button);
     height: 35px;
     box-sizing: border-box;
     outline: none;
     cursor: pointer;
 
     &:active {
-        background: var(--background-color-active);
-    }
-
-    &.dark {
-        --background-color: #333;
-        --text-color: #ccc;
-        --background-color-active: #444;
+        background: var(--bg-button-active);
     }
 
     &.stretch {

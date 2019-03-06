@@ -3,9 +3,9 @@ import styles from "./styles.scss";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import SearchBar from "../SearchBar";
-import ThemeContext, { themes } from "../../ThemeContext";
 import Button from "../Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ThemeContext, { themes } from "../../ThemeContext";
 
 export const TopBarLink = props => {
     const { isActive, item, onClick } = props;
@@ -27,11 +27,7 @@ export default props => {
     const themeContext = useContext(ThemeContext);
 
     return (
-        <div
-            className={classNames(styles.topbar, {
-                [styles.dark]: themeContext.theme === "dark",
-            })}
-        >
+        <div className={classNames(styles.topbar, props.className)}>
             <div className={styles.items}>
                 <Link to={"/"} className={styles.brand}>
                     Urge

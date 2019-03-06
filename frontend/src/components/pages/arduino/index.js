@@ -8,7 +8,9 @@ import Spinner from "../../Spinner";
 import NavigationContext, { SideBarItems } from "../../../NavigationContext";
 import ThemeContext, { themes } from "../../../ThemeContext";
 
-const renderChart = (data, isDark) => {
+const renderChart = (data, themeContext) => {
+    const isDark = themeContext.theme === themes.dark;
+
     const categories = data.map(d => d.timestamp);
     const sensor1Data = data.map(d => d.sensor1);
     const sensor2Data = data.map(d => d.sensor2);
@@ -133,9 +135,7 @@ export default () => {
     return (
         <div className={styles.arduinoContainer}>
             {isFetching && <Spinner floating text="Loading Arduino data..." />}
-            {!isFetching &&
-                data &&
-                renderChart(data, themeContext.theme === themes.dark)}
+            {!isFetching && data && renderChart(data, themeContext)}
         </div>
     );
 };

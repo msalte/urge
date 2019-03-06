@@ -4,19 +4,16 @@ import classNames from "classnames";
 import Button from "../Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MenuItem, { ExternalMenuItem } from "./MenuItem";
-import ThemeContext, { themes } from "../../ThemeContext";
 import NavigationContext, { SideBarItems } from "../../NavigationContext";
 import { LargerThanPhone } from "../Responsive";
 
 export default ({ isCollapsed, toggleCollapsed }) => {
-    const themeContext = React.useContext(ThemeContext);
     const navContext = React.useContext(NavigationContext);
 
     return (
         <div
             className={classNames(styles.sideBar, {
                 [styles.collapsed]: isCollapsed === true,
-                [styles.dark]: themeContext.theme === themes.dark,
             })}
         >
             {Object.keys(SideBarItems).map(key => {
