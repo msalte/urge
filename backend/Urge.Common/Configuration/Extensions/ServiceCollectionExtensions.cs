@@ -55,6 +55,16 @@ namespace Urge.Common.Configuration
             return services;
         }
 
+        public static IServiceCollection AddCommonSwagger(this IServiceCollection services, string title)
+        {
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+            {
+                Title = title,
+            }));
+
+            return services;
+        }
+
         public static IServiceCollection AddMicroserviceDiscovery(this IServiceCollection services)
         {
             var env = services.BuildServiceProvider().GetService<IHostingEnvironment>();

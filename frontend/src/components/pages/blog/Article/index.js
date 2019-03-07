@@ -1,13 +1,12 @@
 import React from "react";
 import styles from "./styles.scss";
 import Card from "../../../Card";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Button from "../../../Button";
 
 export default ({ article }) => {
     const footer = (
         <div className={styles.articleFooter}>
-            <FontAwesomeIcon icon="long-arrow-alt-right" />
+            <Button primary>Read more</Button>
         </div>
     );
 
@@ -17,7 +16,6 @@ export default ({ article }) => {
                 title={article.title}
                 body={article.content}
                 footer={footer}
-                enableHover
             />
         </div>
     );

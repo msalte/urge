@@ -8,9 +8,12 @@
 
     // colors
     --border-color-sidebar: #ccc;
-    --border-color-button: #ccc;
+    --border-color-button: #666;
+    --border-color-button-primary: #055;
     --border-color-input: #ccc;
 
+    --icon-color-menuitem: #555;
+    --icon-color-menuitem-active: #fff;
     --icon-color-sidebar: #555;
     --icon-color-button: #555;
     --icon-color-external-link: #999;
@@ -19,38 +22,54 @@
     --text-color-sidebar: #000;
     --text-color-input: #000;
     --text-color-link: #c2c2c2;
+    --text-color-button: #555;
+    --text-color-button-primary: #fff;
+    --text-color-menuitem: #000;
+    --text-color-menuitem-active: #fff;
 
     --bg: #fff;
     --bg-sidebar: #f3f3f3;
     --bg-button: #e2e2e2;
-    --bg-button-active: #099;
+    --bg-button-active: #c2c2c2;
+    --bg-button-primary: #099;
+    --bg-button-primary-active: rgba(0, 153, 153, 0.5);
     --bg-card: var(--bg);
     --bg-card-hover: var(--bg-button);
     --bg-spinner: #ccc;
     --bg-spinner-spin: #099;
     --bg-input: #fff;
     --bg-menuitem: var(--bg-sidebar);
-    --bg-menuitem-active: #e8e8e6;
+    --bg-menuitem-active: rgba(0, 153, 153, 0.5);
 
     .dark {
         --border-color-sidebar: #444;
         --border-color-button: #ccc;
+        --border-color-button-primary: #ccc;
         --border-color-input: #ccc;
 
+        --icon-color-menuitem: #c2c2c2;
+        --icon-color-menuitem-active: #c2c2c2;
         --icon-color-sidebar: #c2c2c2;
         --icon-color-button: #fff;
         --icon-color-external-link: #999;
 
-        --text-color-content: #c2c2c2;
+        --text-color-content: #ccc;
         --text-color-sidebar: #c2c2c2;
         --text-color-input: #000;
         --text-color-link: #c2c2c2;
+        --text-color-button: #ccc;
+        --text-color-button-primary: #ccc;
+        --text-color-menuitem: #c2c2c2;
+        --text-color-menuitem-active: #c2c2c2;
 
         --bg: #666;
         --bg-sidebar: #333;
         --bg-button: #666;
-        --bg-button-active: #099;
-        --bg-card: var(--bg);
+        --bg-button-active: #555;
+        --bg-button-primary: #444;
+        --bg-button-primary-active: #999;
+
+        --bg-card: #777;
         --bg-card-hover: var(--bg-button);
         --bg-spinner: #ccc;
         --bg-spinner-spin: #099;

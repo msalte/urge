@@ -1,20 +1,72 @@
+@mixin blop-animation($name, $color) {
+    @keyframes blop-#{$name} {
+        0% {
+            box-shadow: 0 0 0 4 * 1px $color;
+        }
+
+        100% {
+            box-shadow: 0 0 0 (4 * 2px) fade-out($color, 1);
+        }
+    }
+}
+
+@include blop-animation("normal", #c2c2c2);
+@include blop-animation("primary", #099);
+@include blop-animation("normal-dark", #c2c2c2);
+@include blop-animation("primary-dark", #888);
+
 .button {
     font-family: "Nunito";
     font-size: 14px;
-    background: var(--bg-button);
-    color: var(--icon-color-button);
+    background-color: var(--bg-button);
+    padding: 0 calc(var(--grid-unit) * 1px);
+    color: var(--text-color-button);
     border-radius: calc((var(--grid-unit) * 1px));
     border: 1px solid var(--border-color-button);
-    height: 35px;
+    height: 30px;
     box-sizing: border-box;
     outline: none;
     cursor: pointer;
 
-    &:active {
-        background: var(--bg-button-active);
+    &.primary {
+        background-color: var(--bg-button-primary);
+        border: 1px solid var(--border-color-button-primary);
+        color: var(--text-color-button-primary);
+    }
+
+    &.isMouseDown {
+        background-color: var(--bg-button-active);
+
+        &.primary {
+            background-color: var(--bg-button-primary-active);
+        }
+    }
+
+    &.mouseHasBeenDown {
+        animation-name: blop-#{"normal"};
+        animation-duration: 0.2s;
+
+        &.dark {
+            animation-name: blop-#{"normal-dark"};
+        }
+
+        &.primary {
+            animation-name: blop-#{"primary"};
+            animation-duration: 0.2s;
+
+            &.dark {
+                animation-name: blop-#{"primary-dark"};
+            }
+        }
     }
 
     &.stretch {
         width: 100%;
+    }
+
+    &.iconButton {
+        padding: 0;
+        height: 35px;
+        color: var(--icon-color-button);
     }
 }

@@ -24,27 +24,33 @@
         width: 100%;
         padding: 0 calc(var(--grid-unit) * 2px);
         text-decoration: none;
-        transition-property: background;
+        transition-property: background, color;
         transition-duration: 0.1s;
-        color: var(--text-color-sidebar);
+        color: var(--text-color-menuitem);
         cursor: pointer;
 
         .icon {
             display: flex;
             width: var(--width-icon);
-            color: var(--icon-color-sidebar);
+            color: var(--icon-color-menuitem);
 
             &.collapsed {
                 justify-content: center;
+            }
+
+            &.active {
+                color: var(--icon-color-menuitem-active);
             }
         }
 
         &.active {
             background: var(--bg-menuitem-active);
+            color: var(--text-color-menuitem-active);
         }
 
         &:hover {
             background: var(--bg-menuitem-active);
+            color: var(--text-color-menuitem-active);
         }
 
         .externalIcon {

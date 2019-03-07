@@ -23,6 +23,8 @@ namespace Urge.Blog.Controllers
         {
             if (ModelState.IsValid)
             {
+                // TODO: Get author from auth token
+
                 var created = await _articlesService.CreateArticleAsync(article);
 
                 return Created("articles", created);

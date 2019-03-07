@@ -43,6 +43,7 @@ namespace Urge.Blog
             });
 
             services.AddCommonMicroserviceConfiguration();
+            services.AddCommonSwagger("Blog");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +57,7 @@ namespace Urge.Blog
             app.UseCors(CorsPolicy.ALLOW_ALL);
             app.UseAuthentication();
             app.UseMvc();
+            app.UseCommonSwagger("Blog");
         }
     }
 }

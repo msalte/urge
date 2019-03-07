@@ -53,7 +53,11 @@ export default ({ isCollapsed, toggleCollapsed }) => {
                         [styles.collapsed]: isCollapsed === true,
                     })}
                 >
-                    <Button stretch onClick={() => toggleCollapsed()}>
+                    <Button
+                        iconButton
+                        stretch
+                        onClick={() => toggleCollapsed()}
+                    >
                         <FontAwesomeIcon
                             icon={isCollapsed ? "angle-right" : "angle-left"}
                         />
