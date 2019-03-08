@@ -25,6 +25,7 @@ namespace Urge.Blog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddMemoryCache();
 
             services.AddSingleton<ICosmosDb, CosmosDb>();
             services.AddSingleton<IArticlesRepository, ArticlesRepository>();
