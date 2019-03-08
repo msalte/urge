@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -7,16 +9,30 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Urge.Common.ServiceDiscovery;
+using Urge.Common.User;
 
 namespace Urge.Common.Configuration
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCommonMicroserviceConfiguration(this IServiceCollection services)
+        public static IServiceCollection AddDefaultMicroserviceConfiguration(this IServiceCollection services)
         {
+            // global auth policy
+            services.AddMvc(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
+
             services.AddCommonMicroserviceAuthentication();
             services.AddMicroserviceDiscovery();
             services.AddCommonCorsPolicy();
+
+            services.AddHttpContextAccessor();
+            services.AddTransient<IUserAccessor, UserAccessor>();
 
             return services;
         }

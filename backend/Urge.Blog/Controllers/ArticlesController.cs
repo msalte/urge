@@ -2,32 +2,41 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Urge.Blog.Models;
 using Urge.Blog.Services;
+using Urge.Blog.ViewModels;
+using Urge.Common.User;
 
 namespace Urge.Blog.Controllers
 {
-    [Authorize]
     public partial class ArticlesController : Controller
     {
         private readonly IArticlesService _articlesService;
+        private readonly IUserAccessor _userAccessor;
 
-        public ArticlesController(IArticlesService articlesService)
+        public ArticlesController(IArticlesService articlesService, IUserAccessor userAccessor)
         {
             _articlesService = articlesService;
+            _userAccessor = userAccessor;
         }
 
         [HttpPost("articles")]
-        public async Task<IActionResult> CreateDocument([FromBody] Article article)
+        public async Task<IActionResult> CreateArticle([FromBody] CreateArticleRequest request)
         {
             if (ModelState.IsValid)
             {
-                // TODO: Get author from auth token
+                var article = new Article
+                {
+                    Title = request.Title,
+                    Content = request.Content,
+                    Author = _userAccessor.ClaimsProfile.Email,
+                };
 
                 var created = await _articlesService.CreateArticleAsync(article);
 
-                return Created("articles", created);
+                return Created("articles", new ApiArticle(created));
             }
 
             throw new ArgumentException("Could not create article. Input model state was invalid.");
@@ -35,9 +44,11 @@ namespace Urge.Blog.Controllers
 
         [AllowAnonymous]
         [HttpGet("articles")]
-        public async Task<IEnumerable<Article>> GetArticles()
+        public async Task<IEnumerable<ApiArticle>> GetArticles()
         {
-            return await _articlesService.GetAllArticles();
+            var articles = await _articlesService.GetAllArticles();
+
+            return articles.Select(a => new ApiArticle(a));
         }
     }
 }

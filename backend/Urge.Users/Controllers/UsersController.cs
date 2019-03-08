@@ -12,7 +12,6 @@ using Urge.Users.ViewModels;
 
 namespace Urge.Users.Controllers
 {
-    [Authorize]
     public class UsersController : Controller
     {
         private readonly UsersContext usersContext;

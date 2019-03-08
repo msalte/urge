@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Urge.Common.ServiceDiscovery;
 
@@ -13,6 +14,7 @@ namespace Urge.SPA.Controllers
             _endpointConfig = endpointConfig;
         }
 
+        [AllowAnonymous]
         [HttpGet("/")]
         [HttpGet("/{*anything}")]
         public IActionResult Index()

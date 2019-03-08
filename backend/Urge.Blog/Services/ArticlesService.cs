@@ -15,10 +15,6 @@ namespace Urge.Blog.Services
 
     public class ArticlesService : IArticlesService
     {
-        // TODO:
-        // Resolve the user who is posting articles
-        // Pass user id to articles repository
-
         private readonly IArticlesRepository _repository;
 
         public ArticlesService(IArticlesRepository repository)

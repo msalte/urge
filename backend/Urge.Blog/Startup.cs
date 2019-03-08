@@ -24,7 +24,7 @@ namespace Urge.Blog
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddDefaultMicroserviceConfiguration();
             services.AddMemoryCache();
 
             services.AddSingleton<ICosmosDb, CosmosDb>();
@@ -42,8 +42,7 @@ namespace Urge.Blog
                 client.OpenAsync().Wait();
                 return client;
             });
-
-            services.AddCommonMicroserviceConfiguration();
+            
             services.AddCommonSwagger("Blog");
         }
 

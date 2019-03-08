@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Urge.SPA.Controllers
             this.env = env;
         }
 
+        [AllowAnonymous]
         [HttpGet("data/arduino")]
         public async Task<IActionResult> GetData()
         {
