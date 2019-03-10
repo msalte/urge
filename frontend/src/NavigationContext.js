@@ -1,9 +1,4 @@
-import React, { useContext } from "react";
-
-const NavigationContext = React.createContext({
-    activeLocation: {},
-    setActiveLocation: () => {},
-});
+import React, { useContext, useState } from "react";
 
 export const Locations = {
     blog: {
@@ -34,12 +29,32 @@ export const Locations = {
     },
 };
 
+const NavigationContext = React.createContext({
+    activeLocation: {},
+    setActiveLocation: () => {},
+});
+
 export const ensureActiveLocation = item => {
     const ctx = useContext(NavigationContext);
 
     if (ctx.activeLocation !== item) {
         ctx.setActiveLocation(item);
     }
+};
+
+export const NavigationContextStateProvider = ({ children }) => {
+    const [activeLocation, setActiveLocation] = useState(null);
+
+    return (
+        <NavigationContext.Provider
+            value={{
+                activeLocation: activeLocation,
+                setActiveLocation: item => setActiveLocation(item),
+            }}
+        >
+            {children}
+        </NavigationContext.Provider>
+    );
 };
 
 export default NavigationContext;
