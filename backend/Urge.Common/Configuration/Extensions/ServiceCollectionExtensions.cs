@@ -7,7 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using Urge.Common.ServiceDiscovery;
 using Urge.Common.User;
 
@@ -41,7 +43,14 @@ namespace Urge.Common.Configuration
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(CorsPolicy.ALLOW_ALL, policy => { policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
+                options.AddPolicy(CorsPolicy.ALLOW_ALL, policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .WithExposedHeaders("Token-Expired");
+                });
             });
 
             return services;
@@ -65,6 +74,18 @@ namespace Urge.Common.Configuration
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = false,
                     ValidateAudience = false
+                };
+                options.Events = new JwtBearerEvents()
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired", "true");
+                        }
+
+                        return Task.CompletedTask;
+                    }
                 };
             });
 

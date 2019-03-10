@@ -5,15 +5,15 @@ import ThemeContext, { themes } from "../../ThemeContext";
 
 let timeout = null;
 
-export default ({ onClick, stretch, primary, iconButton, children }) => {
+export default ({ onClick, primary, disabled, iconButton, children }) => {
     const [isMouseDown, setMouseDown] = useState(false);
     const [mouseHasBeenDown, setMouseHasBeenDown] = useState(false);
 
     const themeContext = useContext(ThemeContext);
 
     const className = classNames(styles.button, {
-        [styles.stretch]: stretch,
         [styles.primary]: primary,
+        [styles.disabled]: disabled,
         [styles.isMouseDown]: isMouseDown,
         [styles.mouseHasBeenDown]: mouseHasBeenDown,
         [styles.iconButton]: iconButton,
@@ -31,6 +31,7 @@ export default ({ onClick, stretch, primary, iconButton, children }) => {
 
     return (
         <button
+            disabled={disabled}
             className={className}
             onClick={() => onClick && onClick()}
             onMouseDown={() => {

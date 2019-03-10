@@ -28,6 +28,14 @@
     outline: none;
     cursor: pointer;
 
+    > a {
+        color: inherit;
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+    }
+
     &.primary {
         background-color: var(--bg-button-primary);
         border: 1px solid var(--border-color-button-primary);
@@ -60,13 +68,14 @@
         }
     }
 
-    &.stretch {
-        width: 100%;
-    }
-
     &.iconButton {
         padding: 0;
         height: 35px;
+        width: 40px;
         color: var(--icon-color-button);
+
+        &.primary {
+            color: var(--icon-color-button-primary);
+        }
     }
 }

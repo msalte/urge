@@ -25,21 +25,22 @@ namespace Urge.Blog.Controllers
         [HttpPost("articles")]
         public async Task<IActionResult> CreateArticle([FromBody] CreateArticleRequest request)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var article = new Article
-                {
-                    Title = request.Title,
-                    Content = request.Content,
-                    Author = _userAccessor.ClaimsProfile.Email,
-                };
-
-                var created = await _articlesService.CreateArticleAsync(article);
-
-                return Created("articles", new ApiArticle(created));
+                return BadRequest("Could not create article. Input model state was invalid.");
             }
 
-            throw new ArgumentException("Could not create article. Input model state was invalid.");
+            var article = new Article
+            {
+                Title = request.Title,
+                Content = request.Content,
+                Author = _userAccessor.ClaimsProfile.Email,
+            };
+
+            var created = await _articlesService.CreateArticleAsync(article);
+
+            return Created("articles", new ApiArticle(created));
+
         }
 
         [AllowAnonymous]

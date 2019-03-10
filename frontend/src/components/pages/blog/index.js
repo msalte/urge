@@ -4,7 +4,7 @@ import { fetch } from "../../../global/fetch";
 import serviceDiscovery from "../../../global/serviceDiscovery";
 import Spinner from "../../Spinner";
 import Article from "./Article";
-import NavigationContext, { SideBarItems } from "../../../NavigationContext";
+import NavigationContext, { Locations } from "../../../NavigationContext";
 
 export default () => {
     const navContext = React.useContext(NavigationContext);
@@ -14,12 +14,12 @@ export default () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        navContext.setActiveSideBarItem(SideBarItems.blog);
+        navContext.setActiveLocation(Locations.blog);
     }, []);
 
     useEffect(() => {
         setFetching(true);
-        fetch(serviceDiscovery.getBlogApi() + "/articles")
+        fetch(serviceDiscovery.getBlogApi() + "/articles", {}, true)
             .then(articles => {
                 setArticles(articles);
                 setFetching(false);

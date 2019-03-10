@@ -1,0 +1,38 @@
+.inputContainer {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: calc(var(--grid-unit) * 1px);
+
+    .control {
+        border-radius: calc((var(--grid-unit) * 1px));
+        border: 1px solid var(--border-color-input);
+        padding: 10px;
+        background: var(--bg-input);
+        color: var(--text-color-input);
+        height: 35px;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        justify-content: space-between;
+        width: 250px;
+
+        .icon {
+            margin-right: calc(var(--grid-unit) * 1px);
+            color: var(--icon-color-input);
+        }
+
+        &.focused {
+            border: 1px solid #099;
+        }
+
+        > input {
+            font-size: 14px;
+            font-family: "Nunito";
+            outline: none;
+            border: 0;
+            color: inherit;
+            background: inherit;
+            width: 100%;
+        }
+    }
+}

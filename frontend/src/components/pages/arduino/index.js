@@ -5,7 +5,7 @@ import styles from "./styles.scss";
 import highcharts from "highcharts/highstock";
 import HighchartsRect from "highcharts-react-official";
 import Spinner from "../../Spinner";
-import NavigationContext, { SideBarItems } from "../../../NavigationContext";
+import NavigationContext, { Locations } from "../../../NavigationContext";
 import ThemeContext, { themes } from "../../../ThemeContext";
 
 const renderChart = (data, themeContext) => {
@@ -112,7 +112,7 @@ export default () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        navContext.setActiveSideBarItem(SideBarItems.arduino);
+        navContext.setActiveLocation(Locations.arduino);
     }, []);
 
     useEffect(() => {

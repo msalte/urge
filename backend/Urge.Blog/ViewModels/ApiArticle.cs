@@ -8,6 +8,7 @@ namespace Urge.Blog.ViewModels
 {
     public class ApiArticle
     {
+        public string Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public string Author { get; set; }
@@ -16,6 +17,7 @@ namespace Urge.Blog.ViewModels
 
         public ApiArticle(Article article)
         {
+            Id = article.Id;
             Title = article.Title;
             Content = article.Content;
             Author = article.Author;

@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 
 const NavigationContext = React.createContext({
-    activeSideBarItem: {},
-    setActiveSideBarItem: () => {},
+    activeLocation: {},
+    setActiveLocation: () => {},
 });
 
-export const SideBarItems = {
+export const Locations = {
     blog: {
         key: "blog",
         displayName: "Blog",
@@ -25,13 +25,20 @@ export const SideBarItems = {
         isExternal: true,
         link: "https://github.com/msalte/urge",
     },
+    user: {
+        key: "user",
+        displayName: "User",
+        icon: "user",
+        link: "/user",
+        visibleInSideBar: false,
+    },
 };
 
-export const ensureSideBarItemActive = item => {
+export const ensureActiveLocation = item => {
     const ctx = useContext(NavigationContext);
 
-    if (ctx.activeSideBarItem !== item) {
-        ctx.setActiveSideBarItem(item);
+    if (ctx.activeLocation !== item) {
+        ctx.setActiveLocation(item);
     }
 };
 

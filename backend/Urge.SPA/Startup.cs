@@ -29,9 +29,8 @@ namespace Urge.SPA
             {
                 app.UseDeveloperExceptionPage();
             }
-            
-            //app.UseAuthentication();
 
+            app.UseCors(CorsPolicy.ALLOW_ALL);
             app.UseStaticFiles();
             app.UseMvc();
         }

@@ -4,7 +4,7 @@ import classNames from "classnames";
 import Button from "../Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MenuItem, { ExternalMenuItem } from "./MenuItem";
-import NavigationContext, { SideBarItems } from "../../NavigationContext";
+import NavigationContext, { Locations } from "../../NavigationContext";
 import { LargerThanPhone } from "../Responsive";
 
 export default ({ isCollapsed, toggleCollapsed }) => {
@@ -16,8 +16,10 @@ export default ({ isCollapsed, toggleCollapsed }) => {
                 [styles.collapsed]: isCollapsed === true,
             })}
         >
-            {Object.keys(SideBarItems).map(key => {
-                const item = SideBarItems[key];
+            {Object.keys(Locations).map(key => {
+                const item = Locations[key];
+
+                if (item.visibleInSideBar === false) return null;
 
                 if (item.isExternal) {
                     return (
@@ -37,7 +39,7 @@ export default ({ isCollapsed, toggleCollapsed }) => {
                         key={key}
                         link={item.link}
                         isCollapsed={isCollapsed}
-                        isActive={navContext.activeSideBarItem === item}
+                        isActive={navContext.activeLocation === item}
                         icon={item.icon}
                         onClick={() => {
                             /* ignore, required to avoid page re-load  */
