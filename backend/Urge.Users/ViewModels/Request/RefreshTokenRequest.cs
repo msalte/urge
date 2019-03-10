@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Urge.Users.ViewModels
 {
-    public class CreateUserRequest
+    public class RefreshTokenRequest
     {
         [Required]
-        public string Name { get; set; }
+        public string Token { get; set; }
         [Required]
-        public string Email { get; set; }
-        [Required]
-        public string Password { get; set; }
+        public string RefreshToken { get; set; }
     }
 }

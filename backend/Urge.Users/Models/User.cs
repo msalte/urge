@@ -16,9 +16,11 @@ namespace Urge.Users.Models
         public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
         public DateTime ChangedUtc { get; set; } = DateTime.UtcNow;
 
+        public List<RefreshToken> RefreshTokens { get; set; }
+
         internal static void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<User>().HasMany(u => u.RefreshTokens);
         }
     }
 }

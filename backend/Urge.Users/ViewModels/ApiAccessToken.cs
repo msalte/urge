@@ -9,5 +9,6 @@ namespace Urge.Users.ViewModels
     {
         public DateTime? ExpiresUtc { get; set; }
         public string Token { get; set; }
+        public string RefreshToken { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Urge.Users.ViewModels
 {
-    public class CreateTokenRequest
+    public class LoginRequest
     {
         public string Email { get; set; }
         public string Password { get; set; }

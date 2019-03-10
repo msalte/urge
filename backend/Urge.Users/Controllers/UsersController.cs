@@ -25,30 +25,30 @@ namespace Urge.Users.Controllers
         [HttpPost("users")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (usersContext.Users.Any(u => u.Email.ToLower() == request.Email.ToLower()))
-                {
-                    return Conflict("User with given email already exists.");
-                }
-
-                var hashedPassword = Passwords.HashPassword(request.Password);
-
-                var user = new User
-                {
-                    Name = request.Name,
-                    Email = request.Email,
-                    PasswordHash = hashedPassword.Hash,
-                    PasswordSalt = hashedPassword.Salt
-                };
-
-                await usersContext.Users.AddAsync(user);
-                await usersContext.SaveChangesAsync();
-
-                return Created("users", new ApiUser(user));
+                return BadRequest("Could not create user. Input model state was invalid.");
             }
 
-            throw new ArgumentException("Could not create user. Input model state was invalid.");
+            if (usersContext.Users.Any(u => u.Email.ToLower() == request.Email.ToLower()))
+            {
+                return Conflict("User with given email already exists.");
+            }
+
+            var hashedPassword = Passwords.HashPassword(request.Password);
+
+            var user = new User
+            {
+                Name = request.Name,
+                Email = request.Email,
+                PasswordHash = hashedPassword.Hash,
+                PasswordSalt = hashedPassword.Salt
+            };
+
+            await usersContext.Users.AddAsync(user);
+            await usersContext.SaveChangesAsync();
+
+            return Created("users", new ApiUser(user));
         }
 
         [HttpGet("users")]
