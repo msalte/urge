@@ -2,12 +2,21 @@
     display: flex;
     flex-direction: column;
 
+    @media only screen and (max-width: 767px) {
+        align-items: center;
+        margin-top: calc(var(--grid-unit) * 3px);
+    }
+
     .buttons {
         display: flex;
         flex-direction: row;
 
         > button {
             margin-right: calc(var(--grid-unit) * 1px);
+        }
+
+        @media only screen and (max-width: 767px) {
+            align-items: center;
         }
     }
 }

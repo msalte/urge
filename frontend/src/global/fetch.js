@@ -32,7 +32,7 @@ const refresh = (jwt, refreshToken) => {
 };
 
 export const fetch = (url, options = {}, auth = false) => {
-    let opts = Object.assign(defaultOptions, options);
+    let opts = Object.assign({}, defaultOptions, options);
 
     if (auth === true) {
         opts = addBearerToken(opts);
