@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Urge.Common.Security;
+using Urge.Common.User;
 using Urge.Users.Database;
 using Urge.Users.Models;
 using Urge.Users.ViewModels;
@@ -15,10 +14,12 @@ namespace Urge.Users.Controllers
     public class UsersController : Controller
     {
         private readonly UsersContext usersContext;
+        private readonly IUserAccessor userAccessor;
 
-        public UsersController(UsersContext usersContext)
+        public UsersController(UsersContext usersContext, IUserAccessor userAccessor)
         {
             this.usersContext = usersContext;
+            this.userAccessor = userAccessor;
         }
 
         [AllowAnonymous]
@@ -51,10 +52,22 @@ namespace Urge.Users.Controllers
             return Created("users", new ApiUser(user));
         }
 
-        [HttpGet("users")]
-        public async Task<List<ApiUser>> GetAllUsers()
+        [HttpGet("users/me")]
+        public async Task<IActionResult> MyProfile()
         {
-            return await usersContext.Users.Select(u => new ApiUser(u)).ToListAsync();
+            var email = userAccessor.ClaimsProfile.Email;
+
+            var user = await usersContext.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+
+            return Ok(new ApiUser(user));
+        }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await usersContext.Users.Select(u => new ApiUser(u)).ToListAsync();
+
+            return Ok(users);
         }
     }
 }

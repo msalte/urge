@@ -19,26 +19,25 @@ const addBearerToken = options => {
 const refresh = (jwt, refreshToken) => {
     const url = serviceDiscovery.getUsersApi() + "/auth/refreshToken";
 
-    return isomorphicFetch(
-        url,
-        Object.assign(
-            {
-                method: "POST",
-                body: JSON.stringify({ token: jwt, refreshToken }),
-            },
-            defaultOptions
-        )
+    const options = Object.assign(
+        {
+            method: "POST",
+            body: JSON.stringify({ token: jwt, refreshToken }),
+        },
+        defaultOptions
     );
+
+    return isomorphicFetch(url, options);
 };
 
-export const fetch = (url, options = {}, auth = false) => {
-    let opts = Object.assign({}, defaultOptions, options);
+export const fetch = (url, auth = false, addOptions = {}) => {
+    let options = Object.assign({}, defaultOptions, addOptions);
 
     if (auth === true) {
-        opts = addBearerToken(opts);
+        options = addBearerToken(options);
     }
 
-    return isomorphicFetch(url, opts).then(response => {
+    return isomorphicFetch(url, options).then(response => {
         if (response.ok) {
             return response.json();
         } else if (
@@ -55,7 +54,7 @@ export const fetch = (url, options = {}, auth = false) => {
 
                     setAuthTokens(token, refreshToken);
 
-                    return fetch(url, options, auth);
+                    return fetch(url, auth, addOptions);
                 });
         } else {
             var error = new Error(response.statusText);
@@ -65,10 +64,10 @@ export const fetch = (url, options = {}, auth = false) => {
     });
 };
 
-const method = m => (url, data, options, auth = false) => {
-    const opts = { method: m, body: JSON.stringify(data) };
+const method = m => (url, data, auth = false) => {
+    const options = { method: m, body: JSON.stringify(data) };
 
-    return fetch(url, Object.assign(opts, options), auth);
+    return fetch(url, auth, options);
 };
 
 export const post = method("POST");

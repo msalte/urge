@@ -1,6 +1,6 @@
 .inputContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-bottom: calc(var(--grid-unit) * 1px);
 
     .control {
@@ -14,7 +14,6 @@
         align-items: center;
         box-sizing: border-box;
         justify-content: space-between;
-        width: 250px;
 
         .icon {
             margin-right: calc(var(--grid-unit) * 1px);

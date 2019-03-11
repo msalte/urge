@@ -12,30 +12,33 @@ using System.Text;
 using System.Threading.Tasks;
 using Urge.Common.Configuration;
 using Urge.Common.Security;
+using Urge.Common.User;
 using Urge.Users.Database;
 using Urge.Users.Models;
 using Urge.Users.ViewModels;
 
 namespace Urge.Users.Controllers
 {
-    [AllowAnonymous]
     public class AuthenticationController : Controller
     {
         private readonly UsersContext _usersContext;
         private readonly IConfiguration _configuration;
+        private readonly IUserAccessor _userAccessor;
 
-        public AuthenticationController(UsersContext usersContext, IConfiguration configuration)
+        public AuthenticationController(UsersContext usersContext, IConfiguration configuration, IUserAccessor userAccessor)
         {
             _usersContext = usersContext;
             _configuration = configuration;
+            _userAccessor = userAccessor;
         }
 
+        [AllowAnonymous]
         [HttpPost("auth/login")]
-        public async Task<IActionResult> CreateTokenForUser([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("You must supply both an email and a password");
+                return BadRequest("You must supply both an email and a password.");
             }
 
             var user = await _usersContext.Users
@@ -44,7 +47,7 @@ namespace Urge.Users.Controllers
 
             if (user == null)
             {
-                return NotFound($"No user found with email {request.Email}");
+                return NotFound($"No user found with email {request.Email}.");
             }
 
             var hashedPassword = Passwords.HashPassword(request.Password, user.PasswordSalt);
@@ -64,12 +67,46 @@ namespace Urge.Users.Controllers
             return Ok(token);
         }
 
+        [HttpPost("auth/logout")]
+        public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Must supply refresh token when logging out.");
+            }
+
+            var email = _userAccessor.ClaimsProfile.Email.ToLower();
+
+            if (email == null)
+            {
+                return BadRequest("Could not find an email claim on caller.");
+            }
+
+            var user = await _usersContext.Users.Include(u => u.RefreshTokens).SingleOrDefaultAsync(u => u.Email.ToLower() == email);
+
+            if (user == null)
+            {
+                return BadRequest($"No user found with email {email}.");
+            }
+
+            var refreshToken = user.RefreshTokens.SingleOrDefault(i => i.Token == request.RefreshToken);
+
+            if (refreshToken != null)
+            {
+                user.RefreshTokens.Remove(refreshToken);
+                await _usersContext.SaveChangesAsync();
+            }
+
+            return Ok("Logged out.");
+        }
+
+        [AllowAnonymous]
         [HttpPost("auth/refreshToken")]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("You must supply both a token and a refresh token");
+                return BadRequest("You must supply both a token and a refresh token.");
             }
 
             var claimsPrincipal = ResolveClaimsFromExpiredToken(request.Token);
@@ -134,7 +171,7 @@ namespace Urge.Users.Controllers
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Name, user.Name)
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(2),
+                Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
             };
 

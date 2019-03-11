@@ -1,28 +1,62 @@
 import React, { useState } from "react";
+import {
+    getJwtToken,
+    getRefreshToken,
+    clearAuthTokens,
+    getUserProfile,
+    setUserProfile,
+    clearUserProfile,
+} from "./global/localStorage";
+import serviceDiscovery from "./global/serviceDiscovery";
+import { fetch, post } from "./global/fetch";
 
 export const UserContext = React.createContext({
-    name: null,
-    email: null,
+    profile: null,
     isLoggedIn: false,
-    setName: () => {},
-    setEmail: () => {},
     setLoggedIn: () => {},
 });
 
+const hasToken = () => {
+    const jwt = getJwtToken();
+    return jwt && jwt.length;
+};
+
 export const UserContextStateProvider = ({ children }) => {
-    const [name, setName] = useState(null);
-    const [email, setEmail] = useState(null);
-    const [isLoggedIn, setLoggedIn] = useState(false);
+    const profile = getUserProfile();
+    const [user, setUser] = useState(profile);
+
+    const handleLoggedIn = loggedIn => {
+        if (loggedIn) {
+            // Presumably the user logged in. If we have a token in local storage, accept.
+            const accepted = hasToken();
+
+            if (accepted) {
+                fetch(serviceDiscovery.getUsersApi() + "/users/me", true)
+                    .then(profile => {
+                        setUserProfile(profile);
+                        setUser(profile);
+                    })
+                    .catch(error => console.error(error));
+            }
+        } else {
+            post(
+                serviceDiscovery.getUsersApi() + "/auth/logout",
+                { refreshToken: getRefreshToken() },
+                true
+            ).then(() => {
+                setUser(null);
+                clearUserProfile();
+                clearAuthTokens();
+            });
+        }
+    };
 
     return (
         <UserContext.Provider
             value={{
-                name,
-                email,
-                isLoggedIn,
-                setName: name => setName(name),
-                setEmail: email => setEmail(email),
-                setLoggedIn: isLoggedIn => setLoggedIn(isLoggedIn),
+                user,
+                isLoggedIn: user && user.id,
+                setLoggedIn: isLoggedIn => handleLoggedIn(isLoggedIn),
             }}
         >
             {children}

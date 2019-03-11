@@ -5,9 +5,11 @@ import serviceDiscovery from "../../../global/serviceDiscovery";
 import Spinner from "../../Spinner";
 import Article from "./Article";
 import NavigationContext, { Locations } from "../../../NavigationContext";
+import { UserContext } from "../../../UserContext";
 
 export default () => {
     const navContext = React.useContext(NavigationContext);
+    const userContext = React.useContext(UserContext);
 
     const [articles, setArticles] = useState([]);
     const [isFetching, setFetching] = useState(false);
@@ -19,7 +21,7 @@ export default () => {
 
     useEffect(() => {
         setFetching(true);
-        fetch(serviceDiscovery.getBlogApi() + "/articles", {}, true)
+        fetch(serviceDiscovery.getBlogApi() + "/articles", true)
             .then(articles => {
                 setArticles(articles);
                 setFetching(false);
@@ -31,12 +33,20 @@ export default () => {
     }, []);
 
     return (
-        <div className={styles.blogContainer}>
-            {isFetching && <Spinner floating text="Loading articles..." />}
-            {!isFetching && error && error.toString()}
-            {articles.map(article => {
-                return <Article key={article.id} article={article} />;
-            })}
-        </div>
+        <React.Fragment>
+            {userContext.isLoggedIn && (
+                <div className={styles.greeting}>
+                    Welcome, {userContext.user.name}!
+                </div>
+            )}
+
+            <div className={styles.blogContainer}>
+                {isFetching && <Spinner floating text="Loading articles..." />}
+                {!isFetching && error && error.toString()}
+                {articles.map(article => {
+                    return <Article key={article.id} article={article} />;
+                })}
+            </div>
+        </React.Fragment>
     );
 };
