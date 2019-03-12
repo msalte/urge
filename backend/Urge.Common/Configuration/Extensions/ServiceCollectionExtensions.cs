@@ -22,7 +22,7 @@ namespace Urge.Common.Configuration
         public static IServiceCollection AddSqlDbContext<TContext>(this IServiceCollection services, string connectionString)
             where TContext : DbContext
         {
-            if (EnvUtils.IsEFMigration() && string.IsNullOrEmpty(connectionString))
+            if (/*EnvUtils.IsEFMigration() && */string.IsNullOrEmpty(connectionString))
             {
                 connectionString = "Server=idontexist;Database=neitherdoi;Trusted_Connection=True;";
             }
