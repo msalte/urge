@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +19,23 @@ namespace Urge.Common.Configuration
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddDefaultMicroserviceConfiguration(this IServiceCollection services)
+        public static IServiceCollection AddSqlDbContext<TContext>(this IServiceCollection services, string connectionString)
+            where TContext : DbContext
+        {
+            if (EnvUtils.IsEFMigration() && string.IsNullOrEmpty(connectionString))
+            {
+                connectionString = "Server=idontexist;Database=neitherdoi;Trusted_Connection=True;";
+            }
+
+            services.AddDbContext<TContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddDefaultMicroserviceServices(this IServiceCollection services)
         {
             // global auth policy
             services.AddMvc(options =>
@@ -29,9 +47,9 @@ namespace Urge.Common.Configuration
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            services.AddCommonMicroserviceAuthentication();
+            services.AddDefaultMicroserviceAuthentication();
             services.AddMicroserviceDiscovery();
-            services.AddCommonCorsPolicy();
+            services.AddDefaultCorsPolicy();
 
             services.AddHttpContextAccessor();
             services.AddTransient<IUserAccessor, UserAccessor>();
@@ -39,7 +57,7 @@ namespace Urge.Common.Configuration
             return services;
         }
 
-        private static IServiceCollection AddCommonCorsPolicy(this IServiceCollection services)
+        private static IServiceCollection AddDefaultCorsPolicy(this IServiceCollection services)
         {
             services.AddCors(options =>
             {
@@ -56,7 +74,7 @@ namespace Urge.Common.Configuration
             return services;
         }
 
-        private static IServiceCollection AddCommonMicroserviceAuthentication(this IServiceCollection services)
+        private static IServiceCollection AddDefaultMicroserviceAuthentication(this IServiceCollection services)
         {
             var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
             var key = Encoding.UTF8.GetBytes(configuration[ConfigKey.Authentication.JWTSymmetricKey.Path]);
@@ -92,7 +110,7 @@ namespace Urge.Common.Configuration
             return services;
         }
 
-        public static IServiceCollection AddCommonSwagger(this IServiceCollection services, string title)
+        public static IServiceCollection AddDefaultSwagger(this IServiceCollection services, string title)
         {
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
             {

@@ -24,7 +24,7 @@ namespace Urge.Blog
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDefaultMicroserviceConfiguration();
+            services.AddDefaultMicroserviceServices();
             services.AddMemoryCache();
 
             services.AddSingleton<ICosmosDb, CosmosDb>();
@@ -43,7 +43,7 @@ namespace Urge.Blog
                 return client;
             });
             
-            services.AddCommonSwagger("Blog");
+            services.AddDefaultSwagger("Blog");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

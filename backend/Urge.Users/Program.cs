@@ -15,6 +15,9 @@ namespace Urge.Users
     {
         public static void Main(string[] args)
         {
+            // Required to identity EF migration on build server
+            EnvUtils.IsProgramExecuted = true;
+
             CreateWebHostBuilder(args).Build().Run();
         }
 
