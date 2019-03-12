@@ -61,6 +61,7 @@ namespace Urge.Users.Controllers
             var token = CreateAccessTokenForUser(user, refreshToken);
 
             user.RefreshTokens.Add(new RefreshToken() { Token = refreshToken, UserId = user.Id });
+            user.LastLogonUtc = DateTime.UtcNow;
 
             await _usersContext.SaveChangesAsync();
 
