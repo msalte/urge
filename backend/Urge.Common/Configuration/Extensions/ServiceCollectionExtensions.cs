@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -19,22 +17,6 @@ namespace Urge.Common.Configuration
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddSqlDbContext<TContext>(this IServiceCollection services, string connectionString)
-            where TContext : DbContext
-        {
-            if (/*EnvUtils.IsEFMigration() && */string.IsNullOrEmpty(connectionString))
-            {
-                connectionString = "Server=idontexist;Database=neitherdoi;Trusted_Connection=True;";
-            }
-
-            services.AddDbContext<TContext>(options =>
-            {
-                options.UseSqlServer(connectionString);
-            });
-
-            return services;
-        }
-
         public static IServiceCollection AddDefaultMicroserviceServices(this IServiceCollection services)
         {
             // global auth policy
