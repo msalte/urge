@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styles from "./styles.scss";
-import { fetch } from "../../../global/fetch";
-import serviceDiscovery from "../../../global/serviceDiscovery";
-import Spinner from "../../Spinner";
+import { fetch } from "global/fetch";
+import serviceDiscovery from "global/serviceDiscovery";
+import Spinner from "components/Spinner";
 import Article from "./Article";
-import NavigationContext, { Locations } from "../../../NavigationContext";
-import { UserContext } from "../../../UserContext";
+import NavigationContext, { Locations } from "components/NavigationContext";
+import { UserContext } from "components/UserContext";
 
 export default () => {
     const navContext = React.useContext(NavigationContext);

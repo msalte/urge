@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./styles.scss";
-import Card from "../../../Card";
-import Button from "../../../Button";
+import Card from "components/Card";
+import Button from "components/Button";
 
 export default ({ article }) => {
     const footer = (

@@ -6,9 +6,9 @@ import {
     getUserProfile,
     setUserProfile,
     clearUserProfile,
-} from "./global/localStorage";
-import serviceDiscovery from "./global/serviceDiscovery";
-import { fetch, post } from "./global/fetch";
+} from "global/localStorage";
+import serviceDiscovery from "global/serviceDiscovery";
+import { fetch, post } from "global/fetch";
 
 export const UserContext = React.createContext({
     profile: null,

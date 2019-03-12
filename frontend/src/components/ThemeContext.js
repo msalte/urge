@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { setTheme, getTheme } from "./global/localStorage";
+import { setTheme, getTheme } from "global/localStorage";
 
 export const themes = {
     light: "light",

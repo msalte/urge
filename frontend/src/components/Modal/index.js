@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { createPortal } from "react-dom";
-import Button from "../Button";
+import Button from "components/Button";
 import classNames from "classnames";
 import styles from "./styles.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

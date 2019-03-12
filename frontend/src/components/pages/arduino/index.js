@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { fetch } from "../../../global/fetch";
-import serviceDiscovery from "../../../global/serviceDiscovery";
+import { fetch } from "global/fetch";
+import serviceDiscovery from "global/serviceDiscovery";
 import styles from "./styles.scss";
 import highcharts from "highcharts/highstock";
 import HighchartsRect from "highcharts-react-official";
-import Spinner from "../../Spinner";
-import NavigationContext, { Locations } from "../../../NavigationContext";
-import ThemeContext, { themes } from "../../../ThemeContext";
+import Spinner from "components/Spinner";
+import NavigationContext, { Locations } from "components/NavigationContext";
+import ThemeContext, { themes } from "components/ThemeContext";
 
 const renderChart = (data, themeContext) => {
     const isDark = themeContext.theme === themes.dark;

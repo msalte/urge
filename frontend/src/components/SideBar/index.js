@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./styles.scss";
 import classNames from "classnames";
-import Button from "../Button";
+import Button from "components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MenuItem, { ExternalMenuItem } from "./MenuItem";
-import NavigationContext, { Locations } from "../../NavigationContext";
-import { LargerThanPhone } from "../Responsive";
+import NavigationContext, { Locations } from "components/NavigationContext";
+import { LargerThanPhone } from "components/Responsive";
 
 export default ({ isCollapsed, toggleCollapsed }) => {
     const navContext = React.useContext(NavigationContext);

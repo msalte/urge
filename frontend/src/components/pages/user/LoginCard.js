@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styles from "./styles.scss";
-import Button from "../../Button";
-import Input from "../../Input";
-import { post } from "../../../global/fetch";
-import serviceDiscovery from "../../../global/serviceDiscovery";
-import { setAuthTokens } from "../../../global/localStorage";
-import Spinner from "../../Spinner";
-import Card from "../../Card";
+import Button from "components/Button";
+import Input from "components/Input";
+import Spinner from "components/Spinner";
+import Card from "components/Card";
+import { post } from "global/fetch";
+import serviceDiscovery from "global/serviceDiscovery";
+import { setAuthTokens } from "global/localStorage";
 
 const Body = ({ onUsernameChanged, onPasswordChanged }) => {
     return (

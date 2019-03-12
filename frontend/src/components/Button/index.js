@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "./styles.scss";
 import classNames from "classnames";
-import ThemeContext, { themes } from "../../ThemeContext";
+import ThemeContext, { themes } from "components/ThemeContext";
 
 let timeout = null;
 

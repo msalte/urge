@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { isPhone } from "../Responsive";
+import { isPhone } from "components/Responsive";
 
 export const useCollapseToggler = () => {
     // using strings for boolean values here because local storage

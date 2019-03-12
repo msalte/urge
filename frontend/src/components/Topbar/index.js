@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import styles from "./styles.scss";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
-import SearchBar from "../SearchBar";
-import Button from "../Button";
+import SearchBar from "components/SearchBar";
+import Button from "components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ThemeContext, { themes } from "../../ThemeContext";
-import NavigationContext, { Locations } from "../../NavigationContext";
+import ThemeContext, { themes } from "components/ThemeContext";
+import NavigationContext, { Locations } from "components/NavigationContext";
 
 export default props => {
     const themeContext = useContext(ThemeContext);

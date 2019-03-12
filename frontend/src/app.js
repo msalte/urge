@@ -1,20 +1,20 @@
 import React, { useContext } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import BlogPage from "./components/pages/blog";
-import ArduinoPage from "./components/pages/arduino";
-import UserPage from "./components/pages/user";
-import TopBar from "./components/Topbar";
-import styles from "./global/scss/app.scss";
-import { NavigationContextStateProvider } from "./NavigationContext";
+import BlogPage from "components/pages/blog";
+import ArduinoPage from "components/pages/arduino";
+import UserPage from "components/pages/user";
+import TopBar from "components/Topbar";
+import styles from "global/scss/app.scss";
+import { NavigationContextStateProvider } from "components/NavigationContext";
 import classNames from "classnames";
-import SideBar from "./components/SideBar";
-import { useCollapseToggler } from "./components/SideBar/hooks";
+import SideBar from "components/SideBar";
+import { useCollapseToggler } from "components/SideBar/hooks";
 import ThemeContext, {
     ThemeContextStateProvider,
     themes,
-} from "./ThemeContext";
-import { UserContextStateProvider } from "./UserContext";
+} from "components/ThemeContext";
+import { UserContextStateProvider } from "components/UserContext";
 
 import "typeface-nunito";
 import { library } from "@fortawesome/fontawesome-svg-core";

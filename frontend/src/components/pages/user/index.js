@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { Locations, ensureActiveLocation } from "../../../NavigationContext";
-import Button from "../../Button";
-import { UserContext } from "../../../UserContext";
+import { Locations, ensureActiveLocation } from "components/NavigationContext";
+import Button from "components/Button";
+import { UserContext } from "components/UserContext";
 import LoginCard from "./LoginCard";
 
 export default () => {

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import styles from "./styles.scss";
-import Spinner from "../Spinner";
+import Spinner from "components/Spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default props => {

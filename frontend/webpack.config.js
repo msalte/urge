@@ -10,6 +10,12 @@ module.exports = {
         filename: "urge.js",
         path: DEST_DIR,
     },
+    resolve: {
+        alias: {
+            components: path.resolve(SOURCE_DIR, "components"),
+            global: path.resolve(SOURCE_DIR, "global"),
+        },
+    },
     module: {
         rules: [
             {
