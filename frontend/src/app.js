@@ -28,6 +28,8 @@ import {
     faTimes,
     faAngleRight,
     faAngleLeft,
+    faAngleUp,
+    faAngleDown,
     faCodeBranch,
     faExternalLinkAlt,
     faBook,
@@ -48,6 +50,8 @@ library.add(
     faTimes,
     faAngleRight,
     faAngleLeft,
+    faAngleUp,
+    faAngleDown,
     faCodeBranch,
     faExternalLinkAlt,
     faBook,
@@ -104,7 +108,7 @@ const App = () => {
                                     render={props => <BlogPage {...props} />}
                                 />
                                 <Route
-                                    path="/arduino"
+                                    path="/arduino/:id"
                                     render={props => <ArduinoPage {...props} />}
                                 />
                                 <Route

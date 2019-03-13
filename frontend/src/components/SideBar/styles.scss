@@ -28,15 +28,31 @@
         transition-duration: 0.1s;
         color: var(--text-color-menuitem);
         cursor: pointer;
+        justify-content: space-between;
 
-        .icon {
+        .item {
             display: flex;
-            width: var(--width-icon);
-            color: var(--icon-color-menuitem);
+            flex-direction: row;
+            align-items: center;
 
-            &.collapsed {
-                justify-content: center;
+            .icon {
+                display: flex;
+                width: var(--width-icon);
+                color: var(--icon-color-menuitem);
+
+                &.collapsed {
+                    justify-content: center;
+                }
+
+                &.active {
+                    color: var(--icon-color-menuitem-active);
+                }
             }
+        }
+
+        .subMenuIcon {
+            display: flex;
+            color: var(--icon-color-menuitem);
 
             &.active {
                 color: var(--icon-color-menuitem-active);
@@ -57,6 +73,55 @@
             margin-left: calc(var(--grid-unit) * 1px);
             font-size: 10px;
             color: var(--icon-color-external-link);
+        }
+    }
+
+    .subMenu {
+        --item-height: calc(var(--grid-unit) * 6px);
+
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        transition-property: opacity;
+        transition-duration: 0.1s;
+        opacity: 1;
+        border-bottom: 1px solid #fff;
+        max-height: calc(var(--item-height) * 5);
+        overflow-y: auto;
+
+        .item {
+            height: var(--item-height);
+            font-size: 14px;
+            padding: 0 calc(var(--grid-unit) * 2px) 0 calc(var(--grid-unit) * 6px);
+            text-decoration: none;
+            color: var(--text-color-menuitem);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            &.active {
+                background: #f3f3f3;
+            }
+
+            &:hover {
+                background: #f3f3f3;
+            }
+
+            &.collapsed {
+                padding: 0;
+                justify-content: center;
+                font-size: 12px;
+            }
+        }
+
+        &.active {
+            border-bottom: 1px solid var(--bg-menuitem-active);
+        }
+
+        &.closed {
+            height: 0;
+            opacity: 0;
         }
     }
 

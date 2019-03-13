@@ -5,7 +5,7 @@ import styles from "./styles.scss";
 import highcharts from "highcharts/highstock";
 import HighchartsRect from "highcharts-react-official";
 import Spinner from "components/Spinner";
-import NavigationContext, { Locations } from "components/NavigationContext";
+import NavigationContext from "components/NavigationContext";
 import ThemeContext, { themes } from "components/ThemeContext";
 
 const renderChart = (data, themeContext) => {
@@ -103,7 +103,11 @@ const renderChart = (data, themeContext) => {
     );
 };
 
-export default () => {
+export default ({
+    match: {
+        params: { id },
+    },
+}) => {
     const navContext = useContext(NavigationContext);
     const themeContext = useContext(ThemeContext);
 
@@ -112,8 +116,25 @@ export default () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        navContext.setActiveLocation(Locations.arduino);
-    }, []);
+        const {
+            locations: { arduino },
+        } = navContext;
+
+        navContext.setActiveLocation(arduino);
+
+        if (id && arduino.subMenu) {
+            const activeSubMenuItem = arduino.subMenu.items.find(
+                i => i.link.indexOf(id) !== -1
+            );
+
+            if (
+                activeSubMenuItem &&
+                activeSubMenuItem !== navContext.activeSubMenuItem
+            ) {
+                navContext.setActiveSubMenuItem(activeSubMenuItem);
+            }
+        }
+    }, [navContext]);
 
     useEffect(() => {
         setFetching(true);

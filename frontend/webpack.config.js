@@ -70,6 +70,9 @@ module.exports = {
             {
                 test: /\.(woff2?|ttf|svg|eot)(\?v=\d+\.\d+\.\d+)?$/,
                 loader: "file-loader",
+                options: {
+                    outputPath: "/fonts",
+                },
             },
         ],
     },

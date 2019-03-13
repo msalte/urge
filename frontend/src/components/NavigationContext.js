@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useEffect } from "react";
+import moment from "moment";
 
-export const Locations = {
+const locations = {
     blog: {
         key: "blog",
         displayName: "Blog",
@@ -12,6 +13,11 @@ export const Locations = {
         displayName: "Arduino",
         icon: "chart-bar",
         link: "/arduino",
+        subMenu: {
+            defaultOpen: false,
+            parentSelectable: false,
+            items: [],
+        },
     },
     github: {
         key: "github",
@@ -30,26 +36,41 @@ export const Locations = {
 };
 
 const NavigationContext = React.createContext({
+    locations: {},
     activeLocation: {},
+    activeSubMenuItem: {},
     setActiveLocation: () => {},
 });
 
-export const ensureActiveLocation = item => {
-    const ctx = useContext(NavigationContext);
-
-    if (ctx.activeLocation !== item) {
-        ctx.setActiveLocation(item);
-    }
-};
-
 export const NavigationContextStateProvider = ({ children }) => {
     const [activeLocation, setActiveLocation] = useState(null);
+    const [activeSubMenuItem, setActiveSubMenuItem] = useState(null);
+
+    // TODO: fetch from server
+    useEffect(() => {
+        for (var i = 0; i < 3; i++) {
+            const date = moment().subtract(i, "week");
+            const dateStr = date.format("DD-MM-YYYY");
+
+            locations.arduino.subMenu.items.push({
+                key: dateStr,
+                displayName: dateStr,
+                link: `/arduino/${dateStr}`,
+                trim: () => {
+                    return date.format("DDMM");
+                },
+            });
+        }
+    }, []);
 
     return (
         <NavigationContext.Provider
             value={{
-                activeLocation: activeLocation,
-                setActiveLocation: item => setActiveLocation(item),
+                locations,
+                activeLocation,
+                activeSubMenuItem,
+                setActiveLocation: loc => setActiveLocation(loc),
+                setActiveSubMenuItem: item => setActiveSubMenuItem(item),
             }}
         >
             {children}

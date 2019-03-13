@@ -4,21 +4,17 @@ import { fetch } from "global/fetch";
 import serviceDiscovery from "global/serviceDiscovery";
 import Spinner from "components/Spinner";
 import Article from "./Article";
-import NavigationContext, { Locations } from "components/NavigationContext";
-import { UserContext } from "components/UserContext";
+import NavigationContext from "components/NavigationContext";
 
 export default () => {
     const navContext = React.useContext(NavigationContext);
-    const userContext = React.useContext(UserContext);
-
-    const { isLoggedIn, currentUser } = userContext;
 
     const [articles, setArticles] = useState([]);
     const [isFetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        navContext.setActiveLocation(Locations.blog);
+        navContext.setActiveLocation(navContext.locations.blog);
     }, []);
 
     useEffect(() => {
@@ -36,12 +32,6 @@ export default () => {
 
     return (
         <React.Fragment>
-            {isLoggedIn && (
-                <div className={styles.greeting}>
-                    Welcome, {currentUser.name}!
-                </div>
-            )}
-
             <div className={styles.blogContainer}>
                 {isFetching && <Spinner floating text="Loading articles..." />}
                 {!isFetching && error && error.toString()}

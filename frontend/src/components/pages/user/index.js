@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Locations, ensureActiveLocation } from "components/NavigationContext";
+import React, { useContext, useEffect } from "react";
+import NavigationContext from "components/NavigationContext";
 import Button from "components/Button";
 import { UserContext } from "components/UserContext";
 import LoginCard from "components/LoginCard";
@@ -9,9 +9,12 @@ import styles from "./styles.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default () => {
-    ensureActiveLocation(Locations.user);
-
     const userContext = useContext(UserContext);
+    const navContext = useContext(NavigationContext);
+
+    useEffect(() => {
+        navContext.setActiveLocation(navContext.locations.user);
+    }, []);
 
     const { isLoggedIn, currentUser, logout, isLoggingOut } = userContext;
 

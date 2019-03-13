@@ -4,7 +4,7 @@ import classNames from "classnames";
 import Button from "components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MenuItem, { ExternalMenuItem } from "./MenuItem";
-import NavigationContext, { Locations } from "components/NavigationContext";
+import NavigationContext from "components/NavigationContext";
 import { LargerThanPhone } from "components/Responsive";
 
 export default ({ isCollapsed, toggleCollapsed }) => {
@@ -16,8 +16,8 @@ export default ({ isCollapsed, toggleCollapsed }) => {
                 [styles.collapsed]: isCollapsed === true,
             })}
         >
-            {Object.keys(Locations).map(key => {
-                const item = Locations[key];
+            {Object.keys(navContext.locations).map(key => {
+                const item = navContext.locations[key];
 
                 if (item.visibleInSideBar === false) return null;
 
@@ -25,28 +25,24 @@ export default ({ isCollapsed, toggleCollapsed }) => {
                     return (
                         <ExternalMenuItem
                             key={key}
+                            text={item.displayName}
                             link={item.link}
                             isCollapsed={isCollapsed}
                             icon={item.icon}
-                        >
-                            {!isCollapsed && `${item.displayName}`}
-                        </ExternalMenuItem>
+                        />
                     );
                 }
 
                 return (
                     <MenuItem
                         key={key}
-                        link={item.link}
                         isCollapsed={isCollapsed}
                         isActive={navContext.activeLocation === item}
-                        icon={item.icon}
+                        item={item}
                         onClick={() => {
                             /* ignore, required to avoid page re-load  */
                         }}
-                    >
-                        {!isCollapsed && `${item.displayName}`}
-                    </MenuItem>
+                    />
                 );
             })}
             <LargerThanPhone>

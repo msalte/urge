@@ -6,7 +6,7 @@ import SearchBar from "components/SearchBar";
 import Button from "components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ThemeContext, { themes } from "components/ThemeContext";
-import NavigationContext, { Locations } from "components/NavigationContext";
+import NavigationContext from "components/NavigationContext";
 
 export default props => {
     const themeContext = useContext(ThemeContext);
@@ -31,15 +31,18 @@ export default props => {
                     />
                 </Button>
 
-                <Link to={Locations.user.link}>
+                <Link to={navContext.locations.user.link}>
                     <Button
                         iconButton
                         primary={
                             navContext.activeLocation &&
-                            navContext.activeLocation.key === Locations.user.key
+                            navContext.activeLocation.key ===
+                                navContext.locations.user.key
                         }
                     >
-                        <FontAwesomeIcon icon={Locations.user.icon} />
+                        <FontAwesomeIcon
+                            icon={navContext.locations.user.icon}
+                        />
                     </Button>
                 </Link>
             </div>
