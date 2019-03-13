@@ -151,7 +151,7 @@ export default ({
                 setError(error);
                 setFetching(false);
             });
-    }, []);
+    }, [id]);
 
     if (error) {
         console.error(error);
@@ -159,7 +159,7 @@ export default ({
 
     return (
         <div className={styles.arduinoContainer}>
-            {isFetching && <Spinner floating text="Loading Arduino data..." />}
+            {isFetching && <Spinner floating text="Loading data..." />}
             {!isFetching && data && renderChart(data, themeContext)}
         </div>
     );

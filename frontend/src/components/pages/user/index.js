@@ -14,6 +14,7 @@ export default () => {
 
     useEffect(() => {
         navContext.setActiveLocation(navContext.locations.user);
+        userContext.fetchProfile();
     }, []);
 
     const { isLoggedIn, currentUser, logout, isLoggingOut } = userContext;

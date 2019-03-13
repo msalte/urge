@@ -78,15 +78,14 @@
 
     .subMenu {
         --item-height: calc(var(--grid-unit) * 6px);
-
         list-style: none;
         margin: 0;
         padding: 0;
-        background: #fff;
+        background: var(--bg-submenuitem);
         transition-property: opacity;
         transition-duration: 0.1s;
         opacity: 1;
-        border-bottom: 1px solid #fff;
+        border-bottom: 1px solid var(--bg-sidebar);
         max-height: calc(var(--item-height) * 5);
         overflow-y: auto;
 
@@ -101,11 +100,11 @@
             cursor: pointer;
 
             &.active {
-                background: #f3f3f3;
+                background: var(--bg-submenuitem-active);
             }
 
             &:hover {
-                background: #f3f3f3;
+                background: var(--bg-submenuitem-active);
             }
 
             &.collapsed {
@@ -122,6 +121,7 @@
         &.closed {
             height: 0;
             opacity: 0;
+            border: 0;
         }
     }
 

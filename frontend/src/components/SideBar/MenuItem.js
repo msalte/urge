@@ -37,6 +37,7 @@ export default ({ item, isCollapsed, isActive }) => {
         <React.Fragment>
             <Link
                 onClick={e => handleOnClick(e)}
+                onTouchEnd={e => handleOnClick(e)}
                 to={link}
                 className={classNames(styles.menuItem, {
                     [styles.active]: isActive,

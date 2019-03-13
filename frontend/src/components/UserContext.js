@@ -15,6 +15,7 @@ export const UserContext = React.createContext({
     isLoggedIn: false,
     login: () => {},
     logout: () => {},
+    fetchProfile: () => {},
     isLoggingIn: false,
     isLoggingOut: false,
     error: null,
@@ -29,6 +30,15 @@ export const UserContextStateProvider = ({ children }) => {
 
     const [currentUser, setCurrentUser] = useState(storedUserInfo);
 
+    const handleFetchProfile = () => {
+        fetch(serviceDiscovery.getUsersApi() + "/users/me", true).then(
+            profile => {
+                setUserInfo(profile);
+                setCurrentUser(profile);
+            }
+        );
+    };
+
     const handleLogin = (username, password) => {
         setLoggingIn(true);
         post(serviceDiscovery.getUsersApi() + "/auth/login", {
@@ -38,15 +48,10 @@ export const UserContextStateProvider = ({ children }) => {
             .then(response => {
                 const { token, refreshToken } = response;
                 setAuthTokens(token, refreshToken);
+                setLoggingIn(false);
 
                 // now that the user is logged in, fetch user info
-                fetch(serviceDiscovery.getUsersApi() + "/users/me", true).then(
-                    profile => {
-                        setUserInfo(profile);
-                        setCurrentUser(profile);
-                        setLoggingIn(false);
-                    }
-                );
+                handleFetchProfile();
             })
             .catch(error => {
                 setLoggingIn(false);
@@ -80,6 +85,7 @@ export const UserContextStateProvider = ({ children }) => {
                 isLoggedIn: currentUser && currentUser.email,
                 login: (username, password) => handleLogin(username, password),
                 logout: () => handleLogout(),
+                fetchProfile: () => handleFetchProfile(),
                 isLoggingIn,
                 isLoggingOut,
                 error,
