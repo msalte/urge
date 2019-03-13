@@ -34,6 +34,9 @@ import {
     faChartBar,
     faLongArrowAltRight,
     faKey,
+    faEnvelope,
+    faTag,
+    faIdCard,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -50,7 +53,10 @@ library.add(
     faBook,
     faChartBar,
     faLongArrowAltRight,
-    faKey
+    faKey,
+    faEnvelope,
+    faTag,
+    faIdCard
 );
 
 const AppContainerWithTopBar = ({ children }) => {

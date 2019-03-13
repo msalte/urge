@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "./styles.scss";
 import Button from "components/Button";
 import Input from "components/Input";
 import Spinner from "components/Spinner";
 import Card from "components/Card";
-import { post } from "global/fetch";
-import serviceDiscovery from "global/serviceDiscovery";
-import { setAuthTokens } from "global/localStorage";
+import { UserContext } from "components/UserContext";
 
 const Body = ({ onUsernameChanged, onPasswordChanged }) => {
     return (
@@ -26,51 +24,36 @@ const Body = ({ onUsernameChanged, onPasswordChanged }) => {
     );
 };
 
-const Footer = ({ onLoginClick, isPosting }) => {
+const Footer = ({ onLoginClick, isLoggingIn }) => {
     return (
         <div className={styles.footer}>
             <div className={styles.buttons}>
                 <Button disabled>Register</Button>
                 <Button
-                    disabled={isPosting}
+                    disabled={isLoggingIn}
                     primary
                     onClick={() => onLoginClick()}
                 >
                     Login
                 </Button>
             </div>
-            {isPosting && <Spinner text="Logging in..." />}
+            {isLoggingIn && <Spinner text="Logging in..." />}
         </div>
     );
 };
 
-export default ({ onLogin }) => {
+export default () => {
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
 
-    const [isPosting, setPosting] = useState(false);
-    const [error, setError] = useState(null);
+    const userContext = useContext(UserContext);
 
-    const handleLoginClick = () => {
-        if (!username || !username.length || !password || !password.length) {
-            return;
+    const { login, isLoggingIn, error } = userContext;
+
+    const handleLoginClick = (un, pw) => {
+        if (un && un.length && pw && pw.length) {
+            login(un, pw);
         }
-        setPosting(true);
-        post(serviceDiscovery.getUsersApi() + "/auth/login", {
-            email: username,
-            password,
-        })
-            .then(response => {
-                const { token, refreshToken } = response;
-                setAuthTokens(token, refreshToken);
-                setPosting(false);
-                onLogin(true);
-            })
-            .catch(error => {
-                setPosting(false);
-                setError(error);
-                onLogin(false);
-            });
     };
 
     return (
@@ -85,8 +68,10 @@ export default ({ onLogin }) => {
                 }
                 footer={
                     <Footer
-                        onLoginClick={() => handleLoginClick()}
-                        isPosting={isPosting}
+                        isLoggingIn={isLoggingIn}
+                        onLoginClick={() =>
+                            handleLoginClick(username, password)
+                        }
                     />
                 }
             />

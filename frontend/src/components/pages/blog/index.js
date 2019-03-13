@@ -11,6 +11,8 @@ export default () => {
     const navContext = React.useContext(NavigationContext);
     const userContext = React.useContext(UserContext);
 
+    const { isLoggedIn, currentUser } = userContext;
+
     const [articles, setArticles] = useState([]);
     const [isFetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
@@ -34,9 +36,9 @@ export default () => {
 
     return (
         <React.Fragment>
-            {userContext.isLoggedIn && (
+            {isLoggedIn && (
                 <div className={styles.greeting}>
-                    Welcome, {userContext.user.name}!
+                    Welcome, {currentUser.name}!
                 </div>
             )}
 

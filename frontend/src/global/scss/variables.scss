@@ -42,6 +42,7 @@
     --bg-input: #fff;
     --bg-menuitem: var(--bg-sidebar);
     --bg-menuitem-active: rgba(0, 153, 153, 0.5);
+    --bg-table-label: #f3f3f3;
 
     .dark {
         --border-color-sidebar: #444;
@@ -80,5 +81,6 @@
         --bg-input: #fff;
         --bg-menuitem: var(--bg-sidebar);
         --bg-menuitem-active: #555;
+        --bg-table-label: #555;
     }
 }

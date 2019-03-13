@@ -41,13 +41,15 @@ namespace Urge.Users.Controllers
                 return BadRequest("You must supply both an email and a password.");
             }
 
+            var requestEmail = request.Email.Trim().ToLower();
+
             var user = await _usersContext.Users
                 .Include(u => u.RefreshTokens)
-                .SingleOrDefaultAsync(u => u.Email.ToLower() == request.Email.ToLower());
+                .SingleOrDefaultAsync(u => u.Email == requestEmail);
 
             if (user == null)
             {
-                return NotFound($"No user found with email {request.Email}.");
+                return NotFound($"No user found with email {requestEmail}.");
             }
 
             var hashedPassword = Passwords.HashPassword(request.Password, user.PasswordSalt);
@@ -76,14 +78,14 @@ namespace Urge.Users.Controllers
                 return BadRequest("Must supply refresh token when logging out.");
             }
 
-            var email = _userAccessor.ClaimsProfile.Email.ToLower();
+            var email = _userAccessor.ClaimsProfile.Email;
 
             if (email == null)
             {
                 return BadRequest("Could not find an email claim on caller.");
             }
-
-            var user = await _usersContext.Users.Include(u => u.RefreshTokens).SingleOrDefaultAsync(u => u.Email.ToLower() == email);
+            
+            var user = await _usersContext.Users.Include(u => u.RefreshTokens).SingleOrDefaultAsync(u => u.Email == email);
 
             if (user == null)
             {
@@ -121,7 +123,7 @@ namespace Urge.Users.Controllers
 
             var user = await _usersContext.Users
                 .Include(u => u.RefreshTokens)
-                .SingleOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+                .SingleOrDefaultAsync(u => u.Email == email);
 
             var existingRefreshToken = user.RefreshTokens.FirstOrDefault(t => t.Token == request.RefreshToken);
 

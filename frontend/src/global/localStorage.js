@@ -33,13 +33,13 @@ export const setTheme = theme => {
     localStorage.setItem(KEY_THEME, theme);
 };
 
-export const setUserProfile = profile => {
+export const setUserInfo = profile => {
     localStorage.setItem(KEY_USER_PROFILE_ID, profile.id);
     localStorage.setItem(KEY_USER_PROFILE_EMAIL, profile.email);
     localStorage.setItem(KEY_USER_PROFILE_NAME, profile.name);
 };
 
-export const getUserProfile = () => {
+export const getUserInfo = () => {
     return {
         id: localStorage.getItem(KEY_USER_PROFILE_ID),
         email: localStorage.getItem(KEY_USER_PROFILE_EMAIL),
@@ -47,7 +47,7 @@ export const getUserProfile = () => {
     };
 };
 
-export const clearUserProfile = () => {
+export const clearUserInfo = () => {
     localStorage.removeItem(KEY_USER_PROFILE_ID);
     localStorage.removeItem(KEY_USER_PROFILE_EMAIL);
     localStorage.removeItem(KEY_USER_PROFILE_NAME);

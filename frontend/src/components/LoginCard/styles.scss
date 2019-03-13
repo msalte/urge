@@ -1,0 +1,22 @@
+.loginCardContainer {
+    width: 400px;
+
+    @media only screen and (max-width: 767px) {
+        // takes up up all horizontal space
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .buttons {
+            > button {
+                margin-right: calc(var(--grid-unit) * 1px);
+            }
+        }
+    }
+}

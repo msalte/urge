@@ -1,62 +1,88 @@
 import React, { useState } from "react";
 import {
-    getJwtToken,
     getRefreshToken,
     clearAuthTokens,
-    getUserProfile,
-    setUserProfile,
-    clearUserProfile,
+    getUserInfo,
+    setUserInfo,
+    clearUserInfo,
+    setAuthTokens,
 } from "global/localStorage";
 import serviceDiscovery from "global/serviceDiscovery";
 import { fetch, post } from "global/fetch";
 
 export const UserContext = React.createContext({
-    profile: null,
+    currentUser: null,
     isLoggedIn: false,
-    setLoggedIn: () => {},
+    login: () => {},
+    logout: () => {},
+    isLoggingIn: false,
+    isLoggingOut: false,
+    error: null,
 });
 
-const hasToken = () => {
-    const jwt = getJwtToken();
-    return jwt && jwt.length;
-};
-
 export const UserContextStateProvider = ({ children }) => {
-    const profile = getUserProfile();
-    const [user, setUser] = useState(profile);
+    const storedUserInfo = getUserInfo();
 
-    const handleLoggedIn = loggedIn => {
-        if (loggedIn) {
-            // Presumably the user logged in. If we have a token in local storage, accept.
-            const accepted = hasToken();
+    const [isLoggingIn, setLoggingIn] = useState(false);
+    const [isLoggingOut, setLoggingOut] = useState(false);
+    const [error, setError] = useState(null);
 
-            if (accepted) {
-                fetch(serviceDiscovery.getUsersApi() + "/users/me", true)
-                    .then(profile => {
-                        setUserProfile(profile);
-                        setUser(profile);
-                    })
-                    .catch(error => console.error(error));
-            }
-        } else {
-            post(
-                serviceDiscovery.getUsersApi() + "/auth/logout",
-                { refreshToken: getRefreshToken() },
-                true
-            ).then(() => {
-                setUser(null);
-                clearUserProfile();
-                clearAuthTokens();
+    const [currentUser, setCurrentUser] = useState(storedUserInfo);
+
+    const handleLogin = (username, password) => {
+        setLoggingIn(true);
+        post(serviceDiscovery.getUsersApi() + "/auth/login", {
+            email: username,
+            password,
+        })
+            .then(response => {
+                const { token, refreshToken } = response;
+                setAuthTokens(token, refreshToken);
+
+                // now that the user is logged in, fetch user info
+                fetch(serviceDiscovery.getUsersApi() + "/users/me", true).then(
+                    profile => {
+                        setUserInfo(profile);
+                        setCurrentUser(profile);
+                        setLoggingIn(false);
+                    }
+                );
+            })
+            .catch(error => {
+                setLoggingIn(false);
+                setError(error);
             });
-        }
+    };
+
+    const handleLogout = () => {
+        setLoggingOut(true);
+        post(
+            serviceDiscovery.getUsersApi() + "/auth/logout",
+            { refreshToken: getRefreshToken() },
+            true
+        )
+            .then(() => {
+                clearUserInfo();
+                setCurrentUser(null);
+                clearAuthTokens();
+                setLoggingOut(false);
+            })
+            .catch(error => {
+                setLoggingOut(false);
+                setError(error);
+            });
     };
 
     return (
         <UserContext.Provider
             value={{
-                user,
-                isLoggedIn: user && user.id,
-                setLoggedIn: isLoggedIn => handleLoggedIn(isLoggedIn),
+                currentUser: currentUser,
+                isLoggedIn: currentUser && currentUser.email,
+                login: (username, password) => handleLogin(username, password),
+                logout: () => handleLogout(),
+                isLoggingIn,
+                isLoggingOut,
+                error,
             }}
         >
             {children}

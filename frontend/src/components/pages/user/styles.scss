@@ -1,22 +1,55 @@
-.loginCardContainer {
-    width: 400px;
+.userPageContainer {
+    display: flex;
+    flex-direction: column;
 
-    @media only screen and (max-width: 767px) {
-        // takes up up all horizontal space
-        width: 100%;
+    .profileContainer {
         display: flex;
         flex-direction: column;
+
+        .table {
+            display: flex;
+            flex-wrap: wrap;
+            font-size: 14px;
+
+            .labelCell {
+                width: 10%;
+                padding: calc(var(--grid-unit) * 1px);
+                margin-bottom: calc(var(--grid-unit) * 1px);
+                background: var(--bg-table-label);
+                box-sizing: border-box;
+                border-radius: calc((var(--grid-unit) * 1px));
+
+                .icon {
+                    color: var(--icon-color-button);
+                    margin-right: calc(var(--grid-unit) * 1px);
+                }
+
+                @media only screen and (max-width: 767px) {
+                    // takes up up all horizontal space
+                    width: 100%;
+                    margin: 0;
+                }
+            }
+
+            .contentCell {
+                width: 90%;
+                padding: calc(var(--grid-unit) * 1px);
+                box-sizing: border-box;
+
+                @media only screen and (max-width: 767px) {
+                    // takes up up all horizontal space
+                    width: 100%;
+                }
+            }
+        }
     }
 
-    .footer {
+    .logoutContainer {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
 
-        .buttons {
-            > button {
-                margin-right: calc(var(--grid-unit) * 1px);
-            }
+        > button {
+            margin-right: calc(var(--grid-unit) * 1px);
         }
     }
 }

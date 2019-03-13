@@ -31,7 +31,9 @@ namespace Urge.Users.Controllers
                 return BadRequest("Could not create user. Input model state was invalid.");
             }
 
-            if (usersContext.Users.Any(u => u.Email.ToLower() == request.Email.ToLower()))
+            var requestEmail = request.Email.Trim().ToLower();
+
+            if (usersContext.Users.Any(u => u.Email == requestEmail))
             {
                 return Conflict("User with given email already exists.");
             }
@@ -41,7 +43,7 @@ namespace Urge.Users.Controllers
             var user = new User
             {
                 Name = request.Name,
-                Email = request.Email,
+                Email = requestEmail,
                 PasswordHash = hashedPassword.Hash,
                 PasswordSalt = hashedPassword.Salt
             };
