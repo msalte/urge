@@ -1,26 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import SubMenu from "./SubMenu";
+import NavigationContext from "components/NavigationContext";
 
-export default ({ item, onClick, isCollapsed, isActive }) => {
+export default ({ item, isCollapsed, isActive }) => {
+    const navContext = useContext(NavigationContext);
+
     const { subMenu, link, icon, displayName } = item;
-
     const [isSubMenuOpen, setSubMenuOpen] = useState(
         subMenu && subMenu.isDefaultOpen
     );
 
+    useEffect(() => {
+        const { activeSubMenuItem } = navContext;
+        if (subMenu && !isSubMenuOpen && activeSubMenuItem) {
+            if (subMenu.items.find(i => i === activeSubMenuItem) !== -1) {
+                setSubMenuOpen(true);
+            }
+        }
+    }, [navContext]);
+
     const handleOnClick = e => {
         if (subMenu) {
-            if (!subMenu.parentSelectable) {
+            if (!subMenu.isParentSelectable) {
                 e.preventDefault();
             }
 
             setSubMenuOpen(!isSubMenuOpen);
-        } else {
-            onClick();
         }
     };
 
@@ -59,10 +68,8 @@ export default ({ item, onClick, isCollapsed, isActive }) => {
             {subMenu && (
                 <SubMenu
                     isCollapsed={isCollapsed}
-                    items={subMenu.items}
+                    subMenu={subMenu}
                     isOpen={isSubMenuOpen}
-                    parentLocation={item}
-                    onOpen={() => setSubMenuOpen(true)}
                 />
             )}
         </React.Fragment>

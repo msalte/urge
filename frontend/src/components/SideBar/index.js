@@ -39,9 +39,6 @@ export default ({ isCollapsed, toggleCollapsed }) => {
                         isCollapsed={isCollapsed}
                         isActive={navContext.activeLocation === item}
                         item={item}
-                        onClick={() => {
-                            /* ignore, required to avoid page re-load  */
-                        }}
                     />
                 );
             })}

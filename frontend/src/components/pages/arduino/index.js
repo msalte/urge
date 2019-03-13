@@ -117,21 +117,25 @@ export default ({
 
     useEffect(() => {
         const {
-            locations: { arduino },
+            locations,
+            activeLocation,
+            activeSubMenuItem,
+            locations: {
+                arduino: {
+                    subMenu: { items },
+                },
+            },
         } = navContext;
 
-        navContext.setActiveLocation(arduino);
+        if (locations.arduino !== activeLocation) {
+            navContext.setActiveLocation(locations.arduino);
+        }
 
-        if (id && arduino.subMenu) {
-            const activeSubMenuItem = arduino.subMenu.items.find(
-                i => i.link.indexOf(id) !== -1
-            );
+        if (!activeSubMenuItem) {
+            const subMenuItem = items.find(i => i.link.indexOf(id) !== -1);
 
-            if (
-                activeSubMenuItem &&
-                activeSubMenuItem !== navContext.activeSubMenuItem
-            ) {
-                navContext.setActiveSubMenuItem(activeSubMenuItem);
+            if (subMenuItem) {
+                navContext.setActiveSubMenuItem(subMenuItem);
             }
         }
     }, [navContext]);

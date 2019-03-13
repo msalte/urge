@@ -14,8 +14,8 @@ const locations = {
         icon: "chart-bar",
         link: "/arduino",
         subMenu: {
-            defaultOpen: false,
-            parentSelectable: false,
+            isDefaultOpen: false,
+            isParentSelectable: false,
             items: [],
         },
     },
@@ -63,14 +63,37 @@ export const NavigationContextStateProvider = ({ children }) => {
         }
     }, []);
 
+    const handleActiveSubMenuItemChanged = item => {
+        setActiveSubMenuItem(item);
+    };
+
+    const handleActiveLocationChanged = loc => {
+        setActiveLocation(loc);
+
+        if (loc.subMenu) {
+            // the new location has a sub menu, check if active sub menu item is present
+
+            const subMenuItem = loc.subMenu.items.find(
+                i => i === activeSubMenuItem
+            );
+
+            if (!subMenuItem && activeSubMenuItem) {
+                handleActiveSubMenuItemChanged(null);
+            }
+        } else {
+            handleActiveSubMenuItemChanged(null);
+        }
+    };
+
     return (
         <NavigationContext.Provider
             value={{
                 locations,
                 activeLocation,
                 activeSubMenuItem,
-                setActiveLocation: loc => setActiveLocation(loc),
-                setActiveSubMenuItem: item => setActiveSubMenuItem(item),
+                setActiveLocation: loc => handleActiveLocationChanged(loc),
+                setActiveSubMenuItem: item =>
+                    handleActiveSubMenuItemChanged(item),
             }}
         >
             {children}
