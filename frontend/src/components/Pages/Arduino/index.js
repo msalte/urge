@@ -5,8 +5,8 @@ import styles from "./styles.scss";
 import highcharts from "highcharts/highstock";
 import HighchartsRect from "highcharts-react-official";
 import Spinner from "components/Spinner";
-import NavigationContext from "components/NavigationContext";
 import ThemeContext, { themes } from "components/ThemeContext";
+import { useEnsureNavigationEffect } from "./hooks";
 
 const renderChart = (data, themeContext) => {
     const isDark = themeContext.theme === themes.dark;
@@ -103,42 +103,18 @@ const renderChart = (data, themeContext) => {
     );
 };
 
-export default ({
-    match: {
-        params: { id },
-    },
-}) => {
-    const navContext = useContext(NavigationContext);
+export default ({ match }) => {
     const themeContext = useContext(ThemeContext);
 
     const [data, setData] = useState(null);
     const [isFetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const {
-            locations,
-            activeLocation,
-            activeSubMenuItem,
-            locations: {
-                arduino: {
-                    subMenu: { items },
-                },
-            },
-        } = navContext;
+    useEnsureNavigationEffect(match);
 
-        if (locations.arduino !== activeLocation) {
-            navContext.setActiveLocation(locations.arduino);
-        }
-
-        if (!activeSubMenuItem) {
-            const subMenuItem = items.find(i => i.link.indexOf(id) !== -1);
-
-            if (subMenuItem) {
-                navContext.setActiveSubMenuItem(subMenuItem);
-            }
-        }
-    }, [navContext]);
+    const {
+        params: { id },
+    } = match;
 
     useEffect(() => {
         setFetching(true);

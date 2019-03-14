@@ -59,6 +59,13 @@ export const UserContextStateProvider = ({ children }) => {
             });
     };
 
+    const onLoggedOut = () => {
+        clearUserInfo();
+        setCurrentUser(null);
+        clearAuthTokens();
+        setLoggingOut(false);
+    };
+
     const handleLogout = () => {
         setLoggingOut(true);
         post(
@@ -67,13 +74,11 @@ export const UserContextStateProvider = ({ children }) => {
             true
         )
             .then(() => {
-                clearUserInfo();
-                setCurrentUser(null);
-                clearAuthTokens();
-                setLoggingOut(false);
+                onLoggedOut();
+                setError(null);
             })
             .catch(error => {
-                setLoggingOut(false);
+                onLoggedOut();
                 setError(error);
             });
     };
@@ -82,7 +87,10 @@ export const UserContextStateProvider = ({ children }) => {
         <UserContext.Provider
             value={{
                 currentUser: currentUser,
-                isLoggedIn: currentUser && currentUser.email,
+                isLoggedIn:
+                    currentUser &&
+                    currentUser.email &&
+                    currentUser.email.length > 0,
                 login: (username, password) => handleLogin(username, password),
                 logout: () => handleLogout(),
                 fetchProfile: () => handleFetchProfile(),

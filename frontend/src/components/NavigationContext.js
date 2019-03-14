@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import moment from "moment";
+import { UserContext } from "./UserContext";
 
 const locations = {
     blog: {
@@ -37,31 +38,74 @@ const locations = {
 
 const NavigationContext = React.createContext({
     locations: {},
+    locationsUpdated: null,
     activeLocation: {},
     activeSubMenuItem: {},
     setActiveLocation: () => {},
 });
 
+const populateArduinoSubMenu = arduinoItems => {
+    // TODO: fetch from server
+    for (var i = 0; i < 3; i++) {
+        const date = moment().subtract(i, "week");
+        const dateStr = date.format("DD-MM-YYYY");
+
+        arduinoItems.push({
+            key: dateStr,
+            displayName: dateStr,
+            link: `/arduino/${dateStr}`,
+            trim: () => {
+                return date.format("DDMM");
+            },
+        });
+    }
+};
+
+const getUpdatedTimestamp = () => {
+    return moment().toString();
+};
+
 export const NavigationContextStateProvider = ({ children }) => {
+    const userContext = useContext(UserContext);
     const [activeLocation, setActiveLocation] = useState(null);
     const [activeSubMenuItem, setActiveSubMenuItem] = useState(null);
+    const [locationsUpdated, setLocationsUpdated] = useState(null);
 
-    // TODO: fetch from server
     useEffect(() => {
-        for (var i = 0; i < 3; i++) {
-            const date = moment().subtract(i, "week");
-            const dateStr = date.format("DD-MM-YYYY");
+        const {
+            arduino: { subMenu },
+        } = locations;
 
-            locations.arduino.subMenu.items.push({
-                key: dateStr,
-                displayName: dateStr,
-                link: `/arduino/${dateStr}`,
-                trim: () => {
-                    return date.format("DDMM");
-                },
-            });
+        if (subMenu.items.length === 0) {
+            populateArduinoSubMenu(subMenu.items);
         }
     }, []);
+
+    useEffect(() => {
+        const { isLoggedIn } = userContext;
+
+        const {
+            arduino: { subMenu },
+        } = locations;
+
+        const adminItem = {
+            key: "admin",
+            isAdmin: true,
+            displayName: "Admin",
+            link: "/arduino/admin",
+            trim: () => "ADM",
+        };
+
+        const itemIndex = subMenu.items.findIndex(i => i.key === adminItem.key);
+
+        if (itemIndex === -1 && isLoggedIn) {
+            subMenu.items.unshift(adminItem);
+            setLocationsUpdated(getUpdatedTimestamp());
+        } else if (itemIndex !== -1 && !isLoggedIn) {
+            subMenu.items.splice(itemIndex, 1);
+            setLocationsUpdated(getUpdatedTimestamp());
+        }
+    }, [userContext.isLoggedIn]);
 
     const handleActiveSubMenuItemChanged = item => {
         setActiveSubMenuItem(item);
@@ -89,6 +133,7 @@ export const NavigationContextStateProvider = ({ children }) => {
         <NavigationContext.Provider
             value={{
                 locations,
+                locationsUpdated,
                 activeLocation,
                 activeSubMenuItem,
                 setActiveLocation: loc => handleActiveLocationChanged(loc),

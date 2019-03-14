@@ -5,7 +5,14 @@ import ThemeContext, { themes } from "components/ThemeContext";
 
 let timeout = null;
 
-export default ({ onClick, primary, disabled, iconButton, children }) => {
+export default ({
+    onClick,
+    primary,
+    disabled,
+    iconButton,
+    submit,
+    children,
+}) => {
     const [isMouseDown, setMouseDown] = useState(false);
     const [mouseHasBeenDown, setMouseHasBeenDown] = useState(false);
 
@@ -31,6 +38,7 @@ export default ({ onClick, primary, disabled, iconButton, children }) => {
 
     return (
         <button
+            type={submit ? "submit" : "button"}
             disabled={disabled}
             className={className}
             onClick={() => onClick && onClick()}

@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import { render } from "react-dom";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import BlogPage from "components/pages/blog";
-import ArduinoPage from "components/pages/arduino";
-import UserPage from "components/pages/user";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import BlogPage from "components/Pages/Blog";
+import ArduinoPage from "components/Pages/Arduino";
+import ArduinoAdminPage from "components/Pages/Arduino/Admin";
+import UserPage from "components/Pages/User";
 import TopBar from "components/Topbar";
 import styles from "global/scss/app.scss";
 import { NavigationContextStateProvider } from "components/NavigationContext";
@@ -14,7 +15,7 @@ import ThemeContext, {
     ThemeContextStateProvider,
     themes,
 } from "components/ThemeContext";
-import { UserContextStateProvider } from "components/UserContext";
+import { UserContext, UserContextStateProvider } from "components/UserContext";
 
 import "typeface-nunito";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -84,6 +85,16 @@ const AppContainerWithTopBar = ({ children }) => {
     );
 };
 
+const PrivateRoute = props => {
+    const userContext = useContext(UserContext);
+
+    if (userContext.isLoggedIn) {
+        return <Route {...props} />;
+    }
+
+    return <Redirect to="/user" />;
+};
+
 const App = () => {
     const [isCollapsed, toggleCollapsed] = useCollapseToggler();
 
@@ -106,6 +117,13 @@ const App = () => {
                                     path="/"
                                     exact
                                     render={props => <BlogPage {...props} />}
+                                />
+                                <PrivateRoute
+                                    exact
+                                    path="/arduino/admin"
+                                    render={props => (
+                                        <ArduinoAdminPage {...props} />
+                                    )}
                                 />
                                 <Route
                                     path="/arduino/:id"

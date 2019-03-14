@@ -3,14 +3,15 @@ import styles from "./styles.scss";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import NavigationContext from "components/NavigationContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default ({ isCollapsed, isOpen, subMenu }) => {
     const navContext = useContext(NavigationContext);
     const { activeSubMenuItem } = navContext;
 
-    const handleItemClick = (e, item) => {
-        if (activeSubMenuItem === item) {
-            e.preventDefault();
+    const handleItemClick = (event, item) => {
+        if (activeSubMenuItem === item && event) {
+            event.preventDefault();
         } else {
             navContext.setActiveSubMenuItem(item);
         }
@@ -29,6 +30,7 @@ export default ({ isCollapsed, isOpen, subMenu }) => {
                         className={classNames(styles.item, {
                             [styles.active]: activeSubMenuItem === item,
                             [styles.collapsed]: isCollapsed,
+                            [styles.admin]: item.isAdmin,
                         })}
                         key={item.key}
                         to={item.link}
@@ -37,7 +39,13 @@ export default ({ isCollapsed, isOpen, subMenu }) => {
                         }}
                     >
                         {!isCollapsed && item.displayName}
-                        {isCollapsed && item.trim()}
+                        {isCollapsed && !item.isAdmin && item.trim()}
+                        {item.isAdmin && (
+                            <FontAwesomeIcon
+                                className={styles.icon}
+                                icon="key"
+                            />
+                        )}
                     </Link>
                 );
             })}

@@ -30,6 +30,7 @@ const Footer = ({ onLoginClick, isLoggingIn }) => {
             <div className={styles.buttons}>
                 <Button disabled>Register</Button>
                 <Button
+                    submit
                     disabled={isLoggingIn}
                     primary
                     onClick={() => onLoginClick()}
@@ -50,32 +51,36 @@ export default () => {
 
     const { login, isLoggingIn, error } = userContext;
 
-    const handleLoginClick = (un, pw) => {
-        if (un && un.length && pw && pw.length) {
-            login(un, pw);
+    const handleSubmit = event => {
+        if (event) {
+            event.preventDefault();
+        }
+
+        if (username && username.length && password && password.length) {
+            login(username, password);
         }
     };
 
     return (
         <div className={styles.loginCardContainer}>
-            <Card
-                title="Log in"
-                body={
-                    <Body
-                        onUsernameChanged={un => setUsername(un)}
-                        onPasswordChanged={pw => setPassword(pw)}
-                    />
-                }
-                footer={
-                    <Footer
-                        isLoggingIn={isLoggingIn}
-                        onLoginClick={() =>
-                            handleLoginClick(username, password)
-                        }
-                    />
-                }
-            />
-            {error && error.toString()}
+            <form onSubmit={e => handleSubmit(e)}>
+                <Card
+                    title="Log in"
+                    body={
+                        <Body
+                            onUsernameChanged={un => setUsername(un)}
+                            onPasswordChanged={pw => setPassword(pw)}
+                        />
+                    }
+                    footer={
+                        <Footer
+                            isLoggingIn={isLoggingIn}
+                            onLoginClick={e => handleSubmit(e)}
+                        />
+                    }
+                />
+                {error && error.toString()}
+            </form>
         </div>
     );
 };

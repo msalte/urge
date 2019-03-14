@@ -97,6 +97,7 @@
             color: var(--text-color-menuitem);
             display: flex;
             align-items: center;
+            justify-content: space-between;
             cursor: pointer;
 
             &.active {
@@ -111,6 +112,14 @@
                 padding: 0;
                 justify-content: center;
                 font-size: 12px;
+            }
+
+            &.admin {
+                text-decoration: underline;
+
+                .icon {
+                    color: gold;
+                }
             }
         }
 
