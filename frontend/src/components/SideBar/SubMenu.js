@@ -39,7 +39,7 @@ export default ({ isCollapsed, isOpen, subMenu }) => {
                         }}
                     >
                         {!isCollapsed && item.displayName}
-                        {isCollapsed && !item.isAdmin && item.trim()}
+                        {isCollapsed && !item.isAdmin && item.shortName}
                         {item.isAdmin && (
                             <FontAwesomeIcon
                                 className={styles.icon}

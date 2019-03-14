@@ -11,13 +11,20 @@ import { useEnsureNavigationEffect } from "./hooks";
 const renderChart = (data, themeContext) => {
     const isDark = themeContext.theme === themes.dark;
 
-    const categories = data.map(d => d.timestamp);
-    const sensor1Data = data.map(d => d.sensor1);
-    const sensor2Data = data.map(d => d.sensor2);
-    const sensor3Data = data.map(d => d.sensor3);
-    const sensor4Data = data.map(d => d.sensor4);
-    const sensor5Data = data.map(d => d.sensor5);
-    const sensor6Data = data.map(d => d.sensor6);
+    const { entries } = data;
+
+    const totalAverage = parseFloat(Number(data.totalAverage).toFixed(2));
+
+    const categories = entries.map(d => d.timestamp);
+    const sensor1Data = entries.map(d => d.sensor1);
+    const sensor2Data = entries.map(d => d.sensor2);
+    const sensor3Data = entries.map(d => d.sensor3);
+    const sensor4Data = entries.map(d => d.sensor4);
+    const sensor5Data = entries.map(d => d.sensor5);
+    const sensor6Data = entries.map(d => d.sensor6);
+    const averageData = entries.map(d =>
+        parseFloat(Number(d.average).toFixed(2))
+    );
 
     const options = {
         title: { text: "" },
@@ -92,6 +99,16 @@ const renderChart = (data, themeContext) => {
                 name: "Sensor 6",
                 yAxis: 0,
                 data: sensor6Data,
+            },
+            {
+                name: "Average",
+                yAxis: 0,
+                data: averageData,
+            },
+            {
+                name: "Total Average",
+                yAxis: 0,
+                data: averageData.map(() => totalAverage),
             },
         ],
     };

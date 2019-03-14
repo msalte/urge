@@ -23,21 +23,21 @@ namespace Urge.SPA.Controllers
         [HttpGet("data/arduino")]
         public async Task<IActionResult> GetData()
         {
-            var result = new List<ArduinoData>();
+            var result = new ArduinoData();
 
             foreach (var line in await System.IO.File.ReadAllLinesAsync($"{env.ContentRootPath}\\Data\\arduino_data.txt"))
             {
-                result.Add(ParseLine(line));
+                result.Entries.Add(ParseLine(line));
             }
 
             return Ok(result);
         }
 
-        private ArduinoData ParseLine(string line)
+        private ArduinoDataEntry ParseLine(string line)
         {
             var parts = line.Split(",");
 
-            return new ArduinoData
+            return new ArduinoDataEntry
             {
                 Timestamp = DateTime.Parse(parts[0]).ToString("HH:mm:ss", CultureInfo.InvariantCulture),
                 Sensor1 = double.Parse(parts[1], CultureInfo.InvariantCulture),
@@ -52,6 +52,12 @@ namespace Urge.SPA.Controllers
 
         class ArduinoData
         {
+            public List<ArduinoDataEntry> Entries { get; set; } = new List<ArduinoDataEntry>();
+            public double TotalAverage => Entries.Sum(e => e.Average) / Entries.Count;
+        }
+
+        class ArduinoDataEntry
+        {
             public string Timestamp { get; set; }
             public double Sensor1 { get; set; }
             public double Sensor2 { get; set; }
@@ -59,6 +65,8 @@ namespace Urge.SPA.Controllers
             public double Sensor4 { get; set; }
             public double Sensor5 { get; set; }
             public double Sensor6 { get; set; }
+
+            public double Average => (Sensor1 + Sensor2 + Sensor3 + Sensor4 + Sensor5 + Sensor6) / 6;
         }
     }
 }

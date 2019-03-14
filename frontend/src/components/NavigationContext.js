@@ -54,9 +54,7 @@ const populateArduinoSubMenu = arduinoItems => {
             key: dateStr,
             displayName: dateStr,
             link: `/arduino/${dateStr}`,
-            trim: () => {
-                return date.format("DDMM");
-            },
+            shortName: date.format("DDMM"),
         });
     }
 };
@@ -93,7 +91,7 @@ export const NavigationContextStateProvider = ({ children }) => {
             isAdmin: true,
             displayName: "Admin",
             link: "/arduino/admin",
-            trim: () => "ADM",
+            shortName: "ADM",
         };
 
         const itemIndex = subMenu.items.findIndex(i => i.key === adminItem.key);
