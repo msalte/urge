@@ -32,7 +32,7 @@ export default (data, themeContext) => {
             categories: categories,
             lineColor: isDark ? "#777" : "#e6e6e6",
             min: 0,
-            max: 10,
+            max: 5,
             scrollbar: {
                 enabled: true,
             },
