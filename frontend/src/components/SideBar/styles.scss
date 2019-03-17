@@ -135,15 +135,14 @@
     }
 
     .collapseButton {
-        width: calc(var(--grid-unit) * 5px);
         position: absolute;
         bottom: 60px;
-        left: calc(var(--width-sidebar) - 50px);
+        left: calc(var(--width-sidebar) - 45px);
         transition-property: left;
         transition-duration: 0.2s;
 
         &.collapsed {
-            left: 10px;
+            left: 12.5px;
         }
     }
 }

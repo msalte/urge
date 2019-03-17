@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Urge.Arduino.Repository;
+using Urge.Arduino.Storage;
 using Urge.Common.Configuration;
 
 namespace Urge.Arduino
@@ -17,6 +19,8 @@ namespace Urge.Arduino
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDefaultMicroserviceServices();
+            services.AddScoped<IBlobStorageClient, BlobStorageClient>();
+            services.AddScoped<ISensorDataRepository, SensorDataRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -16,6 +16,7 @@ namespace Urge.Common.Configuration
         public static class ConnectionStrings
         {
             public static ConfigKey UsersContext = new ConfigKey("ConnectionStrings:UsersContext");
+            public static ConfigKey StorageAccount = new ConfigKey("ConnectionStrings:StorageAccount");
         }
 
         public static class CosmosDB

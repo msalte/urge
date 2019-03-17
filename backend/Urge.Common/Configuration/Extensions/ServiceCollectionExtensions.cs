@@ -113,12 +113,14 @@ namespace Urge.Common.Configuration
                 endpointConfig.Spa = "https://localhost:44300";
                 endpointConfig.Blog = "https://localhost:44322";
                 endpointConfig.Users = "https://localhost:44311";
+                endpointConfig.Arduino = "https://localhost:44333";
             }
             else
             {
                 endpointConfig.Spa = "https://urge-app.azurewebsites.net";
                 endpointConfig.Blog = "https://urge-s-blog.azurewebsites.net";
                 endpointConfig.Users = "https://urge-s-users.azurewebsites.net";
+                endpointConfig.Arduino = "https://urge-s-arduino.azurewebsites.net";
             }
 
             services.AddSingleton(endpointConfig);

@@ -20,7 +20,7 @@ namespace Urge.SPA
 
         private static void ConfigureApp(WebHostBuilderContext context, IConfigurationBuilder builder)
         {
-            builder.AddCommonMicroserviceKeyVault(context.HostingEnvironment);
+            builder.AddAppSecrets(context.HostingEnvironment);
         }
     }
 }

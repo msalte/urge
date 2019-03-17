@@ -13,10 +13,11 @@ namespace Urge.Common.ServiceDiscovery
             Key = key;
         }
 
+        public static ServiceEndpoint Arduino = new ServiceEndpoint("arduino");
         public static ServiceEndpoint Users = new ServiceEndpoint("users");
         public static ServiceEndpoint Blog = new ServiceEndpoint("blog");
         public static ServiceEndpoint Spa = new ServiceEndpoint("spa");
 
-        public static List<ServiceEndpoint> All => new List<ServiceEndpoint>() { Users, Blog, Spa };
+        public static List<ServiceEndpoint> All => new List<ServiceEndpoint>() { Users, Blog, Spa, Arduino };
     }
 }

@@ -13,8 +13,13 @@ namespace Urge.Common.Configuration
     {
         private const string KEY_VAULT_NAME = "https://urge-kv.vault.azure.net";
 
-        public static IConfigurationBuilder AddCommonMicroserviceKeyVault(this IConfigurationBuilder builder, IHostingEnvironment env)
+        public static IConfigurationBuilder AddAppSecrets(this IConfigurationBuilder builder, IHostingEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                return AddDevAppSettings(builder, env);
+            }
+
             var serviceTokenProvider = new AzureServiceTokenProvider();
             var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(serviceTokenProvider.KeyVaultTokenCallback));
 
@@ -23,7 +28,7 @@ namespace Urge.Common.Configuration
             return builder;
         }
 
-        public static IConfigurationBuilder AddDevAppSettings(this IConfigurationBuilder builder, IHostingEnvironment env)
+        private static IConfigurationBuilder AddDevAppSettings(this IConfigurationBuilder builder, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

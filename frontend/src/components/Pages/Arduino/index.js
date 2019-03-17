@@ -13,8 +13,6 @@ const renderChart = (data, themeContext) => {
 
     const { entries } = data;
 
-    const totalAverage = parseFloat(Number(data.totalAverage).toFixed(2));
-
     const categories = entries.map(d => d.timestamp);
     const sensor1Data = entries.map(d => d.sensor1);
     const sensor2Data = entries.map(d => d.sensor2);
@@ -105,11 +103,6 @@ const renderChart = (data, themeContext) => {
                 yAxis: 0,
                 data: averageData,
             },
-            {
-                name: "Total Average",
-                yAxis: 0,
-                data: averageData.map(() => totalAverage),
-            },
         ],
     };
 
@@ -135,7 +128,7 @@ export default ({ match }) => {
 
     useEffect(() => {
         setFetching(true);
-        fetch(serviceDiscovery.getSpaApi() + "/data/arduino")
+        fetch(serviceDiscovery.getArduinoApi() + "/data/exhaust/17-03-2019")
             .then(data => {
                 setData(data);
                 setFetching(false);

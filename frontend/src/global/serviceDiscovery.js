@@ -8,4 +8,7 @@ export default {
     getSpaApi: () => {
         return window.serviceEndpoints["spa"];
     },
+    getArduinoApi: () => {
+        return window.serviceEndpoints["arduino"];
+    },
 };

@@ -25,8 +25,7 @@ namespace Urge.Users
 
         private static void ConfigureApp(WebHostBuilderContext context, IConfigurationBuilder builder)
         {
-            builder.AddDevAppSettings(context.HostingEnvironment);
-            builder.AddCommonMicroserviceKeyVault(context.HostingEnvironment);
+            builder.AddAppSecrets(context.HostingEnvironment);
         }
     }
 }

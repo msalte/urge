@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Urge.Common.Configuration;
 
 namespace Urge.Arduino
 {
@@ -24,6 +25,7 @@ namespace Urge.Arduino
 
         private static void ConfigureApp(WebHostBuilderContext context, IConfigurationBuilder builder)
         {
+            builder.AddAppSecrets(context.HostingEnvironment);
         }
     }
 }

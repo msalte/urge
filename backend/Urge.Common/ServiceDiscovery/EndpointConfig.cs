@@ -29,5 +29,7 @@ namespace Urge.Common.ServiceDiscovery
         public string Users { get => this[ServiceEndpoint.Users]; set => this[ServiceEndpoint.Users] = value; }
         [JsonIgnore]
         public string Blog { get => this[ServiceEndpoint.Blog]; set => this[ServiceEndpoint.Blog] = value; }
+        [JsonIgnore]
+        public string Arduino { get => this[ServiceEndpoint.Arduino]; set => this[ServiceEndpoint.Arduino] = value; }
     }
 }
