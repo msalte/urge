@@ -1,0 +1,39 @@
+.chartContainer {
+    width: 33.33%;
+    margin: calc(var(--grid-unit) * 1px);
+
+    @media only screen and (max-width: 767px) {
+        // takes up up all horizontal space
+        width: 100%;
+    }
+
+    .header {
+        font-size: 14px;
+        height: calc(var(--grid-unit) * 4px);
+        box-sizing: border-box;
+        background: var(--bg-sidebar);
+        border: 1px solid var(--bg-sidebar);
+        border-radius: 4px 4px 0 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: calc(var(--grid-unit) * 1px);
+    }
+
+    .chart {
+        height: calc(100% - var(--grid-unit) * 4px);
+        border-radius: 0 0 4px 4px;
+        border: 1px solid var(--bg-sidebar);
+
+        @media only screen and (max-width: 767px) {
+            height: 500px;
+        }
+
+        > div {
+            box-sizing: border-box;
+            height: 100%;
+            width: 100%;
+        }
+    }
+}

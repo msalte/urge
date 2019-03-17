@@ -46,17 +46,15 @@ const NavigationContext = React.createContext({
 
 const populateArduinoSubMenu = arduinoItems => {
     // TODO: fetch from server
-    for (var i = 0; i < 3; i++) {
-        const date = moment().subtract(i, "week");
-        const dateStr = date.format("DD-MM-YYYY");
 
-        arduinoItems.push({
-            key: dateStr,
-            displayName: dateStr,
-            link: `/arduino/${dateStr}`,
-            shortName: date.format("DDMM"),
-        });
-    }
+    const dateStr = "15-03-2019";
+
+    arduinoItems.push({
+        key: dateStr,
+        displayName: dateStr,
+        link: `/arduino/${dateStr}`,
+        shortName: "1503",
+    });
 };
 
 const getUpdatedTimestamp = () => {
