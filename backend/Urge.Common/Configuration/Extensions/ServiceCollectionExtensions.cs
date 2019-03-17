@@ -116,9 +116,9 @@ namespace Urge.Common.Configuration
             }
             else
             {
-                endpointConfig.Spa = "https://urge.azurewebsites.net";
-                endpointConfig.Blog = "https://urge-blog.azurewebsites.net";
-                endpointConfig.Users = "https://urge-users.azurewebsites.net";
+                endpointConfig.Spa = "https://urge-app.azurewebsites.net";
+                endpointConfig.Blog = "https://urge-s-blog.azurewebsites.net";
+                endpointConfig.Users = "https://urge-s-users.azurewebsites.net";
             }
 
             services.AddSingleton(endpointConfig);

@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Development", "Development"
 		Development\appsettings.PC0GA42D.json = Development\appsettings.PC0GA42D.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urge.Arduino", "Urge.Arduino\Urge.Arduino.csproj", "{5F577E4D-1E8F-46E1-94FD-9D022FFF2424}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{7BD47D82-8E76-4FB0-A3D3-DDE95EB6F257}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BD47D82-8E76-4FB0-A3D3-DDE95EB6F257}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BD47D82-8E76-4FB0-A3D3-DDE95EB6F257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F577E4D-1E8F-46E1-94FD-9D022FFF2424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F577E4D-1E8F-46E1-94FD-9D022FFF2424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F577E4D-1E8F-46E1-94FD-9D022FFF2424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F577E4D-1E8F-46E1-94FD-9D022FFF2424}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

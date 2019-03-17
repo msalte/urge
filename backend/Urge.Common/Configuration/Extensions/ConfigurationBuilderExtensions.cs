@@ -11,7 +11,7 @@ namespace Urge.Common.Configuration
 {
     public static class ConfigurationBuilderExtensions
     {
-        private const string KEY_VAULT_NAME = "https://urge-keyvault.vault.azure.net";
+        private const string KEY_VAULT_NAME = "https://urge-kv.vault.azure.net";
 
         public static IConfigurationBuilder AddCommonMicroserviceKeyVault(this IConfigurationBuilder builder, IHostingEnvironment env)
         {
