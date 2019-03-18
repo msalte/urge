@@ -6,7 +6,7 @@ export const useEnsureNavigationEffect = match => {
 
     const {
         path,
-        params: { id },
+        params: { date },
     } = match;
 
     useEffect(() => {
@@ -28,8 +28,8 @@ export const useEnsureNavigationEffect = match => {
         if (!activeSubMenuItem) {
             let subMenuItem = null;
 
-            if (id) {
-                subMenuItem = items.find(i => i.link.indexOf(id) !== -1);
+            if (date) {
+                subMenuItem = items.find(i => i.link.indexOf(date) !== -1);
             } else if (path && path.indexOf("admin")) {
                 subMenuItem = items.find(i => i.isAdmin);
             }

@@ -1,9 +1,7 @@
-import { themes } from "components/ThemeContext";
 import moment from "moment";
+import baseOptions from "./base";
 
 export default (data, themeContext) => {
-    const isDark = themeContext.theme === themes.dark;
-
     const { entries } = data;
 
     const categories = entries.map(d => moment(d.timestamp).format("HH:mm:ss"));
@@ -18,49 +16,13 @@ export default (data, themeContext) => {
         parseFloat(Number(d.average).toFixed(2))
     );
 
-    const options = {
-        title: { text: "" },
-        chart: {
-            type: "spline",
-            zoomType: "xy",
-            backgroundColor: isDark ? "#666" : "#fff",
-        },
+    const base = baseOptions("Temperature (°C)", "°C", themeContext);
+
+    const options = Object.assign({}, base, {
         xAxis: {
-            title: { text: "" },
-            categories: categories,
-            lineColor: isDark ? "#777" : "#e6e6e6",
-            min: 0,
-            max: 5,
-            scrollbar: {
-                enabled: true,
-            },
-            tickLength: 0,
-            labels: {
-                style: {
-                    color: isDark ? "#ccc" : "#000",
-                },
-            },
+            ...base.xAxis,
+            categories,
         },
-        legend: {
-            itemHiddenStyle: { color: isDark ? "#999" : "#ccc" },
-            itemHoverStyle: { color: isDark ? "#ccc" : "#000" },
-            itemStyle: {
-                color: isDark ? "#ccc" : "#000",
-            },
-        },
-        yAxis: {
-            title: {
-                text: "Temperature (°C)",
-                style: { color: isDark ? "#ccc" : "#000" },
-            },
-            labels: {
-                style: {
-                    color: isDark ? "#ccc" : "#000",
-                },
-            },
-            gridLineColor: isDark ? "#777" : "#e6e6e6",
-        },
-        tooltip: { shared: true, valueSuffix: "°C" },
         series: [
             {
                 name: "Sensor 1",
@@ -98,7 +60,6 @@ export default (data, themeContext) => {
                 data: averageData,
             },
         ],
-    };
-
+    });
     return options;
 };

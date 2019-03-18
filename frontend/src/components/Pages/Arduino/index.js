@@ -5,9 +5,9 @@ import styles from "./styles.scss";
 import ThemeContext from "components/ThemeContext";
 import { useEnsureNavigationEffect } from "./hooks";
 import Chart from "./Chart";
-import exhaustOptions from "./exhaustOptions";
-import miscOptions from "./miscOptions";
-import pressureOptions from "./pressureOptions";
+import exhaustOptions from "./chartOptions/exhaust";
+import miscOptions from "./chartOptions/misc";
+import pressureOptions from "./chartOptions/pressure";
 
 export default ({ match }) => {
     const themeContext = useContext(ThemeContext);
@@ -15,20 +15,20 @@ export default ({ match }) => {
     useEnsureNavigationEffect(match);
 
     const {
-        params: { id },
+        params: { date },
     } = match;
 
     const exhaustDataPromise = () =>
-        fetch(serviceDiscovery.getArduinoApi() + `/data/exhaust/${id}`);
+        fetch(serviceDiscovery.getArduinoApi() + `/data/exhaust/${date}`);
     const pressureDataPromise = () =>
-        fetch(serviceDiscovery.getArduinoApi() + `/data/pressure/${id}`);
+        fetch(serviceDiscovery.getArduinoApi() + `/data/pressure/${date}`);
     const miscDataPromise = () =>
-        fetch(serviceDiscovery.getArduinoApi() + `/data/misc/${id}`);
+        fetch(serviceDiscovery.getArduinoApi() + `/data/misc/${date}`);
 
     return (
         <div className={styles.arduinoContainer}>
             <Chart
-                key={`Exhaust: ${id}`}
+                key={`Exhaust: ${date}`}
                 name="Exhaust temperatures (°C)"
                 dataPromise={() => exhaustDataPromise()}
                 optionsCreatorCallback={data =>
@@ -36,7 +36,7 @@ export default ({ match }) => {
                 }
             />
             <Chart
-                key={`Pressure: ${id}`}
+                key={`Pressure: ${date}`}
                 name="Pressure (bar)"
                 dataPromise={() => pressureDataPromise()}
                 optionsCreatorCallback={data =>
@@ -44,7 +44,7 @@ export default ({ match }) => {
                 }
             />
             <Chart
-                key={`Misc.: ${id}`}
+                key={`Misc.: ${date}`}
                 name="Miscellaneous temperatures (°C)"
                 dataPromise={() => miscDataPromise()}
                 optionsCreatorCallback={data => miscOptions(data, themeContext)}

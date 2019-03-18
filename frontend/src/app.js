@@ -126,7 +126,7 @@ const App = () => {
                                     )}
                                 />
                                 <Route
-                                    path="/arduino/:id"
+                                    path="/arduino/:date"
                                     render={props => <ArduinoPage {...props} />}
                                 />
                                 <Route
