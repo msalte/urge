@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import moment from "moment";
 import { UserContext } from "./UserContext";
+import { fetch } from "global/fetch";
+import serviceDiscovery from "global/serviceDiscovery";
 
 const locations = {
     blog: {
@@ -44,19 +46,6 @@ const NavigationContext = React.createContext({
     setActiveLocation: () => {},
 });
 
-const populateArduinoSubMenu = arduinoItems => {
-    // TODO: fetch from server
-
-    const dateStr = "15-03-2019";
-
-    arduinoItems.push({
-        key: dateStr,
-        displayName: dateStr,
-        link: `/arduino/${dateStr}`,
-        shortName: "1503",
-    });
-};
-
 const getUpdatedTimestamp = () => {
     return moment().toString();
 };
@@ -73,7 +62,20 @@ export const NavigationContextStateProvider = ({ children }) => {
         } = locations;
 
         if (subMenu.items.length === 0) {
-            populateArduinoSubMenu(subMenu.items);
+            fetch(serviceDiscovery.getArduinoApi() + "/data/dates").then(
+                data => {
+                    data.forEach(date => {
+                        const sn = date.replace("-", "").substring(0, 4);
+                        subMenu.items.push({
+                            key: date,
+                            displayName: date,
+                            link: `/arduino/${date}`,
+                            shortName: sn,
+                        });
+                    });
+                    setLocationsUpdated(getUpdatedTimestamp());
+                }
+            );
         }
     }, []);
 

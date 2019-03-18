@@ -18,6 +18,23 @@ namespace Urge.Arduino.Controllers
             _sensorDataRepository = sensorDataRepository;
         }
 
+        [Authorize]
+        [HttpGet("sas/upload")]
+        public async Task<IActionResult> GetSharedAccessSignatureForUpload()
+        {
+            var sas = await _sensorDataRepository.GenerateSharedAccessSignature();
+
+            return Ok(sas);
+        }
+
+        [HttpGet("data/dates")]
+        public async Task<IActionResult> GetAllDatesWithDataAsync()
+        {
+            var folders = await _sensorDataRepository.ListDataFoldersAsync();
+
+            return Ok(folders.OrderByDescending(s => s));
+        }
+
         [HttpGet("data/exhaust/{date}")]
         public async Task<IActionResult> GetExhaustDataAsync(string date)
         {

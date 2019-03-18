@@ -3,6 +3,7 @@ import highcharts from "highcharts/highstock";
 import HighchartsRect from "highcharts-react-official";
 import styles from "./styles.scss";
 import Spinner from "components/Spinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default ({ date, name, dataPromise, optionsCreatorCallback }) => {
     const [data, setData] = useState(null);
@@ -24,10 +25,6 @@ export default ({ date, name, dataPromise, optionsCreatorCallback }) => {
             });
     };
 
-    if (error) {
-        console.log(error);
-    }
-
     useEffect(() => {
         fetchData();
     }, [date]);
@@ -42,6 +39,14 @@ export default ({ date, name, dataPromise, optionsCreatorCallback }) => {
                         options={optionsCreatorCallback(data)}
                         highcharts={highcharts}
                     />
+                )}
+                {error && !isFetching && (
+                    <div className={styles.error}>
+                        <div className={styles.icon}>
+                            <FontAwesomeIcon icon="exclamation-triangle" />
+                        </div>
+                        Something went wrong or no data.
+                    </div>
                 )}
             </div>
         </div>

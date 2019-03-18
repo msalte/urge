@@ -14,6 +14,8 @@ namespace Urge.Arduino.Repository
         Task<ExhaustData> GetExhaustDataAsync(string folder);
         Task<PressureData> GetPressureDataAsync(string folder);
         Task<MiscData> GetMiscDataAsync(string folder);
+        Task<List<string>> ListDataFoldersAsync();
+        Task<string> GenerateSharedAccessSignature();
     }
 
     public class SensorDataRepository : ISensorDataRepository
@@ -31,11 +33,21 @@ namespace Urge.Arduino.Repository
             _blobStorageClient = blobStorageClient;
         }
 
+        public async Task<string> GenerateSharedAccessSignature()
+        {
+            return await _blobStorageClient.GenerateSASForContainer(BLOB_CONTAINER_NAME);
+        }
+
         public async Task<ExhaustData> GetExhaustDataAsync(string folder)
         {
             var path = $"{folder}/{BLOB_NAME_EXHAUST}";
 
             var text = await _blobStorageClient.ReadBlobAsStringAsync(BLOB_CONTAINER_NAME, path);
+
+            if (text == null)
+            {
+                return null;
+            }
 
             var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
@@ -45,7 +57,13 @@ namespace Urge.Arduino.Repository
         public async Task<MiscData> GetMiscDataAsync(string folder)
         {
             var path = $"{folder}/{BLOB_NAME_MISC}";
+
             var text = await _blobStorageClient.ReadBlobAsStringAsync(BLOB_CONTAINER_NAME, path);
+
+            if (text == null)
+            {
+                return null;
+            }
 
             var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
@@ -58,9 +76,23 @@ namespace Urge.Arduino.Repository
 
             var text = await _blobStorageClient.ReadBlobAsStringAsync(BLOB_CONTAINER_NAME, path);
 
+            if (text == null)
+            {
+                return null;
+            }
+
             var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             return SensorDataParser.Pressure.Parse(lines);
+        }
+
+        public async Task<List<string>> ListDataFoldersAsync()
+        {
+            var uris = await _blobStorageClient.ListFoldersAsync(BLOB_CONTAINER_NAME);
+
+            var folderNames = uris.Select(i => i.Segments.Last().Replace("/", "")).ToList();
+
+            return folderNames;
         }
     }
 }

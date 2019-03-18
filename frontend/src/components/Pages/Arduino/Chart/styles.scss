@@ -35,5 +35,18 @@
             height: 100%;
             width: 100%;
         }
+
+        .error {
+            display: flex;
+            flex-direction: row;
+            color: var(--text-color-chart-error);
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+
+            .icon {
+                padding-right: calc(var(--grid-unit) * 1px);
+            }
+        }
     }
 }

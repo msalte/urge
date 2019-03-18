@@ -6,4 +6,4 @@ bin
 obj
 wwwroot
 
-azurekeyvault.json
+!wwwroot/azure-storage.blob.min.js

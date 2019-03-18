@@ -40,6 +40,7 @@ import {
     faEnvelope,
     faTag,
     faIdCard,
+    faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -61,11 +62,17 @@ library.add(
     faKey,
     faEnvelope,
     faTag,
-    faIdCard
+    faIdCard,
+    faExclamationTriangle
 );
 
 const AppContainerWithTopBar = ({ children }) => {
     const themeContext = useContext(ThemeContext);
+
+    document.documentElement.style.setProperty(
+        "background",
+        themeContext.theme === themes.dark ? "#666" : "#fff"
+    );
 
     return (
         <React.Fragment>
