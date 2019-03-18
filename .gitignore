@@ -4,6 +4,6 @@ dist
 .vs
 bin
 obj
-wwwroot
 
-!wwwroot/azure-storage.blob.min.js
+**/wwwroot/*
+!**/wwwroot/libs
