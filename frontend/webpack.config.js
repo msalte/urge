@@ -22,6 +22,12 @@ module.exports = {
             {
                 test: /\.js?/,
                 include: SOURCE_DIR,
+                exclude: [
+                    path.resolve(
+                        SOURCE_DIR,
+                        "ext/az-storage/azure-storage.blob.min.js"
+                    ),
+                ],
                 loader: "babel-loader",
                 options: {
                     presets: ["@babel/preset-react"],
