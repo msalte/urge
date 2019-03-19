@@ -7,30 +7,51 @@ import Button from "components/Button";
 import moment from "moment";
 import azStorage from "ext/az-storage";
 
-const upload = files => {
+const performUpload = (files, onError, onSuccess) => {
     const folder = moment().format("DD-MM-YYYY");
-    const onError = error => {
-        console.error(error);
-    };
-    const onSuccess = result => {
-        console.log(result);
-    };
 
     azStorage.upload(folder, files, onSuccess, onError);
 };
 
 const UploadCard = () => {
     const [files, setFiles] = useState(null);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
+
+    const onError = error => {
+        setError(error);
+        setSuccess(false);
+    };
+
+    const onSuccess = () => {
+        setSuccess(true);
+        setError(null);
+        setFiles(null);
+    };
+
+    const handleOnFilesChanged = files => {
+        setFiles(files);
+        setSuccess(false);
+        setError(null);
+    };
 
     const body = (
-        <FileInput
-            onChange={files => setFiles(files)}
-            placeholder="Select files..."
-        />
+        <React.Fragment>
+            <FileInput
+                onChange={files => handleOnFilesChanged(files)}
+                placeholder="Select files..."
+            />
+            {error && `${error.statusCode} ${error.code}.`}
+            {success && "Successfully uploaded files."}
+        </React.Fragment>
     );
 
     const footer = (
-        <Button primary onClick={() => upload(files)}>
+        <Button
+            primary={(files !== null) === true}
+            disabled={!files}
+            onClick={() => performUpload(files, onError, onSuccess)}
+        >
             Upload
         </Button>
     );
