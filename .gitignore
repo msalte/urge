@@ -5,5 +5,4 @@ dist
 bin
 obj
 
-**/wwwroot/*
-!**/wwwroot/libs
+wwwroot

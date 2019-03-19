@@ -14,6 +14,7 @@ module.exports = {
         alias: {
             components: path.resolve(SOURCE_DIR, "components"),
             global: path.resolve(SOURCE_DIR, "global"),
+            ext: path.resolve(SOURCE_DIR, "ext"),
         },
     },
     module: {
