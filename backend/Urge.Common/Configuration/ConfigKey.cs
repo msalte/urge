@@ -29,5 +29,12 @@ namespace Urge.Common.Configuration
         {
             public static ConfigKey JWTSymmetricKey = new ConfigKey("Authentication:JWTSymmetricKey");
         }
+
+        public static class AADB2C
+        {
+            public static ConfigKey Tenant = new ConfigKey("AADB2C:Tenant");
+            public static ConfigKey ClientId = new ConfigKey("AADB2C:ClientId");
+            public static ConfigKey Policy = new ConfigKey("AADB2C:Policy");
+        }
     }
 }

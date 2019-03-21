@@ -48,8 +48,8 @@ namespace Urge.Common.Configuration
                     policy
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .WithExposedHeaders("Token-Expired");
+                        .AllowAnyHeader();
+                    //.WithExposedHeaders("Token-Expired");
                 });
             });
 
@@ -59,35 +59,48 @@ namespace Urge.Common.Configuration
         private static IServiceCollection AddDefaultMicroserviceAuthentication(this IServiceCollection services)
         {
             var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
-            var key = Encoding.UTF8.GetBytes(configuration[ConfigKey.Authentication.JWTSymmetricKey.Path]);
 
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-                options.Events = new JwtBearerEvents()
-                {
-                    OnAuthenticationFailed = context =>
-                    {
-                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                        {
-                            context.Response.Headers.Add("Token-Expired", "true");
-                        }
+                var policy = configuration[ConfigKey.AADB2C.Policy.Path];
+                var audience = configuration[ConfigKey.AADB2C.ClientId.Path];
 
-                        return Task.CompletedTask;
-                    }
-                };
+                options.Authority = $"https://urgeaad.b2clogin.com/tfp/60ce23d9-fbed-4b50-a550-a81fdda09650/{policy}/v2.0/";
+                options.Audience = audience;
             });
+
+            //var key = Encoding.UTF8.GetBytes(configuration[ConfigKey.Authentication.JWTSymmetricKey.Path]);
+
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(options =>
+            //{
+            //    options.SaveToken = true;
+            //    options.TokenValidationParameters = new TokenValidationParameters()
+            //    {
+            //        IssuerSigningKey = new SymmetricSecurityKey(key),
+            //        ValidateIssuerSigningKey = true,
+            //        ValidateIssuer = false,
+            //        ValidateAudience = false
+            //    };
+            //    options.Events = new JwtBearerEvents()
+            //    {
+            //        OnAuthenticationFailed = context =>
+            //        {
+            //            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+            //            {
+            //                context.Response.Headers.Add("Token-Expired", "true");
+            //            }
+
+            //            return Task.CompletedTask;
+            //        }
+            //    };
+            //});
 
             return services;
         }
