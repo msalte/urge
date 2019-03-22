@@ -2,14 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 using Urge.Common.Web.ServiceDiscovery;
 using Urge.Common.Web.User;
 
@@ -17,6 +14,21 @@ namespace Urge.Common.Web
 {
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddSqlDbContext<TContext>(this IServiceCollection services, string connectionString) where TContext : DbContext
+        {
+            if (string.IsNullOrEmpty(connectionString) && Environment.GetEnvironmentVariable("TF_BUILD") != null)
+            {
+                connectionString = "Server=idontexist;Database=neitherdoi;Trusted_Connection=True;";
+            }
+
+            services.AddDbContext<TContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
+            return services;
+        }
+
         public static IServiceCollection AddDefaultMicroserviceServices(this IServiceCollection services)
         {
             // global auth policy

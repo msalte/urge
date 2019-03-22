@@ -29,10 +29,7 @@ namespace Urge.Users
             services.AddDefaultMicroserviceServices();
             services.AddCors();
 
-            services.AddDbContext<UsersContext>(options =>
-            {
-                options.UseSqlServer(Configuration[ConfigKey.ConnectionStrings.UsersContext.Path]);
-            });
+            services.AddSqlDbContext<UsersContext>(Configuration[ConfigKey.ConnectionStrings.UsersContext.Path]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
