@@ -9,7 +9,7 @@ namespace Urge.Common.Web
 {
     public class CommonWebHostBuilder
     {
-        public static IWebHostBuilder BuildWebHost<TStartup>(string[] args) where TStartup : class
+        public static IWebHostBuilder BuildCommonWebHost<TStartup>(string[] args) where TStartup : class
         {
             return WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(ConfigureApp)
