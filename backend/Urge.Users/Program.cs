@@ -18,15 +18,6 @@ namespace Urge.Users
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(ConfigureApp)
-                .UseStartup<Startup>()
-                .UseApplicationInsights();
-
-        private static void ConfigureApp(WebHostBuilderContext context, IConfigurationBuilder builder)
-        {
-            builder.AddAppSecrets(context.HostingEnvironment);
-        }
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) => CommonWebHostBuilder.BuildCommonWebHost<Startup>(args);
     }
 }
