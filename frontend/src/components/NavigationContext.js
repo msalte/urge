@@ -47,7 +47,7 @@ const NavigationContext = React.createContext({
 
 const randomString = () => Math.random().toString(36);
 
-const addOrRemoveArduinoAdminItem = (isLoggedIn, onComplete) => {
+const addOrRemoveArduinoAdminItem = (isAuthenticated, onComplete) => {
     const {
         arduino: { subMenu },
     } = locations;
@@ -62,9 +62,9 @@ const addOrRemoveArduinoAdminItem = (isLoggedIn, onComplete) => {
 
     const itemIndex = subMenu.items.findIndex(i => i.key === adminItem.key);
 
-    if (itemIndex === -1 && isLoggedIn) {
+    if (itemIndex === -1 && isAuthenticated) {
         subMenu.items.unshift(adminItem);
-    } else if (itemIndex !== -1 && !isLoggedIn) {
+    } else if (itemIndex !== -1 && !isAuthenticated) {
         subMenu.items.splice(itemIndex, 1);
     }
 
@@ -107,10 +107,10 @@ export const NavigationContextStateProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        const { isLoggedIn } = userContext;
+        const { isAuthenticated } = userContext;
 
-        addOrRemoveArduinoAdminItem(isLoggedIn, onEffectCompleteCallback);
-    }, [userContext.isLoggedIn]);
+        addOrRemoveArduinoAdminItem(isAuthenticated, onEffectCompleteCallback);
+    }, [userContext.isAuthenticated]);
 
     const handleActiveLocationChanged = loc => {
         setActiveLocation(loc);
@@ -118,9 +118,7 @@ export const NavigationContextStateProvider = ({ children }) => {
         if (loc.subMenu) {
             // the new location has a sub menu, check if active sub menu item is present
 
-            const subMenuItem = loc.subMenu.items.find(
-                i => i === activeSubMenuItem
-            );
+            const subMenuItem = loc.subMenu.items.find(i => i === activeSubMenuItem);
 
             if (!subMenuItem && activeSubMenuItem) {
                 setActiveSubMenuItem(null);

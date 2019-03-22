@@ -9,25 +9,29 @@ namespace Urge.Common.Web.User
     public interface IUserAccessor
     {
         UrgeClaimsProfile ClaimsProfile { get; }
+        IHttpContextAccessor HttpContextAccessor { get; }
     }
 
     public class UserAccessor : IUserAccessor
     {
-        private readonly IHttpContextAccessor _httpContext;
-
         public UserAccessor(IHttpContextAccessor httpContext)
         {
-            _httpContext = httpContext;
+            HttpContextAccessor = httpContext;
         }
+        public IHttpContextAccessor HttpContextAccessor { get; }
 
-        public UrgeClaimsProfile ClaimsProfile => UserFromClaims(_httpContext.HttpContext.User);
+        public UrgeClaimsProfile ClaimsProfile => UserFromClaims(HttpContextAccessor.HttpContext.User);
+
 
         private UrgeClaimsProfile UserFromClaims(ClaimsPrincipal user)
         {
+            Guid.TryParse(user.FindFirstValue(UrgeClaimTypes.Id), out Guid id);
+
             return new UrgeClaimsProfile
             {
-                Name = user.FindFirstValue(ClaimTypes.Name),
-                Email = user.FindFirstValue(ClaimTypes.Email)
+                AadUniqueId = id,
+                Name = user.FindFirstValue(UrgeClaimTypes.Name),
+                Email = user.FindFirstValue(UrgeClaimTypes.Emails)
             };
         }
     }

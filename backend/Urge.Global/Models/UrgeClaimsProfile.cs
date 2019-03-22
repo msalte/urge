@@ -6,6 +6,7 @@ namespace Urge
 {
     public class UrgeClaimsProfile
     {
+        public Guid AadUniqueId { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
     }

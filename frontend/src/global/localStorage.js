@@ -1,6 +1,4 @@
 const KEY_JWT = "KEY_JWT";
-const KEY_REFRESH_TOKEN = "KEY_REFRESH_TOKEN";
-
 const KEY_THEME = "THEME";
 
 const KEY_USER_PROFILE_ID = "KEY_USER_PROFILE_ID";
@@ -11,18 +9,12 @@ export const getJwtToken = () => {
     return localStorage.getItem(KEY_JWT);
 };
 
-export const getRefreshToken = () => {
-    return localStorage.getItem(KEY_REFRESH_TOKEN);
-};
-
-export const setAuthTokens = (jwt, refreshToken) => {
+export const setJwtToken = jwt => {
     localStorage.setItem(KEY_JWT, jwt);
-    localStorage.setItem(KEY_REFRESH_TOKEN, refreshToken);
 };
 
-export const clearAuthTokens = () => {
+export const clearJwtToken = () => {
     localStorage.removeItem(KEY_JWT);
-    localStorage.removeItem(KEY_REFRESH_TOKEN);
 };
 
 export const getTheme = () => {

@@ -1,6 +1,6 @@
 import isomorphicFetch from "isomorphic-fetch";
-import serviceDiscovery from "./serviceDiscovery";
-import { getJwtToken, getRefreshToken, setAuthTokens } from "./localStorage";
+// import serviceDiscovery from "./serviceDiscovery";
+import { getJwtToken } from "./localStorage";
 
 const HEADER_TOKEN_EXPIRED = "token-expired";
 
@@ -16,19 +16,19 @@ const addBearerToken = options => {
     return options;
 };
 
-const refresh = (jwt, refreshToken) => {
-    const url = serviceDiscovery.getUsersApi() + "/auth/refreshToken";
+// const refresh = (jwt, refreshToken) => {
+//     const url = serviceDiscovery.getUsersApi() + "/auth/refreshToken";
 
-    const options = Object.assign(
-        {
-            method: "POST",
-            body: JSON.stringify({ token: jwt, refreshToken }),
-        },
-        defaultOptions
-    );
+//     const options = Object.assign(
+//         {
+//             method: "POST",
+//             body: JSON.stringify({ token: jwt, refreshToken }),
+//         },
+//         defaultOptions
+//     );
 
-    return isomorphicFetch(url, options);
-};
+//     return isomorphicFetch(url, options);
+// };
 
 export const fetch = (url, auth = false, addOptions = {}) => {
     let options = Object.assign({}, defaultOptions, addOptions);
@@ -45,17 +45,15 @@ export const fetch = (url, auth = false, addOptions = {}) => {
             response.headers.has(HEADER_TOKEN_EXPIRED) &&
             auth === true
         ) {
-            return refresh(getJwtToken(), getRefreshToken())
-                .then(response => {
-                    return response.json();
-                })
-                .then(json => {
-                    const { token, refreshToken } = json;
-
-                    setAuthTokens(token, refreshToken);
-
-                    return fetch(url, auth, addOptions);
-                });
+            // return refresh(getJwtToken(), getRefreshToken())
+            //     .then(response => {
+            //         return response.json();
+            //     })
+            //     .then(json => {
+            //         const { token, refreshToken } = json;
+            //         setAuthTokens(token, refreshToken);
+            //         return fetch(url, auth, addOptions);
+            //     });
         } else {
             var error = new Error(response.statusText);
             error.response = response;

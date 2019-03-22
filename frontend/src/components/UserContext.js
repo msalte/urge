@@ -1,100 +1,75 @@
 import React, { useState } from "react";
 import {
-    getRefreshToken,
-    clearAuthTokens,
     getUserInfo,
     setUserInfo,
     clearUserInfo,
-    setAuthTokens,
+    getJwtToken,
+    clearJwtToken,
 } from "global/localStorage";
-import serviceDiscovery from "global/serviceDiscovery";
-import { fetch, post } from "global/fetch";
 
 export const UserContext = React.createContext({
     currentUser: null,
-    isLoggedIn: false,
-    login: () => {},
+    isAuthenticated: false,
+    setAuthenticated: () => {},
+    setCurrentUser: () => {},
     logout: () => {},
     fetchProfile: () => {},
-    isLoggingIn: false,
     isLoggingOut: false,
     error: null,
 });
 
 export const UserContextStateProvider = ({ children }) => {
-    const storedUserInfo = getUserInfo();
-
-    const [isLoggingIn, setLoggingIn] = useState(false);
+    const [isAuthenticated, setAuthenticated] = useState(getJwtToken() !== null);
     const [isLoggingOut, setLoggingOut] = useState(false);
     const [error, setError] = useState(null);
-
-    const [currentUser, setCurrentUser] = useState(storedUserInfo);
+    const [currentUser, setCurrentUser] = useState(getUserInfo());
 
     const handleFetchProfile = () => {
-        fetch(serviceDiscovery.getUsersApi() + "/users/me", true).then(
-            profile => {
-                setUserInfo(profile);
-                setCurrentUser(profile);
-            }
-        );
-    };
+        const user = {
+            id: "abc",
+            name: "Morten Salte",
+            email: "msalte86@outlook.com",
+        };
 
-    const handleLogin = (username, password) => {
-        setLoggingIn(true);
-        post(serviceDiscovery.getUsersApi() + "/auth/login", {
-            email: username,
-            password,
-        })
-            .then(response => {
-                const { token, refreshToken } = response;
-                setAuthTokens(token, refreshToken);
-                setLoggingIn(false);
-
-                // now that the user is logged in, fetch user info
-                handleFetchProfile();
-            })
-            .catch(error => {
-                setLoggingIn(false);
-                setError(error);
-            });
+        return new Promise(resolve =>
+            setTimeout(() => {
+                resolve(() => {});
+            }, 500)
+        ).then(() => {
+            setCurrentUser(user);
+            setUserInfo(user);
+        });
     };
 
     const onLoggedOut = () => {
+        setAuthenticated(false);
         clearUserInfo();
+        clearJwtToken();
         setCurrentUser(null);
-        clearAuthTokens();
         setLoggingOut(false);
     };
 
     const handleLogout = () => {
         setLoggingOut(true);
-        post(
-            serviceDiscovery.getUsersApi() + "/auth/logout",
-            { refreshToken: getRefreshToken() },
-            true
-        )
-            .then(() => {
-                onLoggedOut();
-                setError(null);
-            })
-            .catch(error => {
-                onLoggedOut();
-                setError(error);
-            });
+        return new Promise(resolve =>
+            setTimeout(() => {
+                resolve(() => {});
+            }, 500)
+        ).then(() => {
+            onLoggedOut();
+            setError(null);
+        });
     };
 
     return (
         <UserContext.Provider
             value={{
-                currentUser: currentUser,
-                isLoggedIn:
-                    currentUser &&
-                    currentUser.email &&
-                    currentUser.email.length > 0,
-                login: (username, password) => handleLogin(username, password),
+                currentUser,
+                isAuthenticated,
+                setAuthenticated: isAuthenticated => setAuthenticated(isAuthenticated),
+                setCurrentUser: currentUser => setCurrentUser(currentUser),
                 logout: () => handleLogout(),
                 fetchProfile: () => handleFetchProfile(),
-                isLoggingIn,
                 isLoggingOut,
                 error,
             }}

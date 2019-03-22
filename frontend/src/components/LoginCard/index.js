@@ -5,15 +5,6 @@ import Input from "components/Input";
 import Spinner from "components/Spinner";
 import Card from "components/Card";
 import { UserContext } from "components/UserContext";
-import serviceDiscovery from "global/serviceDiscovery";
-
-const resolveAzureAdB2CLink = () => {
-    const redirectUrl = serviceDiscovery.getSpaApi() + "/auth/signin-implicit";
-    const clientId = "8401e1ec-cd57-4f31-b650-6d4d67a79aa5";
-    const policy = "B2C_1_signupsignin";
-
-    return `https://urgeaad.b2clogin.com/urgeaad.onmicrosoft.com/oauth2/v2.0/authorize?p=${policy}&client_id=${clientId}&nonce=defaultNonce&redirect_uri=${redirectUrl}&scope=openid&response_type=id_token&prompt=login`;
-};
 
 const Body = ({ onUsernameChanged, onPasswordChanged }) => {
     return (
@@ -41,9 +32,6 @@ const Footer = ({ onLoginClick, isLoggingIn }) => {
                 <Button submit disabled={isLoggingIn} primary onClick={() => onLoginClick()}>
                     Login
                 </Button>
-                <a href={resolveAzureAdB2CLink()} target="_blank">
-                    <Button primary>Azure AD B2C</Button>
-                </a>
             </div>
             {isLoggingIn && <Spinner text="Logging in..." />}
         </div>

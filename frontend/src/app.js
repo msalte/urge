@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import BlogPage from "components/Pages/Blog";
 import ArduinoPage from "components/Pages/Arduino";
 import ArduinoAdminPage from "components/Pages/Arduino/Admin";
-import UserPage from "components/Pages/User";
+import UserPage, { UserLoggedInRedirect } from "components/Pages/User";
 import TopBar from "components/Topbar";
 import styles from "global/scss/app.scss";
 import { NavigationContextStateProvider } from "components/NavigationContext";
@@ -88,7 +88,7 @@ const AppContainerWithTopBar = ({ children }) => {
 const PrivateRoute = props => {
     const userContext = useContext(UserContext);
 
-    if (userContext.isLoggedIn) {
+    if (userContext.isAuthenticated) {
         return <Route {...props} />;
     }
 
@@ -119,6 +119,11 @@ const App = () => {
                                 <Route
                                     path="/arduino/:date"
                                     render={props => <ArduinoPage {...props} />}
+                                />
+                                <Route
+                                    path="/user/loggedin"
+                                    exact
+                                    render={() => <UserLoggedInRedirect />}
                                 />
                                 <Route path="/user" render={props => <UserPage {...props} />} />
                             </Switch>
