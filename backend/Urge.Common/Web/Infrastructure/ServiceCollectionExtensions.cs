@@ -10,10 +10,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Urge.Common.ServiceDiscovery;
-using Urge.Common.User;
+using Urge.Common.Web.ServiceDiscovery;
+using Urge.Common.Web.User;
 
-namespace Urge.Common.Configuration
+namespace Urge.Common.Web
 {
     public static class ServiceCollectionExtensions
     {

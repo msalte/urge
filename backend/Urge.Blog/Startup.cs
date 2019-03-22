@@ -7,7 +7,7 @@ using System;
 using Urge.Blog.Repository;
 using Urge.Blog.Services;
 using Urge.Blog.Storage;
-using Urge.Common.Configuration;
+using Urge.Common.Web;
 
 namespace Urge.Blog
 {
@@ -42,7 +42,7 @@ namespace Urge.Blog
                 client.OpenAsync().Wait();
                 return client;
             });
-            
+
             services.AddDefaultSwagger("Blog");
         }
 

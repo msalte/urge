@@ -10,9 +10,8 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Urge.Common.Configuration;
 using Urge.Common.Security;
-using Urge.Common.User;
+using Urge.Common.Web.User;
 using Urge.Users.Database;
 using Urge.Users.Models;
 using Urge.Users.ViewModels;
@@ -84,7 +83,7 @@ namespace Urge.Users.Controllers
             {
                 return BadRequest("Could not find an email claim on caller.");
             }
-            
+
             var user = await _usersContext.Users.Include(u => u.RefreshTokens).SingleOrDefaultAsync(u => u.Email == email);
 
             if (user == null)

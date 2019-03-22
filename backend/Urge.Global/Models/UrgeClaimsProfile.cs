@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Urge.Common.User
+namespace Urge
 {
     public class UrgeClaimsProfile
     {

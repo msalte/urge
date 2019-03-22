@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Urge.Blog.Models;
 using Urge.Blog.Services;
 using Urge.Blog.ViewModels;
-using Urge.Common.User;
+using Urge.Common.Web.User;
 
 namespace Urge.Blog.Controllers
 {

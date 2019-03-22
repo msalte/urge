@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Urge.Arduino.Repository;
 using Urge.Arduino.Storage;
-using Urge.Common.Configuration;
+using Urge.Common.Web;
 
 namespace Urge.Arduino
 {

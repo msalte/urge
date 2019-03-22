@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Urge.Common.ServiceDiscovery
+namespace Urge
 {
     public class ServiceEndpoint
     {

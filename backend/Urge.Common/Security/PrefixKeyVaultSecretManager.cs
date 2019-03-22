@@ -3,7 +3,7 @@ using Microsoft.Azure.KeyVault.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureKeyVault;
 
-namespace Urge.Common.Configuration
+namespace Urge.Common.Security
 {
     public class PrefixKeyVaultSecretManager : IKeyVaultSecretManager
     {

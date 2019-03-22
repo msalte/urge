@@ -6,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Urge.Common.Security;
 
-namespace Urge.Common.Configuration
+namespace Urge.Common.Web
 {
     public static class ConfigurationBuilderExtensions
     {

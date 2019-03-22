@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Urge.Common.Configuration
+namespace Urge.Common.Web
 {
     public class CommonWebHostBuilder
     {

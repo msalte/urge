@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Urge.Common.Configuration
+namespace Urge
 {
     public class ConfigKey
     {

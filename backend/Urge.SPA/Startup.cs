@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Urge.Common.Configuration;
+using Urge.Common.Web;
 
 namespace Urge.SPA
 {

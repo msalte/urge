@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using Urge.Common.Security;
-using Urge.Common.User;
+using Urge.Common.Web.User;
 using Urge.Users.Database;
 using Urge.Users.Models;
 using Urge.Users.ViewModels;
@@ -13,13 +13,13 @@ namespace Urge.Users.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly UsersContext usersContext;
-        private readonly IUserAccessor userAccessor;
+        private readonly UsersContext _usersContext;
+        private readonly IUserAccessor _userAccessor;
 
         public UsersController(UsersContext usersContext, IUserAccessor userAccessor)
         {
-            this.usersContext = usersContext;
-            this.userAccessor = userAccessor;
+            _usersContext = usersContext;
+            _userAccessor = userAccessor;
         }
 
         [AllowAnonymous]
@@ -33,7 +33,7 @@ namespace Urge.Users.Controllers
 
             var requestEmail = request.Email.Trim().ToLower();
 
-            if (usersContext.Users.Any(u => u.Email == requestEmail))
+            if (_usersContext.Users.Any(u => u.Email == requestEmail))
             {
                 return Conflict("User with given email already exists.");
             }
@@ -48,8 +48,8 @@ namespace Urge.Users.Controllers
                 PasswordSalt = hashedPassword.Salt
             };
 
-            await usersContext.Users.AddAsync(user);
-            await usersContext.SaveChangesAsync();
+            await _usersContext.Users.AddAsync(user);
+            await _usersContext.SaveChangesAsync();
 
             return Created("users", new ApiUser(user));
         }
@@ -57,9 +57,9 @@ namespace Urge.Users.Controllers
         [HttpGet("users/me")]
         public async Task<IActionResult> MyProfile()
         {
-            var email = userAccessor.ClaimsProfile.Email;
+            var email = _userAccessor.ClaimsProfile.Email;
 
-            var user = await usersContext.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+            var user = await _usersContext.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
 
             return Ok(new ApiUser(user));
         }
@@ -67,7 +67,7 @@ namespace Urge.Users.Controllers
         [HttpGet("users")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await usersContext.Users.Select(u => new ApiUser(u)).ToListAsync();
+            var users = await _usersContext.Users.Select(u => new ApiUser(u)).ToListAsync();
 
             return Ok(users);
         }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Urge.Common.Configuration;
+using Urge.Common.Web;
 
 namespace Urge.Users
 {
