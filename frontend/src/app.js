@@ -11,10 +11,7 @@ import { NavigationContextStateProvider } from "components/NavigationContext";
 import classNames from "classnames";
 import SideBar from "components/SideBar";
 import { useCollapseToggler } from "components/SideBar/hooks";
-import ThemeContext, {
-    ThemeContextStateProvider,
-    themes,
-} from "components/ThemeContext";
+import ThemeContext, { ThemeContextStateProvider, themes } from "components/ThemeContext";
 import { UserContext, UserContextStateProvider } from "components/UserContext";
 
 import "typeface-nunito";
@@ -76,11 +73,7 @@ const AppContainerWithTopBar = ({ children }) => {
 
     return (
         <React.Fragment>
-            <TopBar
-                className={
-                    themeContext.theme === themes.dark ? styles.dark : null
-                }
-            />
+            <TopBar className={themeContext.theme === themes.dark ? styles.dark : null} />
             <div
                 className={classNames(styles.container, {
                     [styles.dark]: themeContext.theme === themes.dark,
@@ -110,36 +103,24 @@ const App = () => {
             <ThemeContextStateProvider>
                 <NavigationContextStateProvider>
                     <AppContainerWithTopBar>
-                        <SideBar
-                            isCollapsed={isCollapsed}
-                            toggleCollapsed={toggleCollapsed}
-                        />
+                        <SideBar isCollapsed={isCollapsed} toggleCollapsed={toggleCollapsed} />
                         <div
                             className={classNames(styles.content, {
                                 [styles.collapsed]: isCollapsed,
                             })}
                         >
                             <Switch>
-                                <Route
-                                    path="/"
-                                    exact
-                                    render={props => <BlogPage {...props} />}
-                                />
+                                <Route path="/" exact render={props => <BlogPage {...props} />} />
                                 <PrivateRoute
                                     exact
                                     path="/arduino/admin"
-                                    render={props => (
-                                        <ArduinoAdminPage {...props} />
-                                    )}
+                                    render={props => <ArduinoAdminPage {...props} />}
                                 />
                                 <Route
                                     path="/arduino/:date"
                                     render={props => <ArduinoPage {...props} />}
                                 />
-                                <Route
-                                    path="/user"
-                                    render={props => <UserPage {...props} />}
-                                />
+                                <Route path="/user" render={props => <UserPage {...props} />} />
                             </Switch>
                         </div>
                     </AppContainerWithTopBar>

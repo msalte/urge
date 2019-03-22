@@ -28,6 +28,15 @@ namespace Urge.Common.Configuration
             return builder;
         }
 
+        public static IConfigurationBuilder AddGlobalAppSettings(this IConfigurationBuilder builder, IHostingEnvironment env)
+        {
+            var jsonFile = Path.Combine(env.ContentRootPath, "..\\Global\\appsettings.json");
+
+            builder.AddJsonFile(jsonFile, false);
+
+            return builder;
+        }
+
         private static IConfigurationBuilder AddDevAppSettings(this IConfigurationBuilder builder, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

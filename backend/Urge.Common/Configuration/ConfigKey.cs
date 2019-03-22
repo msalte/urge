@@ -33,8 +33,14 @@ namespace Urge.Common.Configuration
         public static class AADB2C
         {
             public static ConfigKey Tenant = new ConfigKey("AADB2C:Tenant");
+            public static ConfigKey TenantId = new ConfigKey("AADB2C:TenantId");
             public static ConfigKey ClientId = new ConfigKey("AADB2C:ClientId");
             public static ConfigKey Policy = new ConfigKey("AADB2C:Policy");
+        }
+
+        public static class ApplicationInsights
+        {
+            public static ConfigKey InstrumentationKey = new ConfigKey("ApplicationInsights:InstrumentationKey");
         }
     }
 }

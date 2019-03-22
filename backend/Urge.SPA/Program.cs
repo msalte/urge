@@ -9,18 +9,10 @@ namespace Urge.SPA
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args)
-                .Build().Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(ConfigureApp)
-                .UseStartup<Startup>();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) => CommonWebHostBuilder.BuildWebHost<Startup>(args);
 
-        private static void ConfigureApp(WebHostBuilderContext context, IConfigurationBuilder builder)
-        {
-            builder.AddAppSecrets(context.HostingEnvironment);
-        }
     }
 }

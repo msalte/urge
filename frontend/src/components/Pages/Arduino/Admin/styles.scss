@@ -8,5 +8,13 @@
             display: flex;
             flex-direction: column;
         }
+
+        .messages {
+            padding: calc(var(--grid-unit) * 1px) 0;
+
+            > div {
+                margin-bottom: calc(var(--grid-unit) * 1px);
+            }
+        }
     }
 }

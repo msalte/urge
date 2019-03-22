@@ -1,5 +1,6 @@
 .selectedFiles {
     display: flex;
+    flex-wrap: wrap;
 
     > div {
         padding: calc(var(--grid-unit) * 0.5px);

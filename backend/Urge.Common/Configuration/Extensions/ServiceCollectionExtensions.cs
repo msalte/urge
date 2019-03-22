@@ -65,10 +65,11 @@ namespace Urge.Common.Configuration
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
+                var tenantId = configuration[ConfigKey.AADB2C.TenantId.Path];
                 var policy = configuration[ConfigKey.AADB2C.Policy.Path];
                 var audience = configuration[ConfigKey.AADB2C.ClientId.Path];
 
-                options.Authority = $"https://urgeaad.b2clogin.com/tfp/60ce23d9-fbed-4b50-a550-a81fdda09650/{policy}/v2.0/";
+                options.Authority = $"https://urgeaad.b2clogin.com/tfp/{tenantId}/{policy}/v2.0/";
                 options.Audience = audience;
             });
 

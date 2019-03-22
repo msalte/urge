@@ -17,7 +17,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Development", "Development"
 		Development\appsettings.PC0GA42D.json = Development\appsettings.PC0GA42D.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urge.Arduino", "Urge.Arduino\Urge.Arduino.csproj", "{5F577E4D-1E8F-46E1-94FD-9D022FFF2424}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urge.Arduino", "Urge.Arduino\Urge.Arduino.csproj", "{5F577E4D-1E8F-46E1-94FD-9D022FFF2424}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Global", "Global", "{1541112B-56B6-4D7A-8847-B1231368CEEE}"
+	ProjectSection(SolutionItems) = preProject
+		Global\appsettings.json = Global\appsettings.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,6 +6,7 @@ import FileInput from "components/FileInput";
 import Button from "components/Button";
 import moment from "moment";
 import azStorage from "ext/az-storage";
+import AlertMessage from "components/AlertMessage";
 
 const performUpload = (files, onError, onSuccess) => {
     const folder = moment().format("DD-MM-YYYY");
@@ -41,8 +42,16 @@ const UploadCard = () => {
                 onChange={files => handleOnFilesChanged(files)}
                 placeholder="Select files..."
             />
-            {error && `${error.statusCode} ${error.code}.`}
-            {success && "Successfully uploaded files."}
+            {(error || success) && (
+                <div className={styles.messages}>
+                    {error && (
+                        <AlertMessage danger>
+                            {error.statusCode} {error.code}.
+                        </AlertMessage>
+                    )}
+                    {success && <AlertMessage success>Upload successful.</AlertMessage>}
+                </div>
+            )}
         </React.Fragment>
     );
 

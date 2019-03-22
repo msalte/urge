@@ -21,7 +21,16 @@ namespace Urge.SPA.Controllers
         [HttpPost("/auth/signin-oidc")]
         public IActionResult Signin([FromForm] IFormCollection form)
         {
-            // TODO: do something with form?
+            // validate token
+            // if invalid, redirect to error page
+            foreach (var element in form)
+            {
+                if (element.Key == "id_token")
+                {
+                    var token = element.Value;
+                }
+            }
+
             return RedirectToAction("Index", "SPA", null, null);
         }
     }
