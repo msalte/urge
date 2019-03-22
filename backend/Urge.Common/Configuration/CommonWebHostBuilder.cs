@@ -19,7 +19,6 @@ namespace Urge.Common.Configuration
 
         private static void ConfigureApp(WebHostBuilderContext context, IConfigurationBuilder builder)
         {
-            builder.AddGlobalAppSettings(context.HostingEnvironment);
             builder.AddAppSecrets(context.HostingEnvironment);
         }
     }
