@@ -3,8 +3,7 @@ import styles from "./styles.scss";
 import Spinner from "components/Spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default props => {
-    const { onQueryChanged } = props;
+export default ({ onQueryChanged }) => {
     const [isSpinning, setSpinning] = useState(false);
     const [query, setQuery] = useState("");
     const [delay, setDelay] = useState(null);
@@ -41,10 +40,7 @@ export default props => {
             <div className={styles.clear}>
                 {isSpinning && <Spinner />}
                 {!isSpinning && query && (
-                    <FontAwesomeIcon
-                        icon="times"
-                        onClick={() => handleClear()}
-                    />
+                    <FontAwesomeIcon icon="times" onClick={() => handleClear()} />
                 )}
             </div>
         </div>

@@ -18,7 +18,7 @@ namespace Urge.Common.Web
         {
             if (env.IsDevelopment())
             {
-                return AddDevAppSettings(builder, env);
+                builder.AddDevAppSettings(env);
             }
 
             var serviceTokenProvider = new AzureServiceTokenProvider();

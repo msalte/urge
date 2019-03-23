@@ -28,13 +28,14 @@ namespace Urge
         public static class Authentication
         {
             public static ConfigKey JWTSymmetricKey = new ConfigKey("Authentication:JWTSymmetricKey");
+            public static ConfigKey OAuth2ClientSecret = new ConfigKey("Authentication:OAuth2ClientSecret");
         }
 
         public static class AADB2C
         {
             public static ConfigKey Tenant = new ConfigKey("AADB2C:Tenant");
             public static ConfigKey TenantId = new ConfigKey("AADB2C:TenantId");
-            public static ConfigKey ClientId = new ConfigKey("AADB2C:ClientId");
+            public static ConfigKey Audience = new ConfigKey("AADB2C:Audience");
             public static ConfigKey Policy = new ConfigKey("AADB2C:Policy");
         }
 

@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
+using Urge.Common.Web.ServiceDiscovery;
 using Urge.Common.Web.User;
 
 namespace Urge.SPA.Controllers
@@ -16,11 +18,34 @@ namespace Urge.SPA.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUserAccessor _userAccessor;
+        private readonly EndpointConfig _endpointConfig;
 
-        public AuthController(IConfiguration configuration, IUserAccessor userAccessor)
+        public AuthController(IConfiguration configuration, IUserAccessor userAccessor, EndpointConfig endpointConfig)
         {
             _configuration = configuration;
             _userAccessor = userAccessor;
+            _endpointConfig = endpointConfig;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("/auth/login")]
+        public IActionResult Login()
+        {
+            var tenant = _configuration[ConfigKey.AADB2C.Tenant.Path];
+            var policy = _configuration[ConfigKey.AADB2C.Policy.Path];
+            var audience = _configuration[ConfigKey.AADB2C.Audience.Path]; // clientId
+            var redirectUrl = _endpointConfig.Spa + "/auth/signin-implicit";
+
+            var authorizeUrl = $"https://urgeaad.b2clogin.com/{tenant}/oauth2/v2.0/authorize?" +
+                $"p={policy}" +
+                $"&client_id={audience}" +
+                $"&nonce=defaultNonce" +
+                $"&redirect_uri={redirectUrl}" +
+                $"&scope=openid" +
+                $"&response_type=id_token" +
+                $"&prompt=login";
+
+            return Redirect(authorizeUrl);
         }
 
         [AllowAnonymous]
@@ -32,7 +57,7 @@ namespace Urge.SPA.Controllers
 
         [AllowAnonymous]
         [HttpPost("/auth/signin-oidc")]
-        public async Task<IActionResult> Signin([FromForm] IFormCollection form)
+        public async Task<IActionResult> SigninAsync([FromForm] IFormCollection form)
         {
             string jwt = "";
 
@@ -48,7 +73,7 @@ namespace Urge.SPA.Controllers
 
             if (!string.IsNullOrEmpty(jwt))
             {
-                var claims = await ValidateToken(jwt);
+                var claims = await ValidateTokenAsync(jwt);
 
                 if (claims != null && claims.AadUniqueId != null)
                 {
@@ -59,11 +84,27 @@ namespace Urge.SPA.Controllers
             return Unauthorized();
         }
 
-        private async Task<UrgeClaimsProfile> ValidateToken(string jwt)
+        private async Task AcuireTokenSilentAsync(string userId)
+        {
+            var tenantId = _configuration[ConfigKey.AADB2C.TenantId.Path];
+            var policy = _configuration[ConfigKey.AADB2C.Policy.Path];
+            var audience = _configuration[ConfigKey.AADB2C.Audience.Path]; // clientId
+            var authority = $"https://urgeaad.b2clogin.com/tfp/{tenantId}/{policy}/v2.0/";
+
+            var clientSecret = _configuration[ConfigKey.Authentication.OAuth2ClientSecret.Path];
+            var context = new AuthenticationContext(authority);
+            var clientCredential = new ClientCredential(audience, clientSecret);
+
+            var userIdentifier = new UserIdentifier(userId, UserIdentifierType.UniqueId);
+
+            var token = await context.AcquireTokenSilentAsync(audience, clientCredential, userIdentifier);
+        }
+
+        private async Task<UrgeClaimsProfile> ValidateTokenAsync(string jwt)
         {
             var tenant = _configuration[ConfigKey.AADB2C.Tenant.Path];
             var policy = _configuration[ConfigKey.AADB2C.Policy.Path];
-            var clientId = _configuration[ConfigKey.AADB2C.ClientId.Path];
+            var audience = _configuration[ConfigKey.AADB2C.Audience.Path];
 
             try
             {
@@ -77,22 +118,21 @@ namespace Urge.SPA.Controllers
 
                 var validationParameters = new TokenValidationParameters
                 {
-                    ValidAudiences = new[] { clientId },
+                    ValidAudiences = new[] { audience },
                     ValidIssuers = new[] { openIdConfiguration.Issuer, $"{openIdConfiguration.Issuer}/v2.0" },
                     IssuerSigningKeys = openIdConfiguration.SigningKeys,
-                    ValidateLifetime = true,
                 };
 
                 var claimsPrincipal = tokenHandler.ValidateToken(jwt, validationParameters, out SecurityToken validatedToken);
 
                 _userAccessor.HttpContextAccessor.HttpContext.User = claimsPrincipal;
 
+                if (validatedToken.ValidTo < DateTime.UtcNow)
+                {
+                    // Token expired, figure out how to work with refresh tokens
+                }
+
                 return _userAccessor.ClaimsProfile;
-            }
-            catch (SecurityTokenExpiredException)
-            {
-                // Figure out how to work with refresh tokens
-                return null;
             }
             catch (Exception)
             {

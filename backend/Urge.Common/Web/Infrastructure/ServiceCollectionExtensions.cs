@@ -79,7 +79,7 @@ namespace Urge.Common.Web
             {
                 var tenantId = configuration[ConfigKey.AADB2C.TenantId.Path];
                 var policy = configuration[ConfigKey.AADB2C.Policy.Path];
-                var audience = configuration[ConfigKey.AADB2C.ClientId.Path];
+                var audience = configuration[ConfigKey.AADB2C.Audience.Path];
 
                 options.Authority = $"https://urgeaad.b2clogin.com/tfp/{tenantId}/{policy}/v2.0/";
                 options.Audience = audience;
