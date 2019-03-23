@@ -16,7 +16,7 @@ namespace Urge.Common.Web
     {
         public static IServiceCollection AddSqlDbContext<TContext>(this IServiceCollection services, string connectionString) where TContext : DbContext
         {
-            if (string.IsNullOrEmpty(connectionString) && Environment.GetEnvironmentVariable("TF_BUILD") != null)
+            if (string.IsNullOrEmpty(connectionString) || Environment.GetEnvironmentVariable("TF_BUILD") != null)
             {
                 connectionString = "Server=idontexist;Database=neitherdoi;Trusted_Connection=True;";
             }
