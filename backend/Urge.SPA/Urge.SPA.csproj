@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Urge.Common\Urge.Common.csproj" />
+    <ProjectReference Include="..\Urge.Global\Urge.Global.csproj" />
   </ItemGroup>
 
 </Project>

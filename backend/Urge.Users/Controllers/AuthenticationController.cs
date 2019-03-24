@@ -11,7 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Urge.Common.Security;
-using Urge.Common.Web.User;
+using Urge.Common.Web;
 using Urge.Users.Database;
 using Urge.Users.Models;
 using Urge.Users.ViewModels;

@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using Urge.Common.Web.ServiceDiscovery;
-using Urge.Common.Web.User;
 
 namespace Urge.Common.Web
 {
@@ -47,6 +45,7 @@ namespace Urge.Common.Web
 
             services.AddHttpContextAccessor();
             services.AddTransient<IUserAccessor, UserAccessor>();
+            services.AddSingleton<IConfigurationAccessor, AppConfigAccessor>();
 
             return services;
         }

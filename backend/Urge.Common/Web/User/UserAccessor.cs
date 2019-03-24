@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 
-namespace Urge.Common.Web.User
+namespace Urge.Common.Web
 {
     public interface IUserAccessor
     {

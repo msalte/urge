@@ -12,20 +12,19 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Urge.Common.Web.ServiceDiscovery;
-using Urge.Common.Web.User;
+using Urge.Common.Web;
 
 namespace Urge.SPA.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfigurationAccessor _configAccessor;
         private readonly IUserAccessor _userAccessor;
         private readonly EndpointConfig _endpointConfig;
 
-        public AuthController(IConfiguration configuration, IUserAccessor userAccessor, EndpointConfig endpointConfig)
+        public AuthController(IConfigurationAccessor configuration, IUserAccessor userAccessor, EndpointConfig endpointConfig)
         {
-            _configuration = configuration;
+            _configAccessor = configuration;
             _userAccessor = userAccessor;
             _endpointConfig = endpointConfig;
         }
@@ -34,9 +33,9 @@ namespace Urge.SPA.Controllers
         [HttpGet("/auth/login")]
         public IActionResult Login()
         {
-            var tenant = _configuration[ConfigKey.AADB2C.Tenant.Path];
-            var policy = _configuration[ConfigKey.AADB2C.Policy.Path];
-            var audience = _configuration[ConfigKey.AADB2C.Audience.Path]; // clientId
+            var tenant = _configAccessor.Get(ConfigKey.AADB2C.Tenant);
+            var policy = _configAccessor.Get(ConfigKey.AADB2C.Policy);
+            var audience = _configAccessor.Get(ConfigKey.AADB2C.Audience); // clientId
             var redirectUrl = $"{_endpointConfig.Spa}/auth/signin-oidc";
 
             var authorizeUrl = $"https://urgeaad.b2clogin.com/{tenant}/oauth2/v2.0/authorize?" +
@@ -66,10 +65,10 @@ namespace Urge.SPA.Controllers
                 if (claims != null && claims.AadUniqueId != null)
                 {
                     // id token is valid, use auth token to get access token and refresh token
-                    var tenant = _configuration[ConfigKey.AADB2C.Tenant.Path];
-                    var policy = _configuration[ConfigKey.AADB2C.Policy.Path];
-                    var audience = _configuration[ConfigKey.AADB2C.Audience.Path]; // clientId
-                    var clientSecret = _configuration[ConfigKey.Authentication.OAuth2ClientSecret.Path];
+                    var tenant = _configAccessor.Get(ConfigKey.AADB2C.Tenant);
+                    var policy = _configAccessor.Get(ConfigKey.AADB2C.Policy);
+                    var audience = _configAccessor.Get(ConfigKey.AADB2C.Audience); // clientId
+                    var clientSecret = _configAccessor.Get(ConfigKey.Authentication.OAuth2ClientSecret);
 
                     var tokenUrl = $"https://urgeaad.b2clogin.com/{tenant}/oauth2/v2.0/token?p={policy}";
                     var redirectUrl = $"{_endpointConfig.Spa}/auth/signin-oidc";
@@ -107,12 +106,12 @@ namespace Urge.SPA.Controllers
 
         private async Task AcuireTokenSilentAsync(string userId)
         {
-            var tenantId = _configuration[ConfigKey.AADB2C.TenantId.Path];
-            var policy = _configuration[ConfigKey.AADB2C.Policy.Path];
-            var audience = _configuration[ConfigKey.AADB2C.Audience.Path]; // clientId
+            var tenantId = _configAccessor.Get(ConfigKey.AADB2C.TenantId);
+            var policy = _configAccessor.Get(ConfigKey.AADB2C.Policy);
+            var audience = _configAccessor.Get(ConfigKey.AADB2C.Audience); // clientId
             var authority = $"https://urgeaad.b2clogin.com/tfp/{tenantId}/{policy}/v2.0/";
 
-            var clientSecret = _configuration[ConfigKey.Authentication.OAuth2ClientSecret.Path];
+            var clientSecret = _configAccessor.Get(ConfigKey.Authentication.OAuth2ClientSecret);
             var context = new AuthenticationContext(authority);
             var clientCredential = new ClientCredential(audience, clientSecret);
 
@@ -123,9 +122,9 @@ namespace Urge.SPA.Controllers
 
         private async Task<UrgeClaimsProfile> ValidateIdTokenAsync(string jwt)
         {
-            var tenant = _configuration[ConfigKey.AADB2C.Tenant.Path];
-            var policy = _configuration[ConfigKey.AADB2C.Policy.Path];
-            var audience = _configuration[ConfigKey.AADB2C.Audience.Path];
+            var tenant = _configAccessor.Get(ConfigKey.AADB2C.Tenant);
+            var policy = _configAccessor.Get(ConfigKey.AADB2C.Policy);
+            var audience = _configAccessor.Get(ConfigKey.AADB2C.Audience);
 
             try
             {

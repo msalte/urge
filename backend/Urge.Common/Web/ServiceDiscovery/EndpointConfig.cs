@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Urge.Common.Web.ServiceDiscovery
+namespace Urge.Common.Web
 {
     public class EndpointConfig : Dictionary<string, string>
     {

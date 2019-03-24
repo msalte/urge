@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Urge.Common.Web.ServiceDiscovery;
+using Urge.Common.Web;
 
 namespace Urge.SPA.Controllers
 {
