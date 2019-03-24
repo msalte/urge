@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -52,13 +53,6 @@ namespace Urge.SPA.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("/auth/signin-implicit")]
-        public IActionResult SigninImplicit()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
         [HttpPost("/auth/signin-oidc")]
         public async Task<IActionResult> SigninAsync([FromForm] IFormCollection form)
         {
@@ -95,7 +89,16 @@ namespace Urge.SPA.Controllers
                     var response = await http.PostAsync(tokenUrl, new FormUrlEncodedContent(content));
                     var json = await response.Content.ReadAsStringAsync();
 
-                    return Ok(json);
+                    var tokens = JsonConvert.DeserializeAnonymousType(json, new
+                    {
+                        id_token = "",
+                        access_token = "",
+                        refresh_token = ""
+                    });
+
+                    ViewData["tokens"] = JsonConvert.SerializeObject(tokens);
+
+                    return View("SigninSuccess");
                 }
             }
 
