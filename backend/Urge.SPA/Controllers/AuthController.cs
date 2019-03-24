@@ -7,7 +7,9 @@ using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Urge.Common.Web.ServiceDiscovery;
 using Urge.Common.Web.User;
@@ -34,16 +36,17 @@ namespace Urge.SPA.Controllers
             var tenant = _configuration[ConfigKey.AADB2C.Tenant.Path];
             var policy = _configuration[ConfigKey.AADB2C.Policy.Path];
             var audience = _configuration[ConfigKey.AADB2C.Audience.Path]; // clientId
-            var redirectUrl = _endpointConfig.Spa + "/auth/signin-implicit";
+            var redirectUrl = $"{_endpointConfig.Spa}/auth/signin-oidc";
 
             var authorizeUrl = $"https://urgeaad.b2clogin.com/{tenant}/oauth2/v2.0/authorize?" +
                 $"p={policy}" +
                 $"&client_id={audience}" +
                 $"&nonce=defaultNonce" +
                 $"&redirect_uri={redirectUrl}" +
-                $"&scope=openid" +
-                $"&response_type=id_token" +
-                $"&prompt=login";
+                $"&scope=openid offline_access" +
+                $"&response_type=code+id_token" +
+                $"&prompt=login" +
+                $"&response_mode=form_post";
 
             return Redirect(authorizeUrl);
         }
@@ -59,25 +62,40 @@ namespace Urge.SPA.Controllers
         [HttpPost("/auth/signin-oidc")]
         public async Task<IActionResult> SigninAsync([FromForm] IFormCollection form)
         {
-            string jwt = "";
+            var idToken = form["id_token"];
+            var authCode = form["code"];
 
-            foreach (var element in form)
+            if (!string.IsNullOrEmpty(idToken) && !string.IsNullOrEmpty(authCode))
             {
-                if (element.Key == "id_token")
-                {
-                    jwt = element.Value;
-
-                    break;
-                }
-            }
-
-            if (!string.IsNullOrEmpty(jwt))
-            {
-                var claims = await ValidateTokenAsync(jwt);
+                var claims = await ValidateIdTokenAsync(idToken);
 
                 if (claims != null && claims.AadUniqueId != null)
                 {
-                    return Redirect("/user/loggedin");
+                    // id token is valid, use auth token to get access token and refresh token
+                    var tenant = _configuration[ConfigKey.AADB2C.Tenant.Path];
+                    var policy = _configuration[ConfigKey.AADB2C.Policy.Path];
+                    var audience = _configuration[ConfigKey.AADB2C.Audience.Path]; // clientId
+                    var clientSecret = _configuration[ConfigKey.Authentication.OAuth2ClientSecret.Path];
+
+                    var tokenUrl = $"https://urgeaad.b2clogin.com/{tenant}/oauth2/v2.0/token?p={policy}";
+                    var redirectUrl = $"{_endpointConfig.Spa}/auth/signin-oidc";
+
+                    var http = new HttpClient();
+
+                    var content = new Dictionary<string, string>
+                    {
+                        { "grant_type", "authorization_code" },
+                        { "client_id", audience },
+                        { "scope", $"{audience} offline_access" },
+                        { "code", authCode },
+                        { "client_secret", clientSecret },
+                        { "redirect_uri", redirectUrl }
+                    };
+
+                    var response = await http.PostAsync(tokenUrl, new FormUrlEncodedContent(content));
+                    var json = await response.Content.ReadAsStringAsync();
+
+                    return Ok(json);
                 }
             }
 
@@ -100,7 +118,7 @@ namespace Urge.SPA.Controllers
             var token = await context.AcquireTokenSilentAsync(audience, clientCredential, userIdentifier);
         }
 
-        private async Task<UrgeClaimsProfile> ValidateTokenAsync(string jwt)
+        private async Task<UrgeClaimsProfile> ValidateIdTokenAsync(string jwt)
         {
             var tenant = _configuration[ConfigKey.AADB2C.Tenant.Path];
             var policy = _configuration[ConfigKey.AADB2C.Policy.Path];
