@@ -28,15 +28,17 @@ namespace Urge
         public static class Authentication
         {
             public static ConfigKey JWTSymmetricKey = new ConfigKey("Authentication:JWTSymmetricKey");
-            public static ConfigKey OAuth2ClientSecret = new ConfigKey("Authentication:OAuth2ClientSecret");
+            public static ConfigKey AzureAdClientSecret = new ConfigKey("Authentication:AzureAdClientSecret");
         }
 
-        public static class AADB2C
+        public static class AzureAd
         {
-            public static ConfigKey Tenant = new ConfigKey("AADB2C:Tenant");
-            public static ConfigKey TenantId = new ConfigKey("AADB2C:TenantId");
-            public static ConfigKey Audience = new ConfigKey("AADB2C:Audience");
-            public static ConfigKey Policy = new ConfigKey("AADB2C:Policy");
+            public static ConfigKey Instance = new ConfigKey("AzureAd:Instance");
+            public static ConfigKey Domain = new ConfigKey("AzureAd:Domain");
+            public static ConfigKey TenantId = new ConfigKey("AzureAd:TenantId");
+            public static ConfigKey ClientId = new ConfigKey("AzureAd:ClientId");
+            public static ConfigKey CallbackPath = new ConfigKey("AzureAd:CallbackPath");
+            public static ConfigKey SignedOutCallbackPath = new ConfigKey("AzureAd:SignedOutCallbackPath");
         }
 
         public static class ApplicationInsights
@@ -45,3 +47,4 @@ namespace Urge
         }
     }
 }
+

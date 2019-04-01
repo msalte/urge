@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -6,7 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Urge.Common.Web
 {
@@ -71,50 +77,66 @@ namespace Urge.Common.Web
         {
             var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
 
+            var authority = $"{configuration[ConfigKey.AzureAd.Instance.Path]}/{configuration[ConfigKey.AzureAd.TenantId.Path]}";
+
+            // TODO add jwt bearer as well
+
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            }).AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
             {
-                var tenantId = configuration[ConfigKey.AADB2C.TenantId.Path];
-                var policy = configuration[ConfigKey.AADB2C.Policy.Path];
-                var audience = configuration[ConfigKey.AADB2C.Audience.Path];
-
-                options.Authority = $"https://urgeaad.b2clogin.com/tfp/{tenantId}/{policy}/v2.0/";
-                options.Audience = audience;
-            });
-
-            //var key = Encoding.UTF8.GetBytes(configuration[ConfigKey.Authentication.JWTSymmetricKey.Path]);
-
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(options =>
-            //{
-            //    options.SaveToken = true;
-            //    options.TokenValidationParameters = new TokenValidationParameters()
-            //    {
-            //        IssuerSigningKey = new SymmetricSecurityKey(key),
-            //        ValidateIssuerSigningKey = true,
-            //        ValidateIssuer = false,
-            //        ValidateAudience = false
-            //    };
-            //    options.Events = new JwtBearerEvents()
-            //    {
-            //        OnAuthenticationFailed = context =>
-            //        {
-            //            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-            //            {
-            //                context.Response.Headers.Add("Token-Expired", "true");
-            //            }
-
-            //            return Task.CompletedTask;
-            //        }
-            //    };
-            //});
+                options.Authority = authority;
+                options.ClientId = configuration[ConfigKey.AzureAd.ClientId.Path];
+                options.ClientSecret = configuration[ConfigKey.Authentication.AzureAdClientSecret.Path];
+                options.CallbackPath = configuration[ConfigKey.AzureAd.CallbackPath.Path];
+                options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+                options.Events.OnAuthorizationCodeReceived = HandleAuthorizationCodeReceived;
+                options.Events.OnRedirectToIdentityProvider = HandleRedirectToIdentityProvider;
+                options.SaveTokens = true;
+            }).AddCookie();
 
             return services;
+        }
+
+        private static Task HandleRedirectToIdentityProvider(RedirectContext context)
+        {
+            var redirectUrl = $"https://{context.Request.Host}/auth/signin-implicit";
+
+            context.Properties.Items.Add(OpenIdConnectDefaults.RedirectUriForCodePropertiesKey, redirectUrl);
+
+            var state = context.Options.StateDataFormat.Protect(context.Properties);
+
+            var implicitUrl = $"{context.Options.Authority}/oauth2/authorize?" +
+                $"&client_id={context.Options.ClientId}" +
+                $"&nonce={context.ProtocolMessage.Nonce}" +
+                $"&redirect_uri={WebUtility.UrlEncode(redirectUrl)}" +
+                $"&scope=openid offline_access" +
+                $"&response_type=code+id_token" +
+                $"&prompt=login" +
+                $"&state={state}" +
+                $"&response_mode=fragment";
+
+            context.Response.Redirect(implicitUrl);
+
+            context.HandleResponse();
+
+            return Task.CompletedTask;
+        }
+
+        private static async Task HandleAuthorizationCodeReceived(AuthorizationCodeReceivedContext context)
+        {
+            var authContext = new AuthenticationContext(context.Options.Authority, false);
+
+            var redirectUri = new Uri(context.TokenEndpointRequest.RedirectUri, UriKind.RelativeOrAbsolute);
+            var clientCredential = new ClientCredential(context.Options.ClientId, context.Options.ClientSecret);
+
+            var result = await authContext.AcquireTokenByAuthorizationCodeAsync(context.TokenEndpointRequest.Code, redirectUri, clientCredential);
+
+            // Notify the OIDC middleware that we already took care of code redemption.
+            context.HandleCodeRedemption(result.AccessToken, result.IdToken);
         }
 
         public static IServiceCollection AddDefaultSwagger(this IServiceCollection services, string title)

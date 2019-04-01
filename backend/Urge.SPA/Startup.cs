@@ -32,6 +32,7 @@ namespace Urge.SPA
 
             app.UseCors(CorsPolicy.ALLOW_ALL);
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
