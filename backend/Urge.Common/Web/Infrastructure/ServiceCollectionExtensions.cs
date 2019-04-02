@@ -104,7 +104,7 @@ namespace Urge.Common.Web
                 options.Authority = authority;
                 options.ClientId = configuration[ConfigKey.AzureAd.ClientId.Path];
                 options.ClientSecret = configuration[ConfigKey.Authentication.AzureAdClientSecret.Path];
-                options.CallbackPath = configuration[ConfigKey.AzureAd.CallbackPath.Path];
+                options.CallbackPath = "/signin-oidc";
                 options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
                 options.Events.OnAuthorizationCodeReceived = OpenIdConnectEvents.HandleAuthorizationCodeReceived;
                 options.Events.OnRedirectToIdentityProvider = OpenIdConnectEvents.HandleRedirectToIdentityProvider;

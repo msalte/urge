@@ -38,8 +38,6 @@ namespace Urge
             public static ConfigKey Domain = new ConfigKey("AzureAd:Domain");
             public static ConfigKey TenantId = new ConfigKey("AzureAd:TenantId");
             public static ConfigKey ClientId = new ConfigKey("AzureAd:ClientId");
-            public static ConfigKey CallbackPath = new ConfigKey("AzureAd:CallbackPath");
-            public static ConfigKey SignedOutCallbackPath = new ConfigKey("AzureAd:SignedOutCallbackPath");
         }
 
         public static class ApplicationInsights
