@@ -16,6 +16,7 @@ namespace Urge
         public static class ConnectionStrings
         {
             public static ConfigKey UsersContext = new ConfigKey("ConnectionStrings:UsersContext");
+            public static ConfigKey TokensContext = new ConfigKey("ConnectionStrings:TokensContext");
             public static ConfigKey StorageAccount = new ConfigKey("ConnectionStrings:StorageAccount");
         }
 

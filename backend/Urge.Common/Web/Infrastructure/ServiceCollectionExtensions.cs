@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Urge.Common.Database;
 
 namespace Urge.Common.Web
 {
@@ -35,6 +36,8 @@ namespace Urge.Common.Web
 
         public static IServiceCollection AddDefaultMicroserviceServices(this IServiceCollection services)
         {
+            var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
+
             // global auth policy
             services.AddMvc(options =>
             {
@@ -44,6 +47,9 @@ namespace Urge.Common.Web
 
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
+
+            services.AddSqlDbContext<TokensContext>(configuration[ConfigKey.ConnectionStrings.TokensContext.Path]);
+            services.AddTransient<ITokenCacheFactory, TokenCacheFactory>();
 
             services.AddDefaultMicroserviceAuthentication();
             services.AddMicroserviceDiscovery();
@@ -93,50 +99,12 @@ namespace Urge.Common.Web
                 options.ClientSecret = configuration[ConfigKey.Authentication.AzureAdClientSecret.Path];
                 options.CallbackPath = configuration[ConfigKey.AzureAd.CallbackPath.Path];
                 options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
-                options.Events.OnAuthorizationCodeReceived = HandleAuthorizationCodeReceived;
-                options.Events.OnRedirectToIdentityProvider = HandleRedirectToIdentityProvider;
+                options.Events.OnAuthorizationCodeReceived = OpenIdConnectEvents.HandleAuthorizationCodeReceived;
+                options.Events.OnRedirectToIdentityProvider = OpenIdConnectEvents.HandleRedirectToIdentityProvider;
                 options.SaveTokens = true;
             }).AddCookie();
 
             return services;
-        }
-
-        private static Task HandleRedirectToIdentityProvider(RedirectContext context)
-        {
-            var redirectUrl = $"https://{context.Request.Host}/auth/signin-implicit";
-
-            context.Properties.Items.Add(OpenIdConnectDefaults.RedirectUriForCodePropertiesKey, redirectUrl);
-
-            var state = context.Options.StateDataFormat.Protect(context.Properties);
-
-            var implicitUrl = $"{context.Options.Authority}/oauth2/authorize?" +
-                $"&client_id={context.Options.ClientId}" +
-                $"&nonce={context.ProtocolMessage.Nonce}" +
-                $"&redirect_uri={WebUtility.UrlEncode(redirectUrl)}" +
-                $"&scope=openid offline_access" +
-                $"&response_type=code+id_token" +
-                $"&prompt=login" +
-                $"&state={state}" +
-                $"&response_mode=fragment";
-
-            context.Response.Redirect(implicitUrl);
-
-            context.HandleResponse();
-
-            return Task.CompletedTask;
-        }
-
-        private static async Task HandleAuthorizationCodeReceived(AuthorizationCodeReceivedContext context)
-        {
-            var authContext = new AuthenticationContext(context.Options.Authority, false);
-
-            var redirectUri = new Uri(context.TokenEndpointRequest.RedirectUri, UriKind.RelativeOrAbsolute);
-            var clientCredential = new ClientCredential(context.Options.ClientId, context.Options.ClientSecret);
-
-            var result = await authContext.AcquireTokenByAuthorizationCodeAsync(context.TokenEndpointRequest.Code, redirectUri, clientCredential);
-
-            // Notify the OIDC middleware that we already took care of code redemption.
-            context.HandleCodeRedemption(result.AccessToken, result.IdToken);
         }
 
         public static IServiceCollection AddDefaultSwagger(this IServiceCollection services, string title)
