@@ -9,6 +9,6 @@ namespace Urge.Common.Database
         public Guid Id { get; set; }
         public string UserId { get; set; }
         public byte[] CacheBits { get; set; }
-        public DateTime LastWrite { get; set; }
+        public DateTime? LastWrite { get; set; }
     }
 }

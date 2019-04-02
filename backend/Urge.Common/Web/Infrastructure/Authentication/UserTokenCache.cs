@@ -13,7 +13,6 @@ namespace Urge.Common.Web
 
         public UserTokenCache() : base()
         {
-
         }
 
         public UserTokenCache(byte[] state) : base(state)

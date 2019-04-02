@@ -15,7 +15,7 @@ namespace Urge.Common.Web
 {
     public interface ITokenCacheFactory
     {
-        Task<TokenCache> CacheForUser(string userId);
+        Task<TokenCache> CreateTokenCacheForUser(string userId);
     }
 
     public class TokenCacheFactory : ITokenCacheFactory
@@ -33,7 +33,7 @@ namespace Urge.Common.Web
             _serviceScopeFactory = serviceScopeFactory;
         }
 
-        public Task<TokenCache> CacheForUser(string userId)
+        public Task<TokenCache> CreateTokenCacheForUser(string userId)
         {
             var cache = CreateUserTokenCache(userId);
 

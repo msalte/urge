@@ -36,8 +36,6 @@ namespace Urge.Common.Web
 
         public static IServiceCollection AddDefaultMicroserviceServices(this IServiceCollection services)
         {
-            var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
-
             // global auth policy
             services.AddMvc(options =>
             {
@@ -48,9 +46,7 @@ namespace Urge.Common.Web
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            services.AddSqlDbContext<TokensContext>(configuration[ConfigKey.ConnectionStrings.TokensContext.Path]);
-            services.AddTransient<ITokenCacheFactory, TokenCacheFactory>();
-
+            services.AddSqlTokenCache();
             services.AddDefaultMicroserviceAuthentication();
             services.AddMicroserviceDiscovery();
             services.AddDefaultCorsPolicy();
@@ -58,6 +54,17 @@ namespace Urge.Common.Web
             services.AddHttpContextAccessor();
             services.AddTransient<IUserAccessor, UserAccessor>();
             services.AddSingleton<IConfigurationAccessor, AppConfigAccessor>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddSqlTokenCache(this IServiceCollection services)
+        {
+            var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
+
+            services.AddSqlDbContext<TokensContext>(configuration[ConfigKey.ConnectionStrings.TokensContext.Path]);
+            services.AddSingleton<ITokenCacheFactory, TokenCacheFactory>();
+            services.AddSingleton<ITokenProvider, TokenProvider>();
 
             return services;
         }

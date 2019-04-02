@@ -11,7 +11,7 @@ namespace Urge.Common.Database
         public TokensContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<TokensContext>();
-            optionsBuilder.UseSqlServer("Server=idontexist;Database=neitherdoi;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer("Server=.;Database=Urge.Tokens;Trusted_Connection=True;");
             return new TokensContext(optionsBuilder.Options);
         }
     }

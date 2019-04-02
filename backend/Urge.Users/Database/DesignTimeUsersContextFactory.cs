@@ -12,7 +12,7 @@ namespace Urge.Users.Database
         public UsersContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<UsersContext>();
-            optionsBuilder.UseSqlServer("Server=idontexist;Database=neitherdoi;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer("Server=.;Database=Urge.Users;Trusted_Connection=True;");
             return new UsersContext(optionsBuilder.Options);
 
         }

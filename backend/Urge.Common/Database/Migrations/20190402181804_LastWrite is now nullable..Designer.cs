@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Urge.Common.Database;
 
 namespace Urge.Common.Database.Migrations
 {
     [DbContext(typeof(TokensContext))]
-    partial class TokensContextModelSnapshot : ModelSnapshot
+    [Migration("20190402181804_LastWrite is now nullable.")]
+    partial class LastWriteisnownullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

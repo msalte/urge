@@ -2,9 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Urge.Common.Web
@@ -39,18 +37,15 @@ namespace Urge.Common.Web
         public static async Task HandleAuthorizationCodeReceived(AuthorizationCodeReceivedContext context)
         {
             var tokenCacheFactory = context.HttpContext.RequestServices.GetRequiredService<ITokenCacheFactory>();
-            var tokenCache = await tokenCacheFactory.CacheForUser(context.Principal.GetUniqueIdString());
-            
-            // string clientId = claimsPrincipal.FindFirstValue("aud", true);
+            var tokenCache = await tokenCacheFactory.CreateTokenCacheForUser(context.Principal.GetUniqueIdString());
 
-            var authContext = new AuthenticationContext(context.Options.Authority, false);
+            var authContext = new AuthenticationContext(context.Options.Authority, tokenCache);
 
             var redirectUri = new Uri(context.TokenEndpointRequest.RedirectUri, UriKind.RelativeOrAbsolute);
             var clientCredential = new ClientCredential(context.Options.ClientId, context.Options.ClientSecret);
 
-            var result = await authContext.AcquireTokenByAuthorizationCodeAsync(context.TokenEndpointRequest.Code, redirectUri, clientCredential);
+            var result = await authContext.AcquireTokenByAuthorizationCodeAsync(context.TokenEndpointRequest.Code, redirectUri, clientCredential, context.Options.ClientId);
 
-            // Notify the OIDC middleware that we already took care of code redemption.
             context.HandleCodeRedemption(result.AccessToken, result.IdToken);
         }
     }

@@ -25,13 +25,13 @@ namespace Urge.Common.Web
 
         private UrgeClaimsProfile UserFromClaims(ClaimsPrincipal user)
         {
-            Guid.TryParse(user.FindFirstValue(UrgeClaimTypes.Id), out Guid id);
+            Guid.TryParse(user.FindFirstValue(UrgeClaimTypes.ID), out Guid id);
 
             return new UrgeClaimsProfile
             {
                 AadUniqueId = id,
-                Name = user.FindFirstValue(UrgeClaimTypes.Name),
-                Email = user.FindFirstValue(UrgeClaimTypes.Emails)
+                Email = user.FindFirstValue(UrgeClaimTypes.EMAIL_ADDRESS),
+                Name = $"{user.FindFirstValue(UrgeClaimTypes.GIVENNAME)} {user.FindFirstValue(UrgeClaimTypes.SURNAME)}"
             };
         }
     }
