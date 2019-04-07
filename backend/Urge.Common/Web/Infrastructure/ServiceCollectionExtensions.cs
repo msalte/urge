@@ -39,12 +39,14 @@ namespace Urge.Common.Web
             // global auth policy
             services.AddMvc(options =>
             {
-                var policy = new AuthorizationPolicyBuilder()
+                var policy = new AuthorizationPolicyBuilder(new[] { CookieAuthenticationDefaults.AuthenticationScheme, JwtBearerDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme })
                     .RequireAuthenticatedUser()
                     .Build();
 
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
+
+            services.AddSingleton<IConfigurationAccessor, AppConfigAccessor>();
 
             services.AddSqlTokenCache();
             services.AddDefaultMicroserviceAuthentication();
@@ -53,16 +55,16 @@ namespace Urge.Common.Web
 
             services.AddHttpContextAccessor();
             services.AddTransient<IUserAccessor, UserAccessor>();
-            services.AddSingleton<IConfigurationAccessor, AppConfigAccessor>();
 
             return services;
         }
 
         private static IServiceCollection AddSqlTokenCache(this IServiceCollection services)
         {
-            var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
 
-            services.AddSqlDbContext<TokensContext>(configuration[ConfigKey.ConnectionStrings.TokensContext.Path]);
+            var configAccessor = services.BuildServiceProvider().GetService<IConfigurationAccessor>();
+
+            services.AddSqlDbContext<TokensContext>(configAccessor.Get(ConfigKey.ConnectionStrings.TokensContext));
             services.AddSingleton<ITokenCacheFactory, TokenCacheFactory>();
             services.AddSingleton<ITokenProvider, TokenProvider>();
 
@@ -88,11 +90,19 @@ namespace Urge.Common.Web
 
         private static IServiceCollection AddDefaultMicroserviceAuthentication(this IServiceCollection services)
         {
-            var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
+            var configAccessor = services.BuildServiceProvider().GetService<IConfigurationAccessor>();
 
-            var authority = $"{configuration[ConfigKey.AzureAd.Instance.Path]}/{configuration[ConfigKey.AzureAd.TenantId.Path]}";
+            var authority = $"{configAccessor.Get(ConfigKey.AzureAd.Instance)}/{configAccessor.Get(ConfigKey.AzureAd.TenantId)}";
+            var clientId = configAccessor.Get(ConfigKey.AzureAd.ClientId);
 
-            // TODO add jwt bearer as well
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("API", policy =>
+                {
+                    policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                });
+            });
 
             services.AddAuthentication(options =>
             {
@@ -102,13 +112,19 @@ namespace Urge.Common.Web
             }).AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
             {
                 options.Authority = authority;
-                options.ClientId = configuration[ConfigKey.AzureAd.ClientId.Path];
-                options.ClientSecret = configuration[ConfigKey.Authentication.AzureAdClientSecret.Path];
+                options.ClientId = clientId;
+                options.ClientSecret = configAccessor.Get(ConfigKey.Authentication.AzureAdClientSecret);
                 options.CallbackPath = "/signin-oidc";
                 options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
                 options.Events.OnAuthorizationCodeReceived = OpenIdConnectEvents.HandleAuthorizationCodeReceived;
                 options.Events.OnRedirectToIdentityProvider = OpenIdConnectEvents.HandleRedirectToIdentityProvider;
                 options.SaveTokens = true;
+            }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
+            {
+                // api auth
+                o.Authority = authority;
+                o.Audience = clientId;
+                o.SaveToken = true;
             }).AddCookie();
 
             return services;

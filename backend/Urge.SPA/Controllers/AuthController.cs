@@ -29,6 +29,7 @@ namespace Urge.SPA.Controllers
         }
 
         [HttpPost("refresh")]
+        [Authorize(Policy = "API")]
         public async Task<IActionResult> RefreshToken()
         {
             var token = await _tokenProvider.GetAccessTokenForCurrentUserAsync();
